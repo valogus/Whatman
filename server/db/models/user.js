@@ -17,8 +17,8 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(UsersProject, { foreignKey: 'junior_id' });
       User.belongsToMany(Task, { through: UsersTask, foreignKey: 'junior_id', otherKey: 'task_id' });
       User.hasMany(UsersTask, { foreignKey: 'junior_id' });
-      User.belongsToMany(Task, { through: Comment, foreignKey: 'user_id', otherKey: 'task_id' });
-      User.hasMany(Comment, { through: 'user_id' });
+      User.belongsToMany(Task, { through: Comment, foreignKey: 'UserId', otherKey: 'task_id' });
+      User.hasMany(Comment, { foreingKey: 'UserId' });
     }
   }
 
