@@ -10,15 +10,14 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate({
-      Project, Column, TasksColumn, User, UsersTask,
+      Project, Column, User, UsersTask, Comment,
     }) {
       Task.belongsTo(Project, { foreignKey: 'project_id' });
-      Task.belongsToMany(Column, { through: TasksColumn, foreignKey: 'task_id', otherKey: 'column_id' });
-      Task.hasMany(TasksColumn, { foreignKey: 'taks_id' });
       Task.belongsToMany(User, { through: UsersTask, foreignKey: 'task_id', otherKey: 'junior_id' });
       Task.hasMany(UsersTask, { foreignKey: 'task_id' });
-      Task.belongsToMany(User, { through: Comment, foreignKey: 'task_id', otherKey: 'user_id' });
-      Task.hasMany(Comment, { through: 'task_id' });
+      Task.belongsToMany(User, { through: Comment, foreignKey: 'task_id', otherKey: 'UserId' });
+      Task.hasMany(Comment, { foreignKey: 'task_id' });
+      Task.belongsTo(Column, { foreignKey: 'column_id' });
     }
   }
 
@@ -33,10 +32,20 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    description: {
+      type: DataTypes.TEXT,
+    },
     project_id: {
       type: DataTypes.INTEGER,
       references: {
         model: 'Projects',
+        key: 'id',
+      },
+    },
+    column_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Columns',
         key: 'id',
       },
     },

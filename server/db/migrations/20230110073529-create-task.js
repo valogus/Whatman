@@ -12,10 +12,21 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false,
       },
+      description: {
+        type: Sequelize.TEXT,
+      },
       project_id: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Projects',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
+      },
+      column_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Columns',
           key: 'id',
         },
         onDelete: 'CASCADE',
