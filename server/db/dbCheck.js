@@ -1,4 +1,5 @@
 const { sequelize } = require('./models');
+
 module.exports = async () => {
   try {
     await sequelize.authenticate();
