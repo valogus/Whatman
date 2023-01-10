@@ -4,38 +4,54 @@ import { NavLink } from 'react-router-dom';
 import style from './style.module.css'
 
 export default function Navbar() {
+
+  const isAuth = { login: 'q@q', id: 1 }
+  // const isAuth = null
+
   return (
     <>
       <ul className={style.nav_wrap}>
         <li>
-          {' '}
-          <NavLink to="/" className={style}>
-            Главная{' '}
+          <NavLink to="/">
+            Jirlo
           </NavLink>
-        </li>{' '}
-        <li>
-          {' '}
-          <NavLink to="/statistic" className={style}>
+        </li>
+        {isAuth &&
+          (<>
+            <li>
+            <NavLink to="/">
             Задачи
           </NavLink>
-        </li>{' '}
+          </li>
         <li>
-          {' '}
-          <NavLink to="/top" className={style}>
+            <NavLink to="/">
             Мои Доски
           </NavLink>
-        </li>{' '}
+          </li>
+          <NavLink to="/">
         Пригласить участника
+          </NavLink>
         <li>
-          <NavLink onClick={console.log('Создать')} to="api/" className={style}>
+            <NavLink onClick={() => console.log('Создать')} to="/">
             Создать
           </NavLink>
         </li>
-        <li>
-          <NavLink onClick={console.log('Logout')} to="api/signup" className={style}>
-            Выйти
+          </>)
+        }
+        {isAuth ?
+          (<>
+            <NavLink onClick={() => console.log('Войти')} to="/">
+              Выйти
+            </NavLink>
+          </>) : (<>
+            <li>
+              <NavLink onClick={() => console.log('Войти')} to="/">
+                Войти
           </NavLink>
         </li>
+          </>)
+        }
+
       </ul>
     </>
   )

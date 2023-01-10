@@ -4,7 +4,9 @@ import Navbar from '../Navbar/Navbar'
 
 export default function Layout() {
   return (
+
     <>
+      {console.log('Render Layout')}
       <Navbar></Navbar>
       <Outlet></Outlet>
     </ >
