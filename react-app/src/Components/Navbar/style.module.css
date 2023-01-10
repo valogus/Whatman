@@ -1,0 +1,15 @@
+.nav_wrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  list-style: none;
+  background-color: #6A787E;
+}
+
+.nav_ul {
+  margin: 0;
+  padding: 0;
+  height: 50px;
+  display: flex;
+  justify-content: space-around;
+}
