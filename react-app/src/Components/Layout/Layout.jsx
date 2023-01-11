@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { Outlet } from 'react-router-dom'
 import Navbar from '../Navbar/Navbar'
 import Spinn from '../Spinn/Spinn'
 import Main from '../Main/Main'
