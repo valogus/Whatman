@@ -3,7 +3,6 @@ const express = require('express');
 const app = express();
 require('@babel/register');
 const morgan = require('morgan');
-const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
 
@@ -19,15 +18,11 @@ const {
   getAllProjectbyUser, getColumnsProjectTasks, getUsersByTask, getCommentssByTask,
 } = require('./testFun');
 
-dbCheck();
-// ! подключаем сессию и файлсторадже для хранения куки в РЕАКТЕ
-const corsOptions = {
-  credentials: true,
-  origin: 'http://localhost:3000',
-};
+const registrationRout = require('./routes/registration');
+const loginRout = require('./routes/login');
 
-// app.use(cors());
-app.use(cors(corsOptions));
+dbCheck();
+
 app.use(express.static(path.resolve('public')));
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
@@ -52,12 +47,15 @@ app.use(session(sessionConfig));
 
 // проверяем есть ли юзер на странице
 app.use((req, res, next) => {
-  console.log('\n\x1b[33m', 'req.session.user :', req.session?.user);
-  res.locals.username = req.session?.user?.name;
+  console.log('\n\x1b[33m', 'req.session.user :', req.session);
+  res.locals.username = req.session?.currentUserName;
   next();
 });
 
-getUsersByTask();
+// getUsersByTask();
+
+app.use('/', registrationRout);
+app.use('/', loginRout);
 
 const PORT = process.env.PORT || 3100;
 app.listen(PORT, (err) => {
