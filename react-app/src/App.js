@@ -1,8 +1,12 @@
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Auth from './components/Auth/Auth.jsx';
 
 function App() {
   return (
     <div className="App">
-      'Hello world!'
+      <Routes>
+        <Route path='/auth' element={<Auth />}/>
+      </Routes>
     </div>
   );
 }
