@@ -5,7 +5,7 @@ const {
 
 async function getAllProjectbyUser() {
   const projects = await Project.findAll({ include: { model: User, where: { id: 1 } }, raw: true });
-  console.log(projects);
+  // console.log(projects);
 }
 
 async function getColumnsProjectTasks() {
@@ -18,14 +18,14 @@ async function getColumnsProjectTasks() {
     },
     raw: true,
   });
-  console.log(result);
+  // console.log(result);
 }
 
 async function getUsersByTask() {
   const task = await Task.findAll(
     { where: { id: 1 }, include: { model: UsersTask, include: { model: User } }, raw: true },
   );
-  console.log(task);
+  // console.log(task);
 }
 
 async function getCommentssByTask() {
@@ -36,7 +36,7 @@ async function getCommentssByTask() {
       raw: true,
     },
   );
-  console.log(task);
+  // console.log(task);
 }
 
 module.exports = {
