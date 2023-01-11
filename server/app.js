@@ -19,6 +19,7 @@ const {
 } = require('./testFun');
 
 const boardRouter = require('./src/routers/boardRouter');
+const checkAuth = require('./src/routers/checkAuth');
 
 dbCheck();
 // ! подключаем сессию и файлсторадже для хранения куки в РЕАКТЕ
@@ -60,6 +61,7 @@ app.use((req, res, next) => {
 
 // getUsersByTask();
 app.use('/api/board', boardRouter);
+app.use('/api/checkAuth', checkAuth);
 const PORT = process.env.PORT || 3100;
 app.listen(PORT, (err) => {
   if (err) return console.log('Ошибка запуска сервера.', err.message);

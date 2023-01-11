@@ -3,9 +3,10 @@ import { NavLink } from 'react-router-dom';
 
 import style from './style.module.css'
 
-export default function Navbar() {
+export default function Navbar({ user }) {
+  console.log("▶ ⇛NAVBAR user", user);
 
-  const isAuth = { login: 'q@q', id: 1 }
+  // const isAuth = { login: 'q@q', id: 1 }
   // const isAuth = null
 
   return (
@@ -16,7 +17,7 @@ export default function Navbar() {
             Jirlo
           </NavLink>
         </li>
-        {isAuth &&
+        {user &&
           (<>
             <li>
             <NavLink to="/">
@@ -24,7 +25,7 @@ export default function Navbar() {
           </NavLink>
           </li>
         <li>
-            <NavLink to="/">
+            <NavLink to="/home">
             Мои Доски
           </NavLink>
           </li>
@@ -38,9 +39,9 @@ export default function Navbar() {
         </li>
           </>)
         }
-        {isAuth ?
+        {user ?
           (<>
-            <NavLink onClick={() => console.log('Войти')} to="/">
+            <NavLink onClick={() => console.log('Выйти')} to="/">
               Выйти
             </NavLink>
           </>) : (<>
