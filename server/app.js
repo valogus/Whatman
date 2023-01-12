@@ -9,7 +9,6 @@ require('dotenv').config();
 // импорт вспомогательных ф-й
 
 // вызов функции проверки соединения с базоый данных
-
 // подключаем сессию и файлсторадже для хранения куки
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
@@ -18,8 +17,13 @@ const {
   getAllProjectbyUser, getColumnsProjectTasks, getUsersByTask, getCommentssByTask,
 } = require('./testFun');
 
+
+const boardRouter = require('./src/routers/boardRouter');
+const checkAuth = require('./src/routers/checkAuth');
+
 const registrationRout = require('./routes/registration');
 const loginRout = require('./routes/login');
+
 
 dbCheck();
 
@@ -54,11 +58,13 @@ app.use((req, res, next) => {
 
 // getUsersByTask();
 
+app.use('/api/board', boardRouter);
+//app.use('/api/checkAuth', checkAuth);
 app.use('/', registrationRout);
 app.use('/', loginRout);
 
 const PORT = process.env.PORT || 3100;
 app.listen(PORT, (err) => {
   if (err) return console.log('Ошибка запуска сервера.', err.message);
-  console.log(`Сервер запущен на http://localhost:${PORT} `);
+  return console.log(`Сервер запущен на http://localhost:${PORT} `);
 });
