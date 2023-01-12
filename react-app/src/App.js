@@ -7,7 +7,7 @@ import Auth from './components/Auth/Auth';
 import Board from './components/Board/Board'
 
 function App() {
-  const userName = useSelector(store => store.userName);
+  const { userName } = useSelector(store => store.auth);
   console.log(userName)
   return (
     <div className="App">

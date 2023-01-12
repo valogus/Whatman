@@ -9,6 +9,7 @@
 }
 
 .myModalContent {
+  display: block;
   padding: 25px;
   background: white;
   border-radius: 16px;

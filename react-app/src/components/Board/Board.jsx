@@ -4,6 +4,7 @@ import pen from './pen.png'
 import { Button } from '@chakra-ui/react'
 import Modal from '../Modal/Modal'
 import TaskForm from '../TaskFrom/TaskFrom'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 
 
@@ -14,7 +15,8 @@ export default function Board() {
     { id: 3, title: 'Завершено', items: [{ id: 7, title: 'Погулять с сыном' }, { id: 8, title: 'Приготовить ужин' }, { id: 9, title: 'Сходить за пивом' }], project_id: 1 },
   ])
 
-  const [modal, setModal] = useState(false);
+  const [modalItem, setModalItem] = useState(null);
+
   const [comments, setComments] = useState([
     { id: 1, login: 'Андей', comment: 'Привет' },
     { id: 2, login: 'Василий', comment: 'Привет!' },
@@ -24,10 +26,11 @@ export default function Board() {
 
   const [currentBoard, setCurrentBoard] = useState(null)
   const [currentItem, setCurrentItem] = useState(null)
+  const [animation] = useAutoAnimate()
 
   function dragOverHandler(e) {
     e.preventDefault()
-    if (e.target.className == styles.item) {
+    if (e.target.className === styles.item) {
       e.target.style.boxShadow = '0 4px 3px gray'
     }
   }
@@ -47,6 +50,7 @@ export default function Board() {
 
   function dropHandler(e, board, item) {
     e.preventDefault()
+    e.stopPropagation()
     const currentIndex = currentBoard.items.indexOf(currentItem)
     currentBoard.items.splice(currentIndex, 1)
     const dropIndex = board.items.indexOf(item)
@@ -71,19 +75,27 @@ export default function Board() {
     setComments([newComment, ...comments]);
   }
 
-  // <ChakraProvider>
-  //        <Button m={4} colorScheme="blue" onClick={() => setModal(true)}>Карточка</Button>
-  //        <MyModal visible={modal} setVisible={setModal}>
-  //          <TaskForm comments={comments} onCreateComment={onCreateComment} />
-  //       </MyModal>
-  //      </ChakraProvider>
-
-
+  function dropCardHandler(e, board) {
+    board.items.push(currentItem)
+    const currentIndex = currentBoard.items.indexOf(currentItem)
+    currentBoard.items.splice(currentIndex, 1)
+    setBoards(boards.map(b => {
+      if (b.id === board.id) {
+        return board
+      }
+      if (b.id === currentBoard.id) {
+        return currentBoard
+      }
+      return b
+    }))
+    e.target.style.boxShadow = 'none'
+  }
 
   return (
-    <div className={styles.app}>
+    <div ref={animation} className={styles.app}>
       {boards.map(board =>
-        <div className={styles.board} key={board.id}>
+        <div className={styles.board} onDragOver={(e) => dragOverHandler(e)}
+          onDrop={(e) => dropCardHandler(e, board)} key={board.id}>
           <div className={styles.board__title}>{board.title}</div>
           {board.items.map(item =>
             <Button key={item.id}
@@ -94,16 +106,21 @@ export default function Board() {
               onDrop={(e) => dropHandler(e, board, item)}
               draggable={true}
               className={styles.item}
-              onClick={() => setModal(true)}
+              onClick={() => setModalItem(item)}
             >
               {item.title}
               <div>
                 <img src={pen} className={styles.pen} alt={'pen'} />
               </div>
             </Button>)}
-          <Modal visible={modal} setVisible={setModal}>
-            <TaskForm comments={comments} onCreateComment={onCreateComment} />
-          </Modal>
+          {
+            modalItem && <Modal visible={modalItem !== null} setVisible={setModalItem}>
+              <TaskForm comments={comments} onCreateComment={onCreateComment}
+                modalItem={modalItem} />
+            </Modal>
+          }
+
+
           <div className={styles.add}>Добавить задачу</div>
         </div>
       )}

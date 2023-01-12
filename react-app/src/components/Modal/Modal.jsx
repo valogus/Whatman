@@ -10,7 +10,7 @@ function Modal({ children, visible, setVisible }) {
   }
 
   return (
-    <div className={rootClasses.join(' ')} onMouseDown={() => setVisible(false)}>
+    <div className={rootClasses.join(' ')} onMouseDown={() => setVisible(null)}>
       <div className={style.myModalContent} onMouseDown={(event => event.stopPropagation())}>
         {children}
       </div>

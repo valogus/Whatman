@@ -6,10 +6,7 @@ import { Button } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/react'
 
 
-function TaskForm({ comments, onCreateComment }) {
-  const user = {
-    login: 'Andrew'
-  }
+function TaskForm({ comments, onCreateComment, modalItem }) {
 
   const [value, setValue] = useState('')
   const [description, setDescription] = useState(false);
@@ -29,7 +26,7 @@ function TaskForm({ comments, onCreateComment }) {
 
   return (
     <div>
-      <Text fontSize='4xl'>Сделать модалку для карточки</Text>
+      <Text fontSize='4xl'>{modalItem.title}</Text>
       <div>
         <div style={{ paddingTop: '10px' }}>
           <span style={{ fontSize: '14px' }}>Описание</span>
@@ -69,10 +66,10 @@ function TaskForm({ comments, onCreateComment }) {
         {
           comments.map(
             (comment, index) => <div key={comment.id}>
-           {} <hr style={{ marginBottom: '10px' }} />
-            <Heading style={{ marginBottom: '1rem' }} size='sm'>{comment.login}</Heading>
-            <Text fontSize='sm'>{comment.comment}</Text>
-          </div>)
+              { } <hr style={{ marginBottom: '10px' }} />
+              <Heading style={{ marginBottom: '1rem' }} size='sm'>{comment.login}</Heading>
+              <Text fontSize='sm'>{comment.comment}</Text>
+            </div>)
         }
       </div>
     </div >
