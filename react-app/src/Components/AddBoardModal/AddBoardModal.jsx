@@ -3,16 +3,16 @@ import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-
+import { useSelector } from 'react-redux'
 export default function AddBoardModal(props) {
 
   const colorDefault = 2 // Цвет доски
-  const author = 2// Id Usera
+  const author = useSelector((session)=> session.auth.userId)
   const [title, setTitle] = useState();
 
   const sendForm = async () => {
     try {
-      const response = await fetch('http://localhost:3100/api/board', {
+      const response = await fetch('/api/board', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -24,7 +24,7 @@ export default function AddBoardModal(props) {
 
       const answerModal = await response.json();
       // console.log("▶ ⇛ answerModal", answerModal);
-      if (answerModal.msg = "OK") {
+      if (answerModal) {
         boardAdd();
       }
     } catch (error) {

@@ -4,18 +4,18 @@ import { useEffect } from 'react'
 import style from './style.module.css'
 import Boards from '../Boards/Boards'
 import AddBoardModal from '../AddBoardModal/AddBoardModal'
-
+import { useSelector } from 'react-redux'
 export default function Home({ user }) {
 
   const [boards, setBoards] = useState([])
   const [modalShow, setModalShow] = useState(false);
-
-  const userId = user?.id
-
+  const userId = useSelector((session)=> session.auth.userId)
+  // const userId = user?.id
+  console.log(userId)
   // Получение досок юзера с базы
   const getAllBoards = async () => {
     try {
-      const response = await fetch(`http://localhost:3100/api/board/${userId}`, {
+      const response = await fetch(`/api/board/${userId}`, {
         method: 'GET',
       });
       const boards = await response.json();
