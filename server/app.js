@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable spaced-comment */
 const express = require('express');
 
 const app = express();
@@ -17,13 +19,11 @@ const {
   getAllProjectbyUser, getColumnsProjectTasks, getUsersByTask, getCommentssByTask,
 } = require('./testFun');
 
-
-const boardRouter = require('./src/routers/boardRouter');
+const boardRouter = require('./routes/boardRoute');
 const checkAuth = require('./src/routers/checkAuth');
 
 const registrationRout = require('./routes/registration');
 const loginRout = require('./routes/login');
-
 
 dbCheck();
 
@@ -60,8 +60,8 @@ app.use((req, res, next) => {
 
 app.use('/api/board', boardRouter);
 //app.use('/api/checkAuth', checkAuth);
-app.use('/', registrationRout);
-app.use('/', loginRout);
+app.use('/api/registration', registrationRout);
+app.use('/api/login', loginRout);
 
 const PORT = process.env.PORT || 3100;
 app.listen(PORT, (err) => {

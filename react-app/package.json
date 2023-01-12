@@ -2,6 +2,7 @@
   "name": "react-app",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://127.0.0.1:4000",
   "dependencies": {
     "@chakra-ui/react": "^2.4.7",
     "@emotion/react": "^11.10.5",
@@ -48,6 +49,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "http://localhost:3100"
+  }
 }

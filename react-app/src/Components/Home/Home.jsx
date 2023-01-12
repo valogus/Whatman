@@ -5,31 +5,26 @@ import style from './style.module.css'
 import Boards from '../Boards/Boards'
 import AddBoardModal from '../AddBoardModal/AddBoardModal'
 import { useSelector } from 'react-redux'
-export default function Home({ user }) {
+export default function Home() {
 
   const [boards, setBoards] = useState([])
   const [modalShow, setModalShow] = useState(false);
-  const userId = useSelector((session)=> session.auth.userId)
-  // const userId = user?.id
+  const userId = useSelector((session) => session.auth.userId)
   console.log(userId)
+  // const userId = user?.id
   // Получение досок юзера с базы
   const getAllBoards = async () => {
     try {
-      const response = await fetch(`/api/board/${userId}`, {
-        method: 'GET',
-      });
+      const response = await fetch(`/api/board/${userId}`);
       const boards = await response.json();
-      setBoards(boards.projects);
-      // console.log("▶ ⇛ setBoards", boards);
+      setBoards(boards);
     } catch (error) {
-      console.log(error);
+      console.log(error, '=============');
     }
   }
 
   useEffect(() => {
-    (async () => {
-      await getAllBoards()
-    })();
+    getAllBoards()
   }, []);
 
   return (
