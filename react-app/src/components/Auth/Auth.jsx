@@ -3,6 +3,7 @@ import './Auth.css'
 import { useState } from "react";
 import {useDispatch, useSelector} from 'react-redux'
 import {setUsernameAC} from '../../store/reducers/actionAuth'
+import { useNavigate} from 'react-router-dom';
 
 function Auth() {
   const dispatch = useDispatch()
@@ -49,7 +50,7 @@ function Auth() {
         // localStorage.setItem("userSession", JSON.stringify(data));
         localStorage.setItem("userId", data.userId);
         localStorage.setItem("userName", data.userName);
-        // navigate("/");
+         navigate("/");
       });
   };
   const handleErrors = (errors) => {
@@ -82,7 +83,7 @@ function Auth() {
            dispatch(setUsernameAC(data));
           localStorage.setItem("userId", data.userId);
           localStorage.setItem("userName", data.userName);
-          // // navigate("/");
+           navigate("/");
         });
   }
   const [isHidden, setHidden] = useState(true)
@@ -90,6 +91,8 @@ function Auth() {
   const changeShow = () =>{
     setHidden((prev)=> !prev)
   }
+
+  const navigate = useNavigate()
 
 
   return (
