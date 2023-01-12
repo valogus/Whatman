@@ -1,4 +1,4 @@
-const { Project } = require('../db/models');
+const { Project, User } = require('../db/models');
 
 // загрузка Доски по ID user
 // router.get('/:id',
@@ -10,7 +10,7 @@ exports.boardsUser = async (req, res) => {
       {
         where: { author },
         attributes: ['id', 'title'],
-        // include: { model: User, where: { id: author }, attributes: ['email', 'login'] },
+        include: { model: User, where: { id: author }, attributes: ['email', 'login'] },
         raw: true,
       },
     );

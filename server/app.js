@@ -20,6 +20,8 @@ const {
 } = require('./testFun');
 
 const boardRouter = require('./routes/boardRoute');
+const taskRouter = require('./routes/taskRoute');
+const columnsRouter = require('./routes/columnsRoute');
 const checkAuth = require('./src/routers/checkAuth');
 
 const registrationRout = require('./routes/registration');
@@ -57,7 +59,8 @@ app.use((req, res, next) => {
 });
 
 // getUsersByTask();
-
+app.use('/api/columns', columnsRouter);
+app.use('/api/tasks', taskRouter);
 app.use('/api/board', boardRouter);
 //app.use('/api/checkAuth', checkAuth);
 app.use('/api/registration', registrationRout);

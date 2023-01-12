@@ -6,7 +6,6 @@ import { ChakraProvider } from '@chakra-ui/react'
 import Auth from './components/Auth/Auth.jsx';
 import { useSelector } from 'react-redux';
 import Navbar from './components/Navbar/Navbar'
-import Boards from './components/Boards/Boards';
 import Board from './components/Board/Board';
 
 function App() {
