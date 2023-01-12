@@ -20,9 +20,9 @@ function App() {
       <Route path='/' element={<Navigate to={userName ? '/library' : '/auth'} />} />
         <Route path='/auth' element={<Auth />}/>
         <Route path="/library" element={<Home />} />
-        <Route path = "/board/:id" element{<ChakraProvider>
+        <Route path = "/board/:id" element={<ChakraProvider>
             <Board />
-          </ChakraProvider>}
+          </ChakraProvider>} />
       </Routes>
     </div>
   );
