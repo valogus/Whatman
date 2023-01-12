@@ -1,30 +1,30 @@
-import { useSelector } from 'react-redux';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { ChakraProvider } from '@chakra-ui/react'
 
 import React from 'react';
-import Auth from './components/Auth/Auth';
+import Home from './components/Home/Home'
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { ChakraProvider } from '@chakra-ui/react'
+import Auth from './components/Auth/Auth.jsx';
+import { useSelector } from 'react-redux';
+import Navbar from './components/Navbar/Navbar'
 import Board from './components/Board/Board'
 
 function App() {
-  const { userName } = useSelector(store => store.auth);
-  console.log(userName)
+
+ const { userName } = useSelector(store => store.auth);
   return (
+
     <div className="App">
-      {/* <Routes>
+
+      <Navbar/>
+      <Routes>
+      <Route path='/' element={<Navigate to={userName ? '/library' : '/auth'} />} />
         <Route path='/auth' element={<Auth />}/>
-      </Routes> */}
-      {
-        userName ?
-          <ChakraProvider>
+        <Route path="/library" element={<Home />} />
+        <Route path = "/board/:id" element{<ChakraProvider>
             <Board />
-          </ChakraProvider>
-          : <Auth />
-      }
-
-    </div >
-
-
+          </ChakraProvider>}
+      </Routes>
+    </div>
   );
 }
 

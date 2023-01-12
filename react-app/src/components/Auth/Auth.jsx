@@ -1,8 +1,11 @@
 import { useForm } from "react-hook-form";
 import './Auth.css'
 import { useState } from "react";
-import { useDispatch, useSelector } from 'react-redux'
-import { setUsernameAC } from '../../store/reducers/actionAuth'
+
+import {useDispatch, useSelector} from 'react-redux'
+import {setUsernameAC} from '../../store/reducers/actionAuth'
+import { useNavigate} from 'react-router-dom';
+
 
 function Auth() {
   const dispatch = useDispatch()
@@ -44,7 +47,7 @@ function Auth() {
         // localStorage.setItem("userSession", JSON.stringify(data));
         localStorage.setItem("userId", data.userId);
         localStorage.setItem("userName", data.userName);
-        // navigate("/");
+         navigate("/");
       });
   };
   const handleErrors = (errors) => {
@@ -72,19 +75,32 @@ function Auth() {
           throw new Error("Something went wrong");
         }
       })
-      .then((data) => {
-        console.log(data)
-        dispatch(setUsernameAC(data));
-        localStorage.setItem("userId", data.userId);
-        localStorage.setItem("userName", data.userName);
-        // // navigate("/");
-      });
+
+        .then((res) => {
+          console.log('status', res.status)
+          if (res.status === 200) {
+            setErrorAuth("")
+            return res.json();
+          }else {
+            setErrorAuth("Неверный логин или пароль");
+            throw new Error("Something went wrong");
+          }
+        })
+        .then((data) => {
+          console.log(data)
+           dispatch(setUsernameAC(data));
+          localStorage.setItem("userId", data.userId);
+          localStorage.setItem("userName", data.userName);
+           navigate("/");
+        });
   }
   const [isHidden, setHidden] = useState(true)
 
   const changeShow = () => {
     setHidden((prev) => !prev)
   }
+
+  const navigate = useNavigate()
 
 
   return (
