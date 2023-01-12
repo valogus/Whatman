@@ -17,11 +17,10 @@ export default function Home({ user }) {
     try {
       const response = await fetch(`http://localhost:3100/api/board/${userId}`, {
         method: 'GET',
-        credentials: 'include',
       });
       const boards = await response.json();
       setBoards(boards.projects);
-      console.log("▶ ⇛ setBoards", boards);
+      // console.log("▶ ⇛ setBoards", boards);
     } catch (error) {
       console.log(error);
     }
@@ -60,7 +59,9 @@ export default function Home({ user }) {
 
 
       <AddBoardModal show={modalShow}
-        onHide={() => setModalShow(false)}>
+        onHide={() => setModalShow(false)}
+        addboard={getAllBoards}
+      >
       </AddBoardModal>
     </>
   )

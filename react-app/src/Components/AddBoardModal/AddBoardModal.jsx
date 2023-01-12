@@ -9,8 +9,6 @@ export default function AddBoardModal(props) {
   const colorDefault = 2 // Цвет доски
   const author = 2// Id Usera
   const [title, setTitle] = useState();
-  // const [form, setForm] = useState();
-
 
   const sendForm = async () => {
     try {
@@ -25,7 +23,7 @@ export default function AddBoardModal(props) {
       });
 
       const answerModal = await response.json();
-      console.log("▶ ⇛ answerModal", answerModal);
+      // console.log("▶ ⇛ answerModal", answerModal);
       if (answerModal.msg = "OK") {
         boardAdd();
       }
@@ -36,10 +34,13 @@ export default function AddBoardModal(props) {
 
   const boardAdd = () => {
     props.onHide()
+    props.addboard()
   }
+
   return (
     <Modal
-      {...props}
+      // {...props}
+      show={props.show} onHide={props.onHide}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -58,6 +59,8 @@ export default function AddBoardModal(props) {
           className='w-75'
           onChange={(e) => setTitle(e.target.value)}
         />
+
+        <Form.Label htmlFor="inputBoardFon"><h4>Фон</h4></Form.Label>
       </Modal.Body>
       <Modal.Footer>
         {/* <Button onClick={props.onHide}>Close</Button> */}
