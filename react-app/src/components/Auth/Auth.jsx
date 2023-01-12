@@ -6,9 +6,6 @@ import { setUsernameAC } from '../../store/reducers/actionAuth'
 
 function Auth() {
   const dispatch = useDispatch()
-  const session = useSelector((session) => session)
-  console.log(localStorage)
-  console.log('Сессия!!', session)
   const { register, handleSubmit, formState: { errors, isValid } } = useForm({
     mode: 'onTouched'
   });
@@ -17,8 +14,6 @@ function Auth() {
   });
   const [error, setError] = useState("");
   const [errorAuth, setErrorAuth] = useState('');
-  console.log(errors)
-  console.log(errors2)
   const onSubmitRegister = data => {
     fetch("/registration", {
       method: "POST",

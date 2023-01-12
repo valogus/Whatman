@@ -2,7 +2,7 @@
 import React from 'react';
 import style from './Modal.module.css';
 
-function Modal({ children, visible, setVisible, title }) {
+function Modal({ children, visible, setVisible }) {
   const rootClasses = [style.myModal];
 
   if (visible) {

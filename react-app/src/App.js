@@ -1,15 +1,30 @@
+import { useSelector } from 'react-redux';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { ChakraProvider } from '@chakra-ui/react'
+
+import React from 'react';
 import Auth from './components/Auth/Auth';
+import Board from './components/Board/Board'
 
 function App() {
+  const userName = useSelector(store => store.userName);
+  console.log(userName)
   return (
     <div className="App">
-      <Routes>
+      {/* <Routes>
         <Route path='/auth' element={<Auth />}/>
-      </Routes>
-    </div>
+      </Routes> */}
+      {
+        userName ?
+          <ChakraProvider>
+            <Board />
+          </ChakraProvider>
+          : <Auth />
+      }
 
-    
+    </div >
+
+
   );
 }
 
