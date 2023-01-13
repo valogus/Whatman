@@ -8,14 +8,12 @@ exports.boardColumns = async (req, res) => {
     const columns = await Column.findAll(
       {
         where: { project_id: project },
-        // raw: true,
+        order: [['id', 'ASC']],
         include: {
           model: Task,
-
         },
       },
     );
-    console.log(columns);
     res.status(200).json(columns);
   } catch (error) {
     res.status(500).end();

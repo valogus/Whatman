@@ -1,6 +1,7 @@
 const router = require('express').Router();
-const { tasksColumns } = require('../controllers/taskRoute');
+const { tasksColumns, taskPut } = require('../controllers/taskRoute');
 
 router.get('/:id', tasksColumns);
+router.put('/:id', taskPut);
 
 module.exports = router;

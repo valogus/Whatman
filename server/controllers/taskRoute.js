@@ -16,3 +16,20 @@ exports.tasksColumns = async (req, res) => {
     res.status(500).end();
   }
 };
+
+exports.taskPut = async (req, res) => {
+  const { id } = req.params;
+  const { boardId } = req.body;
+  const updateTaskPut = await Task.update(
+    { column_id: boardId },
+    {
+      where: {
+        id: Number(id),
+      },
+      raw: true,
+      returning: true,
+    },
+  );
+  const [, [task]] = updateTaskPut;
+  res.json(task);
+};
