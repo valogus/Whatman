@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "nodemonConfig": {
+    "ignore": ["../react-app/*"]
+  },
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js --ignore session --ext js,jsx,json --ignore react-app" ,
+    "dev": "nodemon app.js --ignore session --ignore react-app  --ext js,jsx,json",
     "test": "jest",
-    "dbr": "npx sequelize db:drop && npx sequelize db:create && npx sequelize db:migrate && npx sequelize db:seed:all"
+    "dbr": "npx sequelize db:drop && npx sequelize db:create && npx sequelize db:migrate && npx sequelize db:seed:all",
+    "server": "nodemon index.js --ignore client"
   },
   "keywords": [],
   "author": "",

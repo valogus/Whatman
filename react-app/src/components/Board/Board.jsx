@@ -60,27 +60,28 @@ export default function Board() {
     e.target.style.boxShadow = 'none'
   }
 
-  function dropHandler(e, board, item) {
-    e.preventDefault()
-    e.stopPropagation()
-    console.log(board)
-    console.log(currentBoard)
-    console.log(item)
-    const currentIndex = currentBoard.Tasks.indexOf(currentItem)
-    currentBoard.Tasks.splice(currentIndex, 1)
-    const dropIndex = board.Tasks.indexOf(item)
-    board.Tasks.splice(dropIndex + 1, 0, currentItem)
-    setBoards(boards.map(b => {
-      if (b.id === board.id) {
-        return board
-      }
-      if (b.id === currentBoard.id) {
-        return currentBoard
-      }
-      return b
-    }))
-    e.target.style.boxShadow = 'none'
-  }
+  // function dropHandler(e, board, item) {
+  //   e.preventDefault()
+  //   e.stopPropagation()
+  //   console.log(board)
+  //   console.log(currentBoard)
+  //   console.log(item)
+  //   const currentIndex = currentBoard.Tasks.indexOf(currentItem)
+  //   currentBoard.Tasks.splice(currentIndex, 1)
+  //   const dropIndex = board.Tasks.indexOf(item)
+  //   board.Tasks.splice(dropIndex + 1, 0, currentItem)
+  //   setBoards(boards.map(b => {
+  //     if (b.id === board.id) {
+  //       return board
+  //     }
+  //     if (b.id === currentBoard.id) {
+  //       return currentBoard
+  //     }
+  //     return b
+  //   }))
+  //   e.target.style.boxShadow = 'none'
+  //   console.log('AAAAAAAAAAAAA')
+  // }
 
   function dropCardHandler(e, board) {
     board.Tasks.push(currentItem)
@@ -107,6 +108,7 @@ export default function Board() {
       return b
     }))
     e.target.style.boxShadow = 'none'
+    console.log(board)
   }
 
   function onCreateComment(comment) {
@@ -130,7 +132,7 @@ export default function Board() {
               onDragLeave={(e) => dragLeaveHandler(e)}
               onDragStart={(e) => dragStartHandler(e, board, item)}
               onDragEnd={(e) => dragEndHandler(e)}
-              onDrop={(e) => dropHandler(e, board, item)}
+              // onDrop={(e) => dropHandler(e, board, item)}
               draggable={true}
               className={styles.item}
               onClick={() => setModalItem(item)}
