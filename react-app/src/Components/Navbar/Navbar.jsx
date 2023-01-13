@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom';
 import style from './style.module.css'
 
 export default function Navbar({ user }) {
-  console.log("▶ ⇛NAVBAR user", user);
 
   // const isAuth = { login: 'q@q', id: 1 }
   // const isAuth = null
@@ -25,7 +24,7 @@ export default function Navbar({ user }) {
           </NavLink>
           </li>
         <li>
-            <NavLink to="/home">
+            <NavLink to="/library">
             Мои Доски
           </NavLink>
           </li>
