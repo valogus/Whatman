@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
-
+import {useDispatch, useSelector} from 'react-redux'
 import style from './style.module.css'
 import {setUsernameAC} from '../../store/reducers/actionAuth'
 export default function Navbar() {

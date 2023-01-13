@@ -107,6 +107,7 @@ export default function Board() {
       return b
     }))
     e.target.style.boxShadow = 'none'
+    console.log(board)
   }
 
   function onCreateComment(comment) {

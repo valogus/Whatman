@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import './Auth.css'
 import { useState } from "react";
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setUsernameAC } from '../../store/reducers/actionAuth'
 import { useNavigate } from 'react-router-dom';
 
