@@ -22,8 +22,6 @@ export default function Board() {
     { id: 4, login: 'Иваныч', comment: 'Где бутылка, Петрович? ' },
   ])
 
-  console.log('RENDER COMPONENT')
-
   const [currentBoard, setCurrentBoard] = useState(null)
   const [currentItem, setCurrentItem] = useState(null)
   const [animation] = useAutoAnimate()
