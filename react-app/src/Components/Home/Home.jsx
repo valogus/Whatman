@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 
 import style from './style.module.css'
 import Boards from '../Boards/Boards'
@@ -20,17 +20,20 @@ export default function Home({ user }) {
       });
       const boards = await response.json();
       setBoards(boards.projects);
-      // console.log("▶ ⇛ setBoards", boards);
+       console.log("▶ ⇛ setBoards", boards);
     } catch (error) {
+      
+      console.log("▶ ⇛ setBoards", boards);
       console.log(error);
     }
   }
 
   useEffect(() => {
-    (async () => {
-      await getAllBoards()
-    })();
-  }, []);
+ 
+    getAllBoards()
+
+    
+  }, );
 
   return (
     <>

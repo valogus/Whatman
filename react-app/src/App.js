@@ -11,18 +11,22 @@ import Board from './components/Board/Board'
 function App() {
 
  const { userName } = useSelector(store => store.auth);
+ console.log('---->', (userName))
   return (
 
     <div className="App">
 
-      <Navbar/>
+      
       <Routes>
       <Route path='/' element={<Navigate to={userName ? '/library' : '/auth'} />} />
-        <Route path='/auth' element={<Auth />}/>
-        <Route path="/library" element={<Home />} />
-        <Route path = "/board/:id" element={<ChakraProvider>
+      <Route path='/auth' element={<Auth />}/>
+      </Routes>
+      <Navbar/>
+      <Routes>
+        <Route path="/library" element={userName ? <Home /> : <Navigate to={'/auth'} />} />
+        <Route path = "/board/:id" element={userName ? <ChakraProvider>
             <Board />
-          </ChakraProvider>} />
+          </ChakraProvider>: <Navigate to={'/auth'} />} />
       </Routes>
     </div>
   );

@@ -58,7 +58,7 @@ app.use((req, res, next) => {
 
 // getUsersByTask();
 
-app.use('/api/board', boardRouter);
+app.use('/board/', boardRouter);
 //app.use('/api/checkAuth', checkAuth);
 app.use('/', registrationRout);
 app.use('/', loginRout);

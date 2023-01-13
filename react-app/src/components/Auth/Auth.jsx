@@ -8,6 +8,8 @@ import { useNavigate} from 'react-router-dom';
 
 
 function Auth() {
+  const { userName } = useSelector(store => store.auth);
+  console.log(userName)
   const dispatch = useDispatch()
   const { register, handleSubmit, formState: { errors, isValid } } = useForm({
     mode: 'onTouched'
@@ -75,17 +77,6 @@ function Auth() {
           throw new Error("Something went wrong");
         }
       })
-
-        .then((res) => {
-          console.log('status', res.status)
-          if (res.status === 200) {
-            setErrorAuth("")
-            return res.json();
-          }else {
-            setErrorAuth("Неверный логин или пароль");
-            throw new Error("Something went wrong");
-          }
-        })
         .then((data) => {
           console.log(data)
            dispatch(setUsernameAC(data));
