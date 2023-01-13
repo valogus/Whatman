@@ -2,9 +2,9 @@ import { useForm } from "react-hook-form";
 import './Auth.css'
 import { useState } from "react";
 
-import {useDispatch, useSelector} from 'react-redux'
-import {setUsernameAC} from '../../store/reducers/actionAuth'
-import { useNavigate} from 'react-router-dom';
+import { useDispatch } from 'react-redux'
+import { setUsernameAC } from '../../store/reducers/actionAuth'
+import { useNavigate } from 'react-router-dom';
 
 
 function Auth() {
@@ -20,7 +20,7 @@ function Auth() {
   const [error, setError] = useState("");
   const [errorAuth, setErrorAuth] = useState('');
   const onSubmitRegister = data => {
-    fetch("/registration", {
+    fetch("/api/registration", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -44,12 +44,11 @@ function Auth() {
         }
       })
       .then((data) => {
-        console.log(data)
         dispatch(setUsernameAC(data));
         // localStorage.setItem("userSession", JSON.stringify(data));
         localStorage.setItem("userId", data.userId);
         localStorage.setItem("userName", data.userName);
-         navigate("/");
+        navigate("/");
       });
   };
   const handleErrors = (errors) => {
@@ -60,7 +59,7 @@ function Auth() {
   };
   const onSubmitLogin = data => {
 
-    fetch("/login", {
+    fetch("/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -68,7 +67,7 @@ function Auth() {
       body: JSON.stringify(data),
     })
       .then((res) => {
-        console.log('status', res.status)
+        
         if (res.status === 200) {
           setErrorAuth("")
           return res.json();
@@ -148,7 +147,7 @@ function Auth() {
                   name="login"
                   type="text"
                   className="form_input"
-                  placeholder="Логин"
+                  placeholder="Email"
                   required
                   pattern="[A-Za-z]\w+"
                   minLength={4}

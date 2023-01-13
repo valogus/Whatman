@@ -1,19 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Board.module.css';
 import pen from './pen.png'
 import { Button } from '@chakra-ui/react'
 import Modal from '../Modal/Modal'
 import TaskForm from '../TaskFrom/TaskFrom'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { useParams } from 'react-router-dom';
 
 
 
 export default function Board() {
-  const [boards, setBoards] = useState([
-    { id: 1, title: 'К выполнению', items: [{ id: 1, title: 'сварить кофе' }, { id: 2, title: 'Вымыть окна' }, { id: 3, title: 'Пропылесосить' }], project_id: 1 },
-    { id: 2, title: 'В работе', items: [{ id: 4, title: 'Доделать модальное окно' }, { id: 5, title: 'Доделать регистрацию' }, { id: 6, title: 'Почистить экран' }], project_id: 1 },
-    { id: 3, title: 'Завершено', items: [{ id: 7, title: 'Погулять с сыном' }, { id: 8, title: 'Приготовить ужин' }, { id: 9, title: 'Сходить за пивом' }], project_id: 1 },
-  ])
+  const [boards, setBoards] = useState([]);
+  const { id } = useParams();
 
   const [modalItem, setModalItem] = useState(null);
 
@@ -28,6 +26,19 @@ export default function Board() {
   const [currentItem, setCurrentItem] = useState(null)
   const [animation] = useAutoAnimate()
 
+  useEffect(() => {
+    console.log('render')
+    const abortController = new AbortController()
+    fetch(`/api/columns/${id}`, { signal: abortController.signal })
+      .then(res => res.json())
+      .then(data => setBoards(data))
+      .catch(console.log)
+
+    return () => {
+      abortController.abort()
+    }
+  }, []);
+
   function dragOverHandler(e) {
     e.preventDefault()
     if (e.target.className === styles.item) {
@@ -40,6 +51,7 @@ export default function Board() {
   }
 
   function dragStartHandler(e, board, item) {
+    console.log('Зашли')
     setCurrentBoard(board)
     setCurrentItem(item)
   }
@@ -51,34 +63,13 @@ export default function Board() {
   function dropHandler(e, board, item) {
     e.preventDefault()
     e.stopPropagation()
-    const currentIndex = currentBoard.items.indexOf(currentItem)
-    currentBoard.items.splice(currentIndex, 1)
-    const dropIndex = board.items.indexOf(item)
-    board.items.splice(dropIndex + 1, 0, currentItem)
-    setBoards(boards.map(b => {
-      if (b.id === board.id) {
-        return board
-      }
-      if (b.id === currentBoard.id) {
-        return currentBoard
-      }
-      return b
-    }))
-  }
-
-  function onCreateComment(comment) {
-    const newComment = {
-      id: comments.length + 1,
-      login: 'Петруля',
-      comment,
-    }
-    setComments([newComment, ...comments]);
-  }
-
-  function dropCardHandler(e, board) {
-    board.items.push(currentItem)
-    const currentIndex = currentBoard.items.indexOf(currentItem)
-    currentBoard.items.splice(currentIndex, 1)
+    console.log(board)
+    console.log(currentBoard)
+    console.log(item)
+    const currentIndex = currentBoard.Tasks.indexOf(currentItem)
+    currentBoard.Tasks.splice(currentIndex, 1)
+    const dropIndex = board.Tasks.indexOf(item)
+    board.Tasks.splice(dropIndex + 1, 0, currentItem)
     setBoards(boards.map(b => {
       if (b.id === board.id) {
         return board
@@ -91,13 +82,49 @@ export default function Board() {
     e.target.style.boxShadow = 'none'
   }
 
+  function dropCardHandler(e, board) {
+    board.Tasks.push(currentItem)
+    currentItem['column_id'] = board.id
+    fetch(`/api/tasks/${currentItem.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({ boardId: board.id })
+    })
+      .then(res => {
+        return res.json()
+      })
+    const currentIndex = currentBoard.Tasks.indexOf(currentItem)
+    currentBoard.Tasks.splice(currentIndex, 1)
+    setBoards(boards.map(b => {
+      if (b.id === board.id) {
+        return board
+      }
+      if (b.id === currentBoard.id) {
+        return currentBoard
+      }
+      return b
+    }))
+    e.target.style.boxShadow = 'none'
+  }
+
+  function onCreateComment(comment) {
+    const newComment = {
+      id: comments.length + 1,
+      login: 'Петруля',
+      comment,
+    }
+    setComments([newComment, ...comments]);
+  }
+
   return (
     <div ref={animation} className={styles.app}>
       {boards.map(board =>
         <div className={styles.board} onDragOver={(e) => dragOverHandler(e)}
           onDrop={(e) => dropCardHandler(e, board)} key={board.id}>
           <div className={styles.board__title}>{board.title}</div>
-          {board.items.map(item =>
+          {board.Tasks?.map(item => item['column_id'] === board.id &&
             <Button key={item.id}
               onDragOver={(e) => dragOverHandler(e)}
               onDragLeave={(e) => dragLeaveHandler(e)}
@@ -112,15 +139,14 @@ export default function Board() {
               <div>
                 <img src={pen} className={styles.pen} alt={'pen'} />
               </div>
-            </Button>)}
+            </Button>
+          )}
           {
             modalItem && <Modal visible={modalItem !== null} setVisible={setModalItem}>
               <TaskForm comments={comments} onCreateComment={onCreateComment}
                 modalItem={modalItem} />
             </Modal>
           }
-
-
           <div className={styles.add}>Добавить задачу</div>
         </div>
       )}
