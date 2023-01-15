@@ -4,9 +4,8 @@ import pen from './pen.png'
 import { Button } from '@chakra-ui/react'
 import Modal from '../Modal/Modal'
 import TaskForm from '../TaskFrom/TaskFrom'
-import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { useParams } from 'react-router-dom';
-
+import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd'
 
 
 export default function Board() {
@@ -24,10 +23,9 @@ export default function Board() {
 
   const [currentBoard, setCurrentBoard] = useState(null)
   const [currentItem, setCurrentItem] = useState(null)
-  const [animation] = useAutoAnimate()
 
   useEffect(() => {
-    console.log('render')
+    
     const abortController = new AbortController()
     fetch(`/api/columns/${id}`, { signal: abortController.signal })
       .then(res => res.json())
@@ -38,39 +36,43 @@ export default function Board() {
       abortController.abort()
     }
   }, []);
+  console.log(boards)
 
-  function dragOverHandler(e) {
-    e.preventDefault()
-    if (e.target.className === styles.item) {
-      e.target.style.boxShadow = '0 4px 3px gray'
-    }
-  }
+  // function dragOverHandler(e) {
+  //   e.preventDefault()
+  //   if (e.target.className === styles.item) {
+  //     e.target.style.boxShadow = '0 4px 3px gray'
+  //   }
+  // }
 
-  function dragLeaveHandler(e) {
-    e.target.style.boxShadow = 'none'
-  }
+  // function dragLeaveHandler(e) {
+  //   e.target.style.boxShadow = 'none'
+  // }
 
-  function dragStartHandler(e, board, item) {
-    console.log('Зашли')
-    setCurrentBoard(board)
-    setCurrentItem(item)
-  }
+  // function dragStartHandler(e, board, item) {
+  //   console.log('Зашли')
+  //   setCurrentBoard(board)
+  //   setCurrentItem(item)
+  // }
 
-  function dragEndHandler(e) {
-    e.target.style.boxShadow = 'none'
-  }
+  // function dragEndHandler(e) {
+  //   e.target.style.boxShadow = 'none'
+  // }
 
   // function dropHandler(e, board, item) {
   //   e.preventDefault()
   //   e.stopPropagation()
   //   console.log(board)
   //   console.log(currentBoard)
-  //   console.log(item)
+  //   console.log(item, 'item')
+  //   console.log(currentItem, 'current!!!!')
+  //   setCurrentItem((prev)=>prev['column_id'] = board.id)
   //   const currentIndex = currentBoard.Tasks.indexOf(currentItem)
   //   currentBoard.Tasks.splice(currentIndex, 1)
   //   const dropIndex = board.Tasks.indexOf(item)
   //   board.Tasks.splice(dropIndex + 1, 0, currentItem)
-  //   setBoards(boards.map(b => {
+
+  //  setBoards(boards.map(b => {
   //     if (b.id === board.id) {
   //       return board
   //     }
@@ -83,32 +85,85 @@ export default function Board() {
   //   console.log('AAAAAAAAAAAAA')
   // }
 
-  function dropCardHandler(e, board) {
-    board.Tasks.push(currentItem)
-    currentItem['column_id'] = board.id
-    fetch(`/api/tasks/${currentItem.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify({ boardId: board.id })
-    })
-      .then(res => {
-        return res.json()
-      })
-    const currentIndex = currentBoard.Tasks.indexOf(currentItem)
-    currentBoard.Tasks.splice(currentIndex, 1)
-    setBoards(boards.map(b => {
-      if (b.id === board.id) {
-        return board
+  // function dropCardHandler(e, board) {
+  //   board.Tasks.push(currentItem)
+  //   currentItem['column_id'] = board.id
+  //     fetch(`/api/tasks/${currentItem.id}`, {
+  //       method: 'PUT',
+  //       headers: {
+  //         'Content-type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ boardId: board.id })
+  //     })
+  //       .then(res => {
+  //         return res.json()
+  //       })
+  //   const currentIndex = currentBoard.Tasks.indexOf(currentItem)
+  //   currentBoard.Tasks.splice(currentIndex, 1)
+  //   setBoards(boards.map(b => {
+  //     if (b.id === board.id) {
+  //       return board
+  //     }
+  //     if (b.id === currentBoard.id) {
+  //       return currentBoard
+  //     }
+  //     return b
+  //   }))
+  //   e.target.style.boxShadow = 'none'
+  //   console.log(board, 'BOARD')
+  // }
+
+  const onDragEnd = (result) => {
+   
+    const {destination, source, draggableId} = result;
+    console.log(result)
+    if(!destination) return;
+    if (source.droppableId === destination.droppableId && 
+      destination.index === source.index){
+        return
       }
-      if (b.id === currentBoard.id) {
-        return currentBoard
+    // внимательно! поменять на индекс!
+    const column = boards[source.droppableId]
+    const start = boards[source.droppableId]
+    const finish = boards[destination.droppableId]
+    // перемещение в одной колонке
+    if(source.droppableId === destination.droppableId){
+      console.log(start, finish, 'column')
+      const newColumnTasks= [...column.Tasks]
+      newColumnTasks.splice(source.index, 1)
+       newColumnTasks.splice(destination.index, 0, JSON.parse(draggableId))
+      
+      const newColumn = {
+        ...column,
+        Tasks: newColumnTasks
       }
-      return b
-    }))
-    e.target.style.boxShadow = 'none'
-    console.log(board)
+      const newState = JSON.parse(JSON.stringify(boards))
+      
+      newState.splice(destination.droppableId, 1, newColumn )
+      console.log(newState , 'column')
+         setBoards(newState)
+         return;
+    }
+    //перемещение в нескольких column_id?
+    const startColumnTasks= [...start.Tasks]
+    startColumnTasks.splice(source.index, 1)
+    const oldColumn = {
+      ...start,
+      Tasks: startColumnTasks
+    }
+    const finishColumnTasks = [...finish.Tasks]
+    finishColumnTasks.splice(destination.index, 0, JSON.parse(draggableId))
+    const newColumn = {
+      ...finish,
+      Tasks: finishColumnTasks
+    }
+    console.log(newColumn)
+    const newState = JSON.parse(JSON.stringify(boards))
+    newState.splice(source.droppableId, 1, oldColumn )
+    newState.splice(destination.droppableId, 1, newColumn)
+    console.log(newState, 'NEW')
+       setBoards(newState)
+    // console.log(column, 'column')
   }
 
   function onCreateComment(comment) {
@@ -121,28 +176,40 @@ export default function Board() {
   }
 
   return (
-    <div ref={animation} className={styles.app}>
-      {boards.map(board =>
-        <div className={styles.board} onDragOver={(e) => dragOverHandler(e)}
-          onDrop={(e) => dropCardHandler(e, board)} key={board.id}>
-          <div className={styles.board__title}>{board.title}</div>
-          {board.Tasks?.map(item => item['column_id'] === board.id &&
-            <Button key={item.id}
-              onDragOver={(e) => dragOverHandler(e)}
-              onDragLeave={(e) => dragLeaveHandler(e)}
-              onDragStart={(e) => dragStartHandler(e, board, item)}
-              onDragEnd={(e) => dragEndHandler(e)}
-              // onDrop={(e) => dropHandler(e, board, item)}
-              draggable={true}
+    <div className={styles.app}>
+       <DragDropContext onDragEnd={onDragEnd}>
+      {boards.map((board, index) =>
+     
+        <div className={styles.board} key={board.id}>
+          <div   className={styles.board__title}>{board.title}</div>
+          <Droppable droppableId={`${index}`}>
+            {(provided)=><div 
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            {...provided.dragHandleProps}
+            >
+            {board.Tasks?.map((item, i) =>
+            <Draggable key={item.id} draggableId={JSON.stringify(item)} index={i}>
+              {(provided, snapshot)=> <div 
+              ref={provided.innerRef} {...provided.draggableProps}>  
+              <div 
+              {...provided.dragHandleProps}
               className={styles.item}
               onClick={() => setModalItem(item)}
             >
               {item.title}
               <div>
+             { board.id} {i}
                 <img src={pen} className={styles.pen} alt={'pen'} />
               </div>
-            </Button>
-          )}
+             
+            </div>
+            </div>}
+         
+            </Draggable>
+          )}{provided.placeholder}</div> }
+          
+          </Droppable>
           {
             modalItem && <Modal visible={modalItem !== null} setVisible={setModalItem}>
               <TaskForm comments={comments} onCreateComment={onCreateComment}
@@ -150,8 +217,10 @@ export default function Board() {
             </Modal>
           }
           <div className={styles.add}>Добавить задачу</div>
+          
         </div>
-      )}
+       )}
+       </DragDropContext>
     </div>
   )
 }
