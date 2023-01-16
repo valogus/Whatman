@@ -9,8 +9,7 @@ export default function Home() {
 
   const [boards, setBoards] = useState([])
   const [modalShow, setModalShow] = useState(false);
-  const userId = useSelector((session) => session.auth.userId)
-  console.log(userId)
+  const userId = useSelector((session)=> session.auth.userId)
   // const userId = user?.id
   // Получение досок юзера с базы
   const getAllBoards = async () => {

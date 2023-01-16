@@ -15,18 +15,17 @@ function App() {
 
     <div className="App">
 
-      <Navbar user={userName} />
+
       <Routes>
         <Route path='/' element={<Navigate to={userName ? '/library' : '/auth'} />} />
         <Route path='/auth' element={<Auth />} />
-        <Route path="/library" element={<Home />
-
-        } />
-        <Route path="/board/:id" element={
-          <ChakraProvider>
-            <Board />
-          </ChakraProvider>
-        } />
+      </Routes>
+      <Navbar />
+      <Routes>
+        <Route path="/library" element={userName ? <Home /> : <Navigate to={'/auth'} />} />
+        <Route path="/board/:id" element={userName ? <ChakraProvider>
+          <Board />
+        </ChakraProvider> : <Navigate to={'/auth'} />} />
       </Routes>
     </div>
   );

@@ -2,12 +2,14 @@ import { useForm } from "react-hook-form";
 import './Auth.css'
 import { useState } from "react";
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setUsernameAC } from '../../store/reducers/actionAuth'
 import { useNavigate } from 'react-router-dom';
 
 
 function Auth() {
+  const { userName } = useSelector(store => store.auth);
+  console.log(userName)
   const dispatch = useDispatch()
   const { register, handleSubmit, formState: { errors, isValid } } = useForm({
     mode: 'onTouched'
@@ -74,12 +76,13 @@ function Auth() {
           throw new Error("Something went wrong");
         }
       })
-      .then((data) => {
-        dispatch(setUsernameAC(data));
-        localStorage.setItem("userId", data.userId);
-        localStorage.setItem("userName", data.userName);
-        navigate("/");
-      });
+        .then((data) => {
+          console.log(data)
+           dispatch(setUsernameAC(data));
+          localStorage.setItem("userId", data.userId);
+          localStorage.setItem("userName", data.userName);
+           navigate("/");
+        });
   }
   const [isHidden, setHidden] = useState(true)
 

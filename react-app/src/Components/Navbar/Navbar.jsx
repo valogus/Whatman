@@ -1,12 +1,21 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
-
+import {useDispatch, useSelector} from 'react-redux'
 import style from './style.module.css'
-
-export default function Navbar({ user }) {
+import {setUsernameAC} from '../../store/reducers/actionAuth'
+export default function Navbar() {
 
   // const isAuth = { login: 'q@q', id: 1 }
   // const isAuth = null
+  const { userName } = useSelector(store => store.auth);
+  const dispatch = useDispatch()
+  function logout () {
+    dispatch(setUsernameAC({  userName: null,
+      userId: null,}));
+    // localStorage.setItem("userSession", JSON.stringify(data));
+    localStorage.clear();
+
+  }
 
   return (
     <>
@@ -16,7 +25,7 @@ export default function Navbar({ user }) {
             Jirlo
           </NavLink>
         </li>
-        {user &&
+        {userName &&
           (<>
             <li>
             <NavLink to="/">
@@ -38,19 +47,9 @@ export default function Navbar({ user }) {
         </li>
           </>)
         }
-        {user ?
-          (<>
-            <NavLink onClick={() => console.log('Выйти')} to="/">
+            <NavLink onClick={() => logout() } to="/auth">
               Выйти
             </NavLink>
-          </>) : (<>
-            <li>
-              <NavLink onClick={() => console.log('Войти')} to="/">
-                Войти
-          </NavLink>
-        </li>
-          </>)
-        }
 
       </ul>
     </>
