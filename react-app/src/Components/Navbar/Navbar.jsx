@@ -14,6 +14,12 @@ export default function Navbar() {
       userId: null,}));
     // localStorage.setItem("userSession", JSON.stringify(data));
     localStorage.clear();
+    fetch("/logout", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+      }
+  })
 
   }
 
