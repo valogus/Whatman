@@ -34,7 +34,6 @@ export default function Board() {
 
   const [currentBoard, setCurrentBoard] = useState(null)
   const [currentItem, setCurrentItem] = useState(null)
-  const [animation] = useAutoAnimate()
 
 
   useEffect(() => {
@@ -71,28 +70,6 @@ export default function Board() {
     e.target.style.boxShadow = 'none'
   }
 
-  // function dropHandler(e, board, item) {
-  //   e.preventDefault()
-  //   e.stopPropagation()
-  //   console.log(board)
-  //   console.log(currentBoard)
-  //   console.log(item)
-  //   const currentIndex = currentBoard.Tasks.indexOf(currentItem)
-  //   currentBoard.Tasks.splice(currentIndex, 1)
-  //   const dropIndex = board.Tasks.indexOf(item)
-  //   board.Tasks.splice(dropIndex + 1, 0, currentItem)
-  //   setBoards(boards.map(b => {
-  //     if (b.id === board.id) {
-  //       return board
-  //     }
-  //     if (b.id === currentBoard.id) {
-  //       return currentBoard
-  //     }
-  //     return b
-  //   }))
-  //   e.target.style.boxShadow = 'none'
-  //   console.log('AAAAAAAAAAAAA')
-  // }
 
   function dropCardHandler(e, board) {
     board.Tasks.push(currentItem)
@@ -138,7 +115,7 @@ export default function Board() {
   }
 
   return (
-    <div ref={animation} className={styles.app}>
+    <div className={styles.app}>
       {boards.map(board =>
         <div className={styles.board} onDragOver={(e) => dragOverHandler(e)}
           onDrop={(e) => dropCardHandler(e, board)} key={board.id}>
