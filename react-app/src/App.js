@@ -11,6 +11,7 @@ import Board from './Components/Board/Board';
 function App() {
 
   const { userName } = useSelector(store => store.auth);
+  console.log("▶ ⇛ userName", userName);
   return (
 
     <div className="App">
