@@ -5,8 +5,8 @@ import style from './style.module.css'
 import Boards from '../Boards/Boards'
 import AddBoardModal from '../AddBoardModal/AddBoardModal'
 import { useSelector } from 'react-redux'
-export default function Home() {
 
+export default function Home() {
   const [boards, setBoards] = useState([])
   const [modalShow, setModalShow] = useState(false);
   const userId = useSelector((session) => session.auth.userId)
