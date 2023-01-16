@@ -1,39 +1,53 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Board.module.css';
-import pen from './pen.png'
-import { Button } from '@chakra-ui/react'
-import Modal from '../Modal/Modal'
+import { Button, FormControl, FormLabel, Input, useDisclosure } from '@chakra-ui/react'
+import MyModal from '../Modal/MyModal'
 import TaskForm from '../TaskFrom/TaskFrom'
 import { useParams } from 'react-router-dom';
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from '@chakra-ui/react'
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd'
 
 
+
 export default function Board() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [idColumn, setIdColumn] = useState(0);
+
+  const initialRef = React.useRef(null)
+  const finalRef = React.useRef(null)
+
   const [boards, setBoards] = useState([]);
   const { id } = useParams();
 
-  const [modalItem, setModalItem] = useState(null);
+  const [flag, setFlag] = useState(false)
 
-  const [comments, setComments] = useState([
-    { id: 1, login: 'Андей', comment: 'Привет' },
-    { id: 2, login: 'Василий', comment: 'Привет!' },
-    { id: 3, login: 'Петрович', comment: 'Не мешайте' },
-    { id: 4, login: 'Иваныч', comment: 'Где бутылка, Петрович? ' },
-  ])
+  const [modalItem, setModalItem] = useState(null);
+  const [task, setTask] = useState('')
+
 
   useEffect(() => {
-    
     const abortController = new AbortController()
     fetch(`/api/columns/${id}`, { signal: abortController.signal })
       .then(res => res.json())
-      .then(data => setBoards(data))
+      .then(data => {
+        setBoards(data)
+      })
       .catch(console.log)
 
     return () => {
       abortController.abort()
     }
-  }, []);
-  console.log(boards)
+
+  }, [flag]);
+
 
   const onDragEnd = (result) => {
    
@@ -136,16 +150,24 @@ export default function Board() {
     // console.log(column, 'column')
   }
 
-  function onCreateComment(comment) {
-    const newComment = {
-      id: comments.length + 1,
-      login: 'Петруля',
-      comment,
-    }
-    setComments([newComment, ...comments]);
+  function addTaskToColumn(columnId) {
+    fetch('/api/tasks', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({ title: task, column_id: columnId, project_id: id })
+    })
+      .then(res => res.json())
+      .then(task => {
+        setTask('')
+        setFlag(x => !x)
+        onClose();
+      })
   }
 
   return (
+
        <DragDropContext onDragEnd={onDragEnd}>
        <Droppable droppableId='all-columns' direction='horizontal' type ='column'>
         {(provided)=><div className={styles.app}
@@ -183,18 +205,43 @@ export default function Board() {
              
             </div>
             </div>}
-         
+                   <Button colorScheme='teal' variant='outline' onClick={() => { onOpen(); setIdColumn(board.id) }}>
+            +
+          </Button>
             </Draggable>
           )}{provided.placeholder}</div> }
           
           </Droppable>
-          {
-            modalItem && <Modal visible={modalItem !== null} setVisible={setModalItem}>
-              <TaskForm comments={comments} onCreateComment={onCreateComment}
-                modalItem={modalItem} />
-            </Modal>
-          }
-          <div className={styles.add}>Добавить задачу</div>
+            {
+        modalItem && <MyModal visible={modalItem !== null} setVisible={setModalItem}>
+          <TaskForm
+            modalItem={modalItem} />
+        </MyModal>
+      }
+      <Modal initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={isOpen}
+        onClose={onClose}
+      >
+        <ModalOverlay />
+        <ModalContent top={'25vh'}>
+          <ModalHeader>Добавить задачу</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormControl>
+              <FormLabel>Задача</FormLabel>
+              <Input value={task} onChange={event => setTask(event.target.value)} ref={initialRef} placeholder='Название...' />
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme='blue' mr={3} onClick={() => addTaskToColumn(idColumn)}>
+              Сохранить
+            </Button>
+            <Button onClick={onClose}>Отмена</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+          
           
         </div>}
    
