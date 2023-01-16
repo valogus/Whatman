@@ -1,16 +1,17 @@
 
 import React from 'react';
-import Home from './components/Home/Home'
+import Home from './Components/Home/Home'
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react'
-import Auth from './components/Auth/Auth.jsx';
+import Auth from './Components/Auth/Auth.jsx';
 import { useSelector } from 'react-redux';
-import Navbar from './components/Navbar/Navbar'
-import Board from './components/Board/Board';
+import Navbar from './Components/Navbar/Navbar'
+import Board from './Components/Board/Board';
 
 function App() {
 
   const { userName } = useSelector(store => store.auth);
+  console.log("▶ ⇛ userName", userName);
   return (
 
     <div className="App">
