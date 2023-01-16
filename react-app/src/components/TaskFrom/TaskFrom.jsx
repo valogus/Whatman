@@ -61,7 +61,7 @@ function TaskForm({
     })
       .then(res => res.json())
       .then(task => {
-        console.log(task)
+        modalItem.description = task.description
         setDescription(false)
       })
   }
