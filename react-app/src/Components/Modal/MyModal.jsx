@@ -2,7 +2,7 @@
 import React from 'react';
 import style from './Modal.module.css';
 
-function Modal({ children, visible, setVisible }) {
+function MyModal({ children, visible, setVisible }) {
   const rootClasses = [style.myModal];
 
   if (visible) {
@@ -18,4 +18,4 @@ function Modal({ children, visible, setVisible }) {
   );
 }
 
-export default Modal;
+export default MyModal;
