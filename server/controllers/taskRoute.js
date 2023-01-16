@@ -1,23 +1,6 @@
 /* eslint-disable camelcase */
 const { Task, Comment, User } = require('../db/models');
 
-// exports.tasksColumns = async (req, res) => {
-//   const project = req.params?.id;
-//   try {
-//     const tasks = await Task.findAll(
-//       {
-//         where: {
-//           project_id: project,
-//         },
-//         raw: true,
-//       },
-//     );
-//     res.status(200).json(tasks);
-//   } catch (error) {
-//     res.status(500).end();
-//   }
-// };
-
 exports.taskPut = async (req, res) => {
   console.log(req.body);
   const promises = req.body.map((el) => {
@@ -28,27 +11,6 @@ exports.taskPut = async (req, res) => {
     );
   });
   await Promise.all(promises);
-  // const updateTaskPut = await Task.update(
-  //   { column_id: newElement.column_id, order: Number(newElement.order) },
-  //   {
-  //     where: {
-  //       id: Number(id),
-  //     },
-  //     raw: true,
-  //     returning: true,
-  //   },
-  // );
-  // const updateoldTaskPut = await Task.update(
-  //   { order: Number(oldElement.order) },
-  //   {
-  //     where: {
-  //       id: Number(oldElement.id),
-  //     },
-  //     raw: true,
-  //     returning: true,
-  //   },
-  // );
-  // const [, [task]] = updateTaskPut;
   res.status(200).json(promises);
 };
 
@@ -97,9 +59,13 @@ exports.addCommentToTask = async (req, res) => {
 };
 
 exports.addTaskToColumn = async (req, res) => {
-  const { title, project_id, column_id, order } = req.body;
+  const {
+    title, project_id, column_id, order,
+  } = req.body;
   if (title) {
-    const newTask = await Task.create({ title, project_id, column_id, order });
+    const newTask = await Task.create({
+      title, project_id, column_id, order, description: '',
+    });
     res.status(201).json(newTask);
   } else {
     res.status(400).json({ created: false });
