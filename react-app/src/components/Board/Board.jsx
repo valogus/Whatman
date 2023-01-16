@@ -202,35 +202,7 @@ export default function Board() {
                 )}{provided.placeholder}</div>}
 
             </Droppable>
-            {
-              modalItem && <MyModal visible={modalItem !== null} setVisible={setModalItem}>
-                <TaskForm
-                  modalItem={modalItem} />
-              </MyModal>
-            }
-            <Modal initialFocusRef={initialRef}
-              finalFocusRef={finalRef}
-              isOpen={isOpen}
-              onClose={onClose}
-            >
-              <ModalOverlay />
-              <ModalContent top={'25vh'}>
-                <ModalHeader>Добавить задачу</ModalHeader>
-                <ModalCloseButton />
-                <ModalBody pb={6}>
-                  <FormControl>
-                    <FormLabel>Задача</FormLabel>
-                    <Input value={task} onChange={event => setTask(event.target.value)} ref={initialRef} placeholder='Название...' />
-                  </FormControl>
-                </ModalBody>
-                <ModalFooter>
-                  <Button colorScheme='blue' mr={3} onClick={() => addTaskToColumn(idColumn)}>
-                    Сохранить
-                  </Button>
-                  <Button onClick={onClose}>Отмена</Button>
-                </ModalFooter>
-              </ModalContent>
-            </Modal>
+
 
             <Button colorScheme='teal' variant='outline' onClick={() => { onOpen(); setIdColumn(board) }}>
               +
@@ -240,7 +212,39 @@ export default function Board() {
         </Draggable>)
         )}{provided.placeholder}</div>}
 
+
+
       </Droppable>
+
+      {
+        modalItem && <MyModal visible={modalItem !== null} setVisible={setModalItem}>
+          <TaskForm
+            modalItem={modalItem} />
+        </MyModal>
+      }
+      <Modal initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={isOpen}
+        onClose={onClose}
+      >
+        <ModalOverlay />
+        <ModalContent top={'25vh'}>
+          <ModalHeader>Добавить задачу</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormControl>
+              <FormLabel>Задача</FormLabel>
+              <Input value={task} onChange={event => setTask(event.target.value)} ref={initialRef} placeholder='Название...' />
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme='blue' mr={3} onClick={() => addTaskToColumn(idColumn)}>
+              Сохранить
+            </Button>
+            <Button onClick={onClose}>Отмена</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </DragDropContext>
   )
 }
