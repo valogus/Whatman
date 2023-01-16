@@ -97,9 +97,9 @@ exports.addCommentToTask = async (req, res) => {
 };
 
 exports.addTaskToColumn = async (req, res) => {
-  const { title, project_id, column_id } = req.body;
+  const { title, project_id, column_id, order } = req.body;
   if (title) {
-    const newTask = await Task.create({ title, project_id, column_id });
+    const newTask = await Task.create({ title, project_id, column_id, order });
     res.status(201).json(newTask);
   } else {
     res.status(400).json({ created: false });

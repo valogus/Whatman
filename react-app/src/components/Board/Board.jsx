@@ -150,13 +150,13 @@ export default function Board() {
     // console.log(column, 'column')
   }
 
-  function addTaskToColumn(columnId) {
+  function addTaskToColumn(board) {
     fetch('/api/tasks', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'
       },
-      body: JSON.stringify({ title: task, column_id: columnId, project_id: id })
+      body: JSON.stringify({ title: task, column_id: board.id, project_id: id, order: board.Tasks.length })
     })
       .then(res => res.json())
       .then(task => {
@@ -200,14 +200,12 @@ export default function Board() {
               {item.title}
               <div>
              { board.id} {i}
-                <img src={pen} className={styles.pen} alt={'pen'} />
               </div>
              
             </div>
-            </div>}
-                   <Button colorScheme='teal' variant='outline' onClick={() => { onOpen(); setIdColumn(board.id) }}>
-            +
-          </Button>
+            </div>
+            }
+                
             </Draggable>
           )}{provided.placeholder}</div> }
           
@@ -242,7 +240,9 @@ export default function Board() {
         </ModalContent>
       </Modal>
           
-          
+      <Button colorScheme='teal' variant='outline' onClick={() => { onOpen(); setIdColumn(board) }}>
+            +
+          </Button>   
         </div>}
    
         </Draggable>)
