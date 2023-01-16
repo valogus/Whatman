@@ -157,18 +157,20 @@ export default function Board() {
               {item.title}
             </Button>
           )}
-          {
-            modalItem && <MyModal visible={modalItem !== null} setVisible={setModalItem}>
-              <TaskForm
-                modalItem={modalItem} />
-            </MyModal>
-          }
+
           <Button colorScheme='teal' variant='outline' onClick={() => { onOpen(); setIdColumn(board.id) }}>
             +
           </Button>
         </div>
 
       )}
+
+      {
+        modalItem && <MyModal visible={modalItem !== null} setVisible={setModalItem}>
+          <TaskForm
+            modalItem={modalItem} />
+        </MyModal>
+      }
       <Modal initialFocusRef={initialRef}
         finalFocusRef={finalRef}
         isOpen={isOpen}
