@@ -3,7 +3,6 @@ import styles from './Board.module.css';
 import { Button, FormControl, FormLabel, Input, useDisclosure } from '@chakra-ui/react'
 import MyModal from '../Modal/MyModal'
 import TaskForm from '../TaskFrom/TaskFrom'
-import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { useParams } from 'react-router-dom';
 import {
   Modal,
@@ -14,6 +13,7 @@ import {
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react'
+import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd'
 
 
 
@@ -32,9 +32,6 @@ export default function Board() {
   const [modalItem, setModalItem] = useState(null);
   const [task, setTask] = useState('')
 
-  const [currentBoard, setCurrentBoard] = useState(null)
-  const [currentItem, setCurrentItem] = useState(null)
-
 
   useEffect(() => {
     const abortController = new AbortController()
@@ -48,54 +45,109 @@ export default function Board() {
     return () => {
       abortController.abort()
     }
+
   }, [flag]);
 
-  function dragOverHandler(e) {
-    e.preventDefault()
-    if (e.target.className === styles.item) {
-      e.target.style.boxShadow = '0 4px 3px gray'
-    }
-  }
 
-  function dragLeaveHandler(e) {
-    e.target.style.boxShadow = 'none'
-  }
+  const onDragEnd = (result) => {
+   
+    const {destination, source, draggableId, type} = result;
+    console.log(result)
+    if(!destination) return;
+    if (source.droppableId === destination.droppableId && 
+      destination.index === source.index){
+        return
+      }
+    // перемещение колонок
+    if(type === 'column'){
+      console.log(result)
 
-  function dragStartHandler(e, board, item) {
-    setCurrentBoard(board)
-    setCurrentItem(item)
-  }
-
-  function dragEndHandler(e) {
-    e.target.style.boxShadow = 'none'
-  }
-
-
-  function dropCardHandler(e, board) {
-    board.Tasks.push(currentItem)
-    currentItem['column_id'] = board.id
-    fetch(`/api/tasks/${currentItem.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify({ boardId: board.id })
-    })
-      .then(res => {
-        return res.json()
+      const newColumns = JSON.parse(JSON.stringify(boards))
+      const newElement = newColumns.splice(source.index, 1)
+      console.log(newElement)
+      newColumns.splice(destination.index, 0, newElement[0])
+      newColumns.map((el, index)=> el.order = index)
+      console.log(newColumns)
+      fetch(`/api/columns`, {
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(  newColumns )
       })
-    const currentIndex = currentBoard.Tasks.indexOf(currentItem)
-    currentBoard.Tasks.splice(currentIndex, 1)
-    setBoards(boards.map(b => {
-      if (b.id === board.id) {
-        return board
+        .then(res => {
+          return res.json()
+        })
+       setBoards(newColumns)
+      return;
+    }
+    // внимательно! поменять на индекс!
+    const column = boards[source.droppableId]
+    const start = boards[source.droppableId]
+    const finish = boards[destination.droppableId]
+    // перемещение в одной колонке
+    if(source.droppableId === destination.droppableId){
+      const newColumnTasks= [...column.Tasks]
+      const newElement = newColumnTasks.splice(source.index, 1)
+       newColumnTasks.splice(destination.index, 0, newElement[0])
+       newColumnTasks.map((el, index)=> el.order = index)
+       const sendAllTasks = [];
+       fetch(`/api/tasks/${newElement[0].id}`, {
+       method: 'PUT',
+       headers: {
+         'Content-type': 'application/json',
+       },
+       body: JSON.stringify(  newColumnTasks )
+     })
+       .then(res => {
+         return res.json()
+       })
+      
+      const newColumn = {
+        ...column,
+        Tasks: newColumnTasks
       }
-      if (b.id === currentBoard.id) {
-        return currentBoard
-      }
-      return b
-    }))
-    e.target.style.boxShadow = 'none'
+      const newState = JSON.parse(JSON.stringify(boards))
+      
+      newState.splice(destination.droppableId, 1, newColumn )
+      console.log(newState , 'column')
+         setBoards(newState)
+         return;
+    }
+    //перемещение в нескольких column_id?
+    const startColumnTasks= [...start.Tasks]
+    const newElement = startColumnTasks.splice(source.index, 1)
+    newElement[0].column_id = Number(finish.id)
+    const oldColumn = {
+      ...start,
+      Tasks: startColumnTasks
+    }
+    const finishColumnTasks = [...finish.Tasks]
+    finishColumnTasks.splice(destination.index, 0, newElement[0])
+    const newColumn = {
+      ...finish,
+      Tasks: finishColumnTasks
+    }
+      startColumnTasks.map((el, index)=> el.order = index)
+      finishColumnTasks.map((el, index)=> el.order = index)
+       const sendAllTasks = startColumnTasks.concat(finishColumnTasks);
+    fetch(`/api/tasks/${newElement[0].id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-type': 'application/json',
+    },
+    body: JSON.stringify(  sendAllTasks )
+  })
+    .then(res => {
+      return res.json()
+    })
+    console.log(newColumn)
+    const newState = JSON.parse(JSON.stringify(boards))
+    newState.splice(source.droppableId, 1, oldColumn )
+    newState.splice(destination.droppableId, 1, newColumn)
+    console.log(newState, 'NEW')
+       setBoards(newState)
+    // console.log(column, 'column')
   }
 
   function addTaskToColumn(columnId) {
@@ -115,34 +167,52 @@ export default function Board() {
   }
 
   return (
-    <div className={styles.app}>
-      {boards.map(board =>
-        <div className={styles.board} onDragOver={(e) => dragOverHandler(e)}
-          onDrop={(e) => dropCardHandler(e, board)} key={board.id}>
-          <div className={styles.board__title}>{board.title}</div>
-          {board.Tasks?.map(item => item['column_id'] === board.id &&
-            <Button key={item.id}
-              onDragOver={(e) => dragOverHandler(e)}
-              onDragLeave={(e) => dragLeaveHandler(e)}
-              onDragStart={(e) => dragStartHandler(e, board, item)}
-              onDragEnd={(e) => dragEndHandler(e)}
-              // onDrop={(e) => dropHandler(e, board, item)}
-              draggable={true}
+
+       <DragDropContext onDragEnd={onDragEnd}>
+       <Droppable droppableId='all-columns' direction='horizontal' type ='column'>
+        {(provided)=><div className={styles.app}
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            >{boards.map((board, index) =>
+       ( <Draggable key={board.id} draggableId={board.id.toString()} index={index}>
+          {(provided)=><div 
+          className={styles.board} 
+          {...provided.draggableProps}
+          ref={provided.innerRef}
+           >
+          <div  {...provided.dragHandleProps} 
+          className={styles.board__title}>{board.title}</div>
+          <Droppable droppableId={`${index}`}>
+            {(provided)=><div 
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            type='task'
+            >
+            {board.Tasks?.map((item, i) =>
+            <Draggable key={item.id} draggableId={`task-${item.id}`} index={i}>
+              {(provided, snapshot)=> <div 
+              ref={provided.innerRef} {...provided.draggableProps}>  
+              <div 
+              {...provided.dragHandleProps}
               className={styles.item}
               onClick={() => setModalItem(item)}
             >
               {item.title}
-            </Button>
-          )}
-
-          <Button colorScheme='teal' variant='outline' onClick={() => { onOpen(); setIdColumn(board.id) }}>
+              <div>
+             { board.id} {i}
+                <img src={pen} className={styles.pen} alt={'pen'} />
+              </div>
+             
+            </div>
+            </div>}
+                   <Button colorScheme='teal' variant='outline' onClick={() => { onOpen(); setIdColumn(board.id) }}>
             +
           </Button>
-        </div>
-
-      )}
-
-      {
+            </Draggable>
+          )}{provided.placeholder}</div> }
+          
+          </Droppable>
+            {
         modalItem && <MyModal visible={modalItem !== null} setVisible={setModalItem}>
           <TaskForm
             modalItem={modalItem} />
@@ -171,6 +241,14 @@ export default function Board() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </div>
+          
+          
+        </div>}
+   
+        </Draggable>)
+       )}{provided.placeholder}</div>}
+     
+       </Droppable>
+       </DragDropContext>
   )
 }

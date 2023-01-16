@@ -27,3 +27,20 @@ exports.loginUser = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+// router.route('/logout')
+//   .get((req, res) => {
+//     const { userId } = req.session;
+
+//     if (userId) {
+//       try {
+//         req.session.destroy();
+//         res.clearCookie('user_uid');
+//         res.sendStatus(200);
+//       } catch (error) {
+//         res.json({ error: error.message });
+//       }
+//     } else {
+//       res.redirect('/');
+//     }
+//   });
