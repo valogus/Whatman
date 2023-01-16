@@ -1,6 +1,7 @@
 const router = require('express').Router();
-const { boardColumns } = require('../controllers/columnsRoute');
+const { boardColumns, columnPut } = require('../controllers/columnsRoute');
 
 router.get('/:id', boardColumns);
+router.put('/', columnPut);
 
 module.exports = router;
