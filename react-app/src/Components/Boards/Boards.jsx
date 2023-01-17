@@ -5,11 +5,7 @@ import { Flex, Center, ChakraProvider, Text, Link } from '@chakra-ui/react';
 import style from './style.module.css'
 
 export default function Boards({ board }) {
-  // const userId = useSelector((session) => session.auth.userId)
-  // const userName = useSelector((session) => session.auth.userName)
   const fon = JSON.parse(board.fon)
-  console.log("▶ ⇛ fonColor", fon?.color);
-  console.log("▶ ⇛ fonImage", fon?.image);
 
   return (
     <>
@@ -29,7 +25,7 @@ export default function Boards({ board }) {
               textDecoration={'none'}
             >
               <Text fontSize='2xl' textAlign={'center'}>{board.title}</Text>
-        </Link>
+            </Link>
           </Center>
           {/* <Spacer /> */}
 

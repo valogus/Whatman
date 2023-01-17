@@ -27,15 +27,13 @@ exports.boardsUser = async (req, res) => {
 
     res.status(200).json([projects, partnerBoards]);
   } catch (error) {
-    res.status(500).end();
+    res.status(500).json({ msg: 'Ошибка при получении досок' });
   }
 };
 
 // Добавление Доски
 // router.post('/',
 exports.addBoard = async (req, res) => {
-  console.log('ADD BOARD', req.body);
-
   try {
     const newBoard = await Project.create(
       { title: req.body.title, author: req.body.author, fon: JSON.stringify(req.body.fon) },

@@ -57,7 +57,6 @@ export default function AddBoardModal(props) {
   }
   const changeFonColor = (e) => {
     setColorFon(e.target.value)
-    console.log("CHAnge color Funct VALUE", e.target.value);
     if (e.target.value === '#ffffff') { colorHandler({ none: true }); return }
     colorHandler({ color: e.target.value })
   }
@@ -96,9 +95,6 @@ export default function AddBoardModal(props) {
         className={style.custom_modal}>
         <ModalOverlay />
         <ModalContent maxW="60%">
-          {console.log("FON", fon)}
-          {console.log("COLORFON", colorFon)}
-          {console.log("colorImage", colorImage)}
           <ModalHeader
 
             style={Boolean(fon.color)
