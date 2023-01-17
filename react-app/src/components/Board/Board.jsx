@@ -15,7 +15,8 @@ import {
 } from '@chakra-ui/react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { useSelector } from 'react-redux';
-
+import AddColumn from './addColumn/addColumn';
+import AddUser from'./addUser/AddUser'
 
 
 export default function Board() {
@@ -34,6 +35,7 @@ export default function Board() {
   const [modalItem, setModalItem] = useState(null);
   const [task, setTask] = useState('')
   const { userId } = useSelector((session) => session.auth)
+
 
   useEffect(() => {
     const abortController = new AbortController()
@@ -186,10 +188,27 @@ export default function Board() {
         }
       })
   }
+  function removeColumn(id) {
+   console.log(id)
+    fetch(`/api/columns/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.deleted) {
+          setBoards((prev)=>[...prev].filter(column => column.id !== id))
+        }
+      })
+  }
+  console.log(boards)
 
   return (
 
     <DragDropContext onDragEnd={onDragEnd}>
+        <AddUser/>
       <Droppable droppableId='all-columns' direction='horizontal' type='column'>
         {(provided) => <div className={styles.app}
           ref={provided.innerRef}
@@ -203,6 +222,9 @@ export default function Board() {
           >
             <div  {...provided.dragHandleProps}
               className={styles.board__title}>{board.title}</div>
+              <Button borderRadius="50%" pt={1} ml={1} type='button' variant='ghost' onClick={() => removeColumn(board.id)}>
+                        ✖️
+                  </Button>
             <Droppable droppableId={`${index}`}>
               {(provided) => <div className={styles.droppableTasks}
                 ref={provided.innerRef}
@@ -252,7 +274,9 @@ export default function Board() {
           </div>}
 
         </Draggable>)
-        )}{provided.placeholder}</div>}
+        
+        )}{provided.placeholder}               
+        <AddColumn boards={boards}setBoards={setBoards}/></div>}
 
 
 
@@ -269,6 +293,7 @@ export default function Board() {
         isOpen={isOpen}
         onClose={onClose}
       >
+     
         <ModalOverlay />
         <ModalContent top={'25vh'}>
           <ModalHeader>Добавить задачу</ModalHeader>
