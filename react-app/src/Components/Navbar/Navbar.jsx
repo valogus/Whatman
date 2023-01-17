@@ -34,7 +34,7 @@ export default function Navbar() {
         {userName &&
           (<>
             <li>
-            <NavLink to="/">
+            <NavLink to="/myTasks">
             Задачи
           </NavLink>
           </li>

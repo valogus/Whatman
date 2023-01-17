@@ -27,6 +27,7 @@ const logoutRout = require('./routes/logout');
 
 const registrationRout = require('./routes/registration');
 const loginRout = require('./routes/login');
+const myTasks = require('./routes/myTasks');
 
 dbCheck();
 
@@ -67,6 +68,7 @@ app.use('/api/board', boardRouter);
 app.use('/api/registration', registrationRout);
 app.use('/api/login', loginRout);
 app.use('/', logoutRout);
+app.use('/api/myTasks', myTasks);
 
 const PORT = process.env.PORT || 3100;
 app.listen(PORT, (err) => {
