@@ -1,21 +1,31 @@
-const { Project, User } = require('../db/models');
+const { Project, UsersProject, Column } = require('../db/models');
 
 // загрузка Доски по ID user
-// router.get('/:id',
+// ! Добавить проверку причасности юзера к доске
 exports.boardsUser = async (req, res) => {
   const author = req.params?.id;
-  console.log('▶ ⇛ author', author);
   try {
     const projects = await Project.findAll(
       {
         where: { author },
-        attributes: ['id', 'title'],
-        include: { model: User, where: { id: author }, attributes: ['email', 'login'] },
+        attributes: ['id', 'title', 'fon'],
+        // include: { model: UsersProject, where: { id: author }, attributes: ['email', 'login'] },
         raw: true,
       },
     );
-    console.log('▶ ⇛ projects', projects);
-    res.status(200).json(projects);
+
+    // Проекты где вы участвуете
+    const partnerRequest = await UsersProject.findAll(
+      {
+        where: { junior_id: author },
+        include: { model: Project, attributes: ['id', 'author', 'title', 'fon'] },
+      },
+    );
+
+    const partnerBoardsData = partnerRequest.map((data) => data.dataValues.Project.dataValues);
+    const partnerBoards = partnerBoardsData.filter((el) => el.author !== Number(author));
+
+    res.status(200).json([projects, partnerBoards]);
   } catch (error) {
     res.status(500).end();
   }
@@ -25,12 +35,28 @@ exports.boardsUser = async (req, res) => {
 // router.post('/',
 exports.addBoard = async (req, res) => {
   console.log('ADD BOARD', req.body);
+
   try {
-    const newBoard = await Project.create({ title: req.body.title, author: req.body.author });
-    console.log('▶ ⇛ newBoard', newBoard.dataValues);
+    const newBoard = await Project.create(
+      { title: req.body.title, author: req.body.author, fon: JSON.stringify(req.body.fon) },
+    );
+
+    await UsersProject.create({
+      junior_id: req.body.author, project_id: newBoard.id,
+    });
+
+    // newBoard.id;
+    const entries = ['К выполнению', 'В работе', 'Завершено'];
+
+    entries.map(async (entrie, ind) => {
+      await Column.create(
+        { title: entrie, project_id: newBoard.id, order: ind },
+      );
+    });
+
     res.status(200).json({ newBoard });
   } catch (error) {
     console.log(error);
-    res.status(500).end();
+    res.status(500).json({ msg: 'Ошибка при добавление новой таблицы' });
   }
 };

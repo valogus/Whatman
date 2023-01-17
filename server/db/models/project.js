@@ -39,6 +39,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       onDelete: 'CASCADE',
     },
+    fon: {
+      type: DataTypes.STRING,
+    },
     createdAt: {
       allowNull: false,
       type: DataTypes.DATE,

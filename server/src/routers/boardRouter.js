@@ -16,7 +16,7 @@ router.get('/:id', async (req, res) => {
         raw: true,
       },
     );
-    console.log('▶ ⇛ projects', projects);
+    console.log('▶ ⇛ projects ??', projects);
     res.status(200).json({ projects });
   } catch (error) {
     console.log(error);

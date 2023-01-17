@@ -10,22 +10,24 @@ import {
 } from '@chakra-ui/react'
 
 import ColorBox from '../ColorBox/ColorBox';
-// import ColorBoxTwo from '../ColorBox/ColorBox';
 import { useSelector } from 'react-redux'
 
 
 export default function AddBoardModal(props) {
 
-  const author = useSelector((session)=> session.auth.userId)
+  const author = useSelector((session) => session.auth.userId)
   const [title, setTitle] = useState('');
+  const [maxTitle, setMaxTitle] = useState(false);
   const [colorFon, setColorFon] = useState(null)
   const [colorImage, setColorImage] = useState(null)
   const [fon, setFon] = useState({})
   const initialRef = useRef(null)
 
-
   const sendForm = async () => {
-    if (!title) {
+    //! Доделать
+    if (title.length < 3) {
+      console.log('МИН 3 Символа');
+      return
     }
     try {
       const response = await fetch('/api/board', {
@@ -75,14 +77,14 @@ export default function AddBoardModal(props) {
   }
   // Проверка длины названия
   function addTitle(e) {
-    if (e.target.value.length <= 30) {
-      console.log("▶ ⇛ title", title);
+    if (e.target.value.length <= 50) {
       setTitle(e.target.value)
+      setMaxTitle(false)
+    } else {
+      setMaxTitle(true)
     }
     return
   }
-
-
 
   return (
     <ChakraProvider >
@@ -123,7 +125,7 @@ export default function AddBoardModal(props) {
                   value={title}
                   onChange={(e) => addTitle(e)}
                 /></FormLabel>
-              {/* <Text fontSize='2xl'>Максимум 30 символов</Text> */}
+              {maxTitle && <Text className={style.max_title_text}>Максимум 30 символов</Text>}
             </FormControl>
             <br></br>
             <FormLabel><Text fontSize='2xl'>Фон</Text></FormLabel>
@@ -133,11 +135,11 @@ export default function AddBoardModal(props) {
           <ModalFooter>
             <Button colorScheme='blue' mr={3} onClick={props.onClose}>
               Закрыть
-          </Button>
+            </Button>
             <Button colorScheme='teal' onClick={sendForm}>Отправить</Button>
           </ModalFooter>
         </ModalContent>
-    </Modal>
+      </Modal>
     </ChakraProvider >
 
 
