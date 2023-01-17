@@ -97,24 +97,6 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        title: 'пиво',
-        description: 'сходить купить уже пиво',
-        project_id: 1,
-        column_id: 1,
-        order: 0,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        title: 'Артем',
-        description: 'побороть лень',
-        project_id: 1,
-        column_id: 1,
-        order: 0,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
         title: 'Писать клиент',
         description: 'Я не знаю что написать2',
         project_id: 1,
@@ -151,12 +133,6 @@ module.exports = {
       },
       {
         junior_id: 1,
-        task_id: 2,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        junior_id: 3,
         task_id: 2,
         createdAt: new Date(),
         updatedAt: new Date(),
