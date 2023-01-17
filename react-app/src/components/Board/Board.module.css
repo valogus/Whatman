@@ -62,3 +62,12 @@
   border-radius: 6px;
 }
 
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+/* 
+.border {
+  border-radius: 50%;
+} */
