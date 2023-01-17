@@ -36,6 +36,9 @@
   font-weight: 700;
   padding: 15px;
 }
+.modalarea {
+  width:80%
+}
 
 .item {
   width: 100%;
