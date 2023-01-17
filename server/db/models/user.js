@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(UsersTask, { foreignKey: 'junior_id' });
       User.belongsToMany(Task, { through: Comment, foreignKey: 'UserId', otherKey: 'task_id' });
       User.hasMany(Comment, { foreingKey: 'UserId' });
+      User.hasMany(Task, { foreignKey: 'author_id' });
     }
   }
 

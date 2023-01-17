@@ -33,9 +33,10 @@ export default function Board() {
 
   const [modalItem, setModalItem] = useState(null);
   const [task, setTask] = useState('')
-  const userId = useSelector((session) => session.auth.userId)
+  const { userId, userName } = useSelector((session) => session.auth)
 
-  console.log(typeof userId)
+  console.log(userId, userName)
+
 
   useEffect(() => {
     const abortController = new AbortController()
@@ -152,7 +153,7 @@ export default function Board() {
       headers: {
         'Content-type': 'application/json'
       },
-      body: JSON.stringify({ title: task, column_id: board.id, project_id: id, order: board.Tasks.length })
+      body: JSON.stringify({ title: task, column_id: board.id, project_id: id, order: board.Tasks.length, author_id: Number(userId) })
     })
       .then(res => res.json())
       .then(task => {
@@ -210,32 +211,32 @@ export default function Board() {
                 ref={provided.innerRef}
                 {...provided.droppableProps}
                 type='task'
-                
+
               >
                 {board.Tasks?.map((item, i) =>
 
                   <Draggable key={item.id} draggableId={`task-${item.id}`} index={i}>
 
                     {(provided, snapshot) => <div
-                      ref={provided.innerRef} 
+                      ref={provided.innerRef}
                       {...provided.draggableProps}
                       isDragging={snapshot.isDragging}
                       className={styles.draggableTasks}
-                      >
+                    >
                       <div
                         {...provided.dragHandleProps}
                         className={styles.item}
-                        
+
                       >
                         <div className={styles.modalarea} onClick={() => setModalItem(item)}>
-                        {item.title}
+                          {item.title}
                         </div>
                         <Button borderRadius="50%" pt={1} ml={1} type='button' variant='ghost' onClick={() => removeTask(item.id, board)}>
-                        ✖️
-                      </Button>
+                          ✖️
+                        </Button>
 
                       </div>
-                     
+
                       {board.id} {i}
                     </div>
                     }

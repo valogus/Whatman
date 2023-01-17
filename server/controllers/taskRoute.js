@@ -32,6 +32,12 @@ exports.taskDescription = async (req, res) => {
   res.json(task);
 };
 
+exports.taskAuthor = async (req, res) => {
+  const { id } = req.params;
+  const login = await User.findByPk(id);
+  res.status(200).json(login);
+};
+
 exports.taskComments = async (req, res) => {
   const { id } = req.params;
   const comments = await Comment.findAll(
@@ -61,11 +67,11 @@ exports.addCommentToTask = async (req, res) => {
 
 exports.addTaskToColumn = async (req, res) => {
   const {
-    title, project_id, column_id, order,
+    title, project_id, column_id, order, author_id,
   } = req.body;
   if (title) {
     const newTask = await Task.create({
-      title, project_id, column_id, order, description: '',
+      title, project_id, column_id, order, description: '', author_id,
     });
     res.status(201).json(newTask);
   } else {

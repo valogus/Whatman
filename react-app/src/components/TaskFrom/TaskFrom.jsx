@@ -16,6 +16,8 @@ function TaskForm({
   const [isComment, setIsComment] = useState(false)
   const [comments, setComments] = useState([])
   const { userId, userName } = useSelector(store => store.auth);
+  const [authorName, setAuthorName] = useState('')
+
 
   useEffect(() => {
     const abortController = new AbortController()
@@ -27,7 +29,19 @@ function TaskForm({
     return () => {
       abortController.abort()
     }
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    const abortController = new AbortController()
+
+    fetch(`/api/tasks/task/author/${modalItem.author_id}`)
+      .then(res => res.json())
+      .then(res => setAuthorName(res.login))
+
+    return () => {
+      abortController.abort()
+    }
+  }, [modalItem.author_id])
 
   function cancel() {
     setDescription(false)
@@ -44,6 +58,7 @@ function TaskForm({
       })
         .then(res => res.json())
         .then(commentUser => {
+          console.log(commentUser)
           commentUser['User.login'] = userName
           setComments([commentUser, ...comments])
         })
@@ -108,7 +123,7 @@ function TaskForm({
         {
           comments.map(
             (comment, index) => <div key={comment.id}>
-              { } <hr style={{ marginBottom: '10px' }} />
+              <hr style={{ marginBottom: '10px' }} />
               <Heading style={{ marginBottom: '1rem' }} size='sm'>{comment['User.login']}</Heading>
               <Text fontSize='sm'>{comment.title}</Text>
             </div>)
@@ -117,12 +132,12 @@ function TaskForm({
       {/* Див с блоком назначение исполнителя */}
       <div style={{ border: '1px solid grey', width: '50%' }}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <h2 style={{ padding: '0.5rem' , marginRight: '50px' }}>Исполнитель</h2>
+          <h2 style={{ padding: '0.5rem', marginRight: '50px' }}>Исполнитель</h2>
           <span>Не назначено</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: '' }}>
           <h2 style={{ padding: '0.5rem', marginRight: '50px' }}>Атвор</h2>
-          <span>Создатель задачи</span>
+          <span>{authorName}</span>
         </div>
       </div>
     </div >
