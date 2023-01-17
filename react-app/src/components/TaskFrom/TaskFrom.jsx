@@ -4,7 +4,7 @@ import { Heading, Textarea } from '@chakra-ui/react'
 import { Button } from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
 
-import { Text } from '@chakra-ui/react'
+import { Text, Select } from '@chakra-ui/react'
 
 
 function TaskForm({
@@ -16,6 +16,33 @@ function TaskForm({
   const [isComment, setIsComment] = useState(false)
   const [comments, setComments] = useState([])
   const { userId, userName } = useSelector(store => store.auth);
+  const [authorName, setAuthorName] = useState('')
+  const [isExecutor, setIsExecutor] = useState(false)
+  const [executor, setExecutor] = useState('')
+  const [executors, setExecutors] = useState([])
+
+  useEffect(() => {
+    const abortController = new AbortController()
+
+    fetch(`/api/projects/${modalItem.project_id}/executors`, { signal: abortController.signal })
+      .then(res => res.json())
+      .then(users => setExecutors(users))
+
+    return () => {
+      abortController.abort()
+    }
+  }, [modalItem.project_id])
+
+  useEffect(() => {
+    const abortController = new AbortController()
+    fetch(`/api/tasks/${modalItem.id}/executors`, { signal: abortController.signal })
+      .then(res => res.json())
+      .then(user => setExecutor(user.login))
+    return () => {
+      abortController.abort()
+    }
+  }, [modalItem.id])
+
 
   useEffect(() => {
     const abortController = new AbortController()
@@ -27,7 +54,19 @@ function TaskForm({
     return () => {
       abortController.abort()
     }
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    const abortController = new AbortController()
+
+    fetch(`/api/tasks/task/author/${modalItem.author_id}`)
+      .then(res => res.json())
+      .then(res => setAuthorName(res.login))
+
+    return () => {
+      abortController.abort()
+    }
+  }, [modalItem.author_id])
 
   function cancel() {
     setDescription(false)
@@ -64,6 +103,28 @@ function TaskForm({
         modalItem.description = task.description
         setDescription(false)
       })
+  }
+
+
+  function addExecutorToTask(exUser) {
+    setExecutor(exUser)
+    const exec = executors.find(el => {
+      if (el['User.login'] === exUser) {
+        return el;
+      }
+    })
+    fetch('/api/tasks/task/executor', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        junior_id: exec.junior_id,
+        task_id: modalItem.id
+      })
+    })
+      .then(() => setIsExecutor(false))
+
   }
 
   return (
@@ -108,7 +169,7 @@ function TaskForm({
         {
           comments.map(
             (comment, index) => <div key={comment.id}>
-              { } <hr style={{ marginBottom: '10px' }} />
+              <hr style={{ marginBottom: '10px' }} />
               <Heading style={{ marginBottom: '1rem' }} size='sm'>{comment['User.login']}</Heading>
               <Text fontSize='sm'>{comment.title}</Text>
             </div>)
@@ -117,12 +178,30 @@ function TaskForm({
       {/* Див с блоком назначение исполнителя */}
       <div style={{ border: '1px solid grey', width: '50%' }}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <h2 style={{ padding: '0.5rem' , marginRight: '50px' }}>Исполнитель</h2>
-          <span>Не назначено</span>
+          <h2 style={{ padding: '0.5rem', marginRight: '50px' }}>Исполнитель</h2>
+          {
+            isExecutor ?
+              <Select value={executor} onChange={(event) => addExecutorToTask(event.target.value)}>
+                <option disabled value="">Назначиь исполнителя</option>
+                {executors.map(
+                  (login) => <option key={new Date()} value={login['User.login']}>{login['User.login']}</option>
+                )}
+              </Select>
+              :
+              <div>
+                {
+                  !executor ?
+                    <span onMouseDown={() => setIsExecutor(true)}> Назначить исполнителя</span>
+                    :
+                    <span onMouseDown={() => setIsExecutor(true)}>{executor}</span>
+                }
+              </div>
+          }
         </div>
+
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: '' }}>
-          <h2 style={{ padding: '0.5rem', marginRight: '50px' }}>Атвор</h2>
-          <span>Создатель задачи</span>
+          <h2 style={{ padding: '0.5rem', marginRight: '50px' }}>Автор</h2>
+          <span>{authorName}</span>
         </div>
       </div>
     </div >

@@ -12,7 +12,6 @@ import MyTasks from './components/MyTasks/MyTasks'
 function App() {
 
   const { userName } = useSelector(store => store.auth);
-  console.log("▶ ⇛ userName", userName);
   return (
 
     <div className="App">
