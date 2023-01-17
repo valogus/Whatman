@@ -24,8 +24,8 @@ const taskRouter = require('./routes/taskRoute');
 const columnsRouter = require('./routes/columnsRoute');
 const checkAuth = require('./src/routers/checkAuth');
 const logoutRout = require('./routes/logout');
+const projectsRouter = require('./routes/projectsRoute');
 const usersRoute = require('./routes/usersRoute');
-
 const registrationRout = require('./routes/registration');
 const loginRout = require('./routes/login');
 const myTasks = require('./routes/myTasks');
@@ -62,6 +62,7 @@ app.use((req, res, next) => {
 });
 
 // getUsersByTask();
+app.use('/api/projects', projectsRouter);
 app.use('/api/columns', columnsRouter);
 app.use('/api/tasks', taskRouter);
 app.use('/api/board', boardRouter);
