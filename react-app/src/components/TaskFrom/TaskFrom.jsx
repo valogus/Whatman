@@ -85,7 +85,7 @@ function TaskForm({
             {!value ?
               <div className={style.nonValue} onMouseDown={() => setDescription(true)}>Добавить описание...</div>
               :
-              <div style={{ width: '100%', height: '20px', backgroundColor: 'white', margin: '5px 0', borderRadius: '5px', cursor: 'text', fontSize: '12px', fontWeight: 'bold' }} onMouseDown={() => setDescription(true)}>
+              <div style={{ width: '200px', height: '20px', backgroundColor: 'white', margin: '5px 0', borderRadius: '5px', cursor: 'text', fontSize: '12px', fontWeight: 'bold' }} onMouseDown={() => setDescription(true)}>
                 {value}
               </div>
             }
@@ -113,6 +113,17 @@ function TaskForm({
               <Text fontSize='sm'>{comment.title}</Text>
             </div>)
         }
+      </div>
+      {/* Див с блоком назначение исполнителя */}
+      <div style={{ border: '1px solid grey', width: '50%' }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <h2 style={{ padding: '0.5rem' , marginRight: '50px' }}>Исполнитель</h2>
+          <span>Не назначено</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: '' }}>
+          <h2 style={{ padding: '0.5rem', marginRight: '50px' }}>Атвор</h2>
+          <span>Создатель задачи</span>
+        </div>
       </div>
     </div >
   );

@@ -14,6 +14,7 @@ import {
   ModalCloseButton,
 } from '@chakra-ui/react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { useSelector } from 'react-redux';
 
 
 
@@ -31,7 +32,9 @@ export default function Board() {
 
   const [modalItem, setModalItem] = useState(null);
   const [task, setTask] = useState('')
+  const userId = useSelector((session) => session.auth.userId)
 
+  console.log(typeof userId)
 
   useEffect(() => {
     const abortController = new AbortController()
