@@ -14,6 +14,7 @@ import {
   ModalCloseButton,
 } from '@chakra-ui/react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { useSelector } from 'react-redux';
 
 
 
@@ -31,7 +32,9 @@ export default function Board() {
 
   const [modalItem, setModalItem] = useState(null);
   const [task, setTask] = useState('')
+  const userId = useSelector((session) => session.auth.userId)
 
+  console.log(typeof userId)
 
   useEffect(() => {
     const abortController = new AbortController()
@@ -158,6 +161,33 @@ export default function Board() {
       })
   }
 
+  function removeTask(id, board) {
+    const result = boards.map((column => {
+      if (column.id === board.id) {
+        column.Tasks = column.Tasks.filter(task => task.id !== id)
+        column.Tasks.map((el, index) => el.order = index)
+        return column
+      } else {
+        return column
+      }
+    }))
+
+
+    fetch(`/api/tasks/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(result[board.id - 1])
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.deleted) {
+          setBoards(result)
+        }
+      })
+  }
+
   return (
 
     <DragDropContext onDragEnd={onDragEnd}>
@@ -181,8 +211,9 @@ export default function Board() {
                 type='task'
               >
                 {board.Tasks?.map((item, i) =>
+
                   <Draggable key={item.id} draggableId={`task-${item.id}`} index={i}>
-                    {(provided, snapshot) => <div
+                    {(provided, snapshot) => <div className={styles.flex}
                       ref={provided.innerRef} {...provided.draggableProps}>
                       <div
                         {...provided.dragHandleProps}
@@ -190,15 +221,19 @@ export default function Board() {
                         onClick={() => setModalItem(item)}
                       >
                         {item.title}
-                        <div>
-                          {board.id} {i}
-                        </div>
+
 
                       </div>
+                      <Button borderRadius="50%" pt={1} ml={1} type='button' variant='ghost' onClick={() => removeTask(item.id, board)}>
+                        ✖️
+                      </Button>
+                      {board.id} {i}
                     </div>
                     }
 
                   </Draggable>
+
+
                 )}{provided.placeholder}</div>}
 
             </Droppable>
@@ -214,7 +249,7 @@ export default function Board() {
 
 
 
-      </Droppable>
+      </Droppable >
 
       {
         modalItem && <MyModal visible={modalItem !== null} setVisible={setModalItem}>
@@ -245,6 +280,6 @@ export default function Board() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </DragDropContext>
+    </DragDropContext >
   )
 }
