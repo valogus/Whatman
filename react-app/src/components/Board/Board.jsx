@@ -33,10 +33,7 @@ export default function Board() {
 
   const [modalItem, setModalItem] = useState(null);
   const [task, setTask] = useState('')
-  const { userId, userName } = useSelector((session) => session.auth)
-
-  console.log(userId, userName)
-
+  const { userId } = useSelector((session) => session.auth)
 
   useEffect(() => {
     const abortController = new AbortController()

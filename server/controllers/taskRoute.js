@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
-const e = require('express');
-const { Task, Comment, User } = require('../db/models');
+const {
+  Task, Comment, User, UsersTask,
+} = require('../db/models');
 
 exports.taskPut = async (req, res) => {
   console.log(req.body);
@@ -92,4 +93,28 @@ exports.deleteTask = async (req, res) => {
   } else {
     res.status(404).json({ delete: false });
   }
+};
+
+exports.addExecutorToTask = async (req, res) => {
+  const { junior_id, task_id } = req.body;
+  if (junior_id && task_id) {
+    await UsersTask.create({ junior_id, task_id });
+    res.status(201).json({ created: true });
+  } else {
+    res.status(400).json({ created: false });
+  }
+};
+
+exports.taskExecutor = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findOne({
+    raw: true,
+    include: {
+      model: UsersTask,
+      where: {
+        task_id: id,
+      },
+    },
+  });
+  res.status(200).json(user);
 };

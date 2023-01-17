@@ -15,7 +15,6 @@ exports.boardColumns = async (req, res) => {
       },
     );
     columns.sort((a, b) => a.order - b.order);
-    console.log(columns);
     res.status(200).json(columns);
   } catch (error) {
     res.status(500).end();

@@ -4,7 +4,7 @@ import { Heading, Textarea } from '@chakra-ui/react'
 import { Button } from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
 
-import { Text } from '@chakra-ui/react'
+import { Text, Select } from '@chakra-ui/react'
 
 
 function TaskForm({
@@ -17,6 +17,31 @@ function TaskForm({
   const [comments, setComments] = useState([])
   const { userId, userName } = useSelector(store => store.auth);
   const [authorName, setAuthorName] = useState('')
+  const [isExecutor, setIsExecutor] = useState(false)
+  const [executor, setExecutor] = useState('')
+  const [executors, setExecutors] = useState([])
+
+  useEffect(() => {
+    const abortController = new AbortController()
+
+    fetch(`/api/projects/${modalItem.project_id}/executors`, { signal: abortController.signal })
+      .then(res => res.json())
+      .then(users => setExecutors(users))
+
+    return () => {
+      abortController.abort()
+    }
+  }, [modalItem.project_id])
+
+  useEffect(() => {
+    const abortController = new AbortController()
+    fetch(`/api/tasks/${modalItem.id}/executors`, { signal: abortController.signal })
+      .then(res => res.json())
+      .then(user => setExecutor(user.login))
+    return () => {
+      abortController.abort()
+    }
+  }, [modalItem.id])
 
 
   useEffect(() => {
@@ -58,7 +83,6 @@ function TaskForm({
       })
         .then(res => res.json())
         .then(commentUser => {
-          console.log(commentUser)
           commentUser['User.login'] = userName
           setComments([commentUser, ...comments])
         })
@@ -79,6 +103,28 @@ function TaskForm({
         modalItem.description = task.description
         setDescription(false)
       })
+  }
+
+
+  function addExecutorToTask(exUser) {
+    setExecutor(exUser)
+    const exec = executors.find(el => {
+      if (el['User.login'] === exUser) {
+        return el;
+      }
+    })
+    fetch('/api/tasks/task/executor', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        junior_id: exec.junior_id,
+        task_id: modalItem.id
+      })
+    })
+      .then(() => setIsExecutor(false))
+
   }
 
   return (
@@ -133,10 +179,28 @@ function TaskForm({
       <div style={{ border: '1px solid grey', width: '50%' }}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <h2 style={{ padding: '0.5rem', marginRight: '50px' }}>Исполнитель</h2>
-          <span>Не назначено</span>
+          {
+            isExecutor ?
+              <Select value={executor} onChange={(event) => addExecutorToTask(event.target.value)}>
+                <option disabled value="">Назначиь исполнителя</option>
+                {executors.map(
+                  (login) => <option key={new Date()} value={login['User.login']}>{login['User.login']}</option>
+                )}
+              </Select>
+              :
+              <div>
+                {
+                  !executor ?
+                    <span onMouseDown={() => setIsExecutor(true)}> Назначить исполнителя</span>
+                    :
+                    <span onMouseDown={() => setIsExecutor(true)}>{executor}</span>
+                }
+              </div>
+          }
         </div>
+
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: '' }}>
-          <h2 style={{ padding: '0.5rem', marginRight: '50px' }}>Атвор</h2>
+          <h2 style={{ padding: '0.5rem', marginRight: '50px' }}>Автор</h2>
           <span>{authorName}</span>
         </div>
       </div>
