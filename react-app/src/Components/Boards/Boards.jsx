@@ -1,18 +1,36 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux'
+import { Link as ReachLink } from 'react-router-dom';
+import { Flex, Center, ChakraProvider, Text, Link } from '@chakra-ui/react';
 import style from './style.module.css'
 
 export default function Boards({ board }) {
+  const fon = JSON.parse(board.fon)
+
   return (
     <>
-      <div className={style.boards_wrap}>
-        <Link to={`/board/${board.id}`} className={style.board_block}>
-          <h3>{board.id}</h3>
-          <h3>{board.title}</h3>
-          <h3>{board['User.email']}</h3>
-          <h3>{board['User.login']}</h3>
-        </Link>
-      </div>
+      <ChakraProvider>
+        <Flex
+          className={style.boards_wrap}
+        >
+          {/* <Spacer /> */}
+          <Center
+            className={style.board_block}
+            bgColor={fon?.color}
+            bgImage={fon?.image}
+          >
+            <Link as={ReachLink} to={`/board/${board.id}`}
+              w={'100%'}
+              h={'100%'}
+              textDecoration={'none'}
+            >
+              <Text fontSize='2xl' textAlign={'center'}>{board.title}</Text>
+            </Link>
+          </Center>
+          {/* <Spacer /> */}
+
+        </Flex>
+      </ChakraProvider>
     </>
 
   )

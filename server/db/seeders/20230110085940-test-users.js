@@ -17,9 +17,9 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        login: 'John3 Dae',
-        password: 'false123',
-        email: '2wqwe@mail.ru',
+        login: 'qqq',
+        password: '123',
+        email: 'q@q',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -35,6 +35,20 @@ module.exports = {
       {
         title: 'Jirlo',
         author: 2,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        title: 'Jillo',
+        author: 3,
+        fon: '{"image": "/img/pattern-squares-aspire.png"}',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        title: 'Jillo2',
+        author: 3,
+        fon: '{"color": "#4299E1"}',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
