@@ -19,6 +19,7 @@ import { useSelector } from 'react-redux';
 
 
 export default function Board() {
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [idColumn, setIdColumn] = useState(0);
 
@@ -205,16 +206,22 @@ export default function Board() {
             <div  {...provided.dragHandleProps}
               className={styles.board__title}>{board.title}</div>
             <Droppable droppableId={`${index}`}>
-              {(provided) => <div
+              {(provided) => <div className={styles.droppableTasks}
                 ref={provided.innerRef}
                 {...provided.droppableProps}
                 type='task'
+                
               >
                 {board.Tasks?.map((item, i) =>
 
                   <Draggable key={item.id} draggableId={`task-${item.id}`} index={i}>
-                    {(provided, snapshot) => <div className={styles.flex}
-                      ref={provided.innerRef} {...provided.draggableProps}>
+
+                    {(provided, snapshot) => <div
+                      ref={provided.innerRef} 
+                      {...provided.draggableProps}
+                      isDragging={snapshot.isDragging}
+                      className={styles.draggableTasks}
+                      >
                       <div
                         {...provided.dragHandleProps}
                         className={styles.item}
