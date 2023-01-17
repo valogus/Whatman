@@ -225,15 +225,17 @@ export default function Board() {
                       <div
                         {...provided.dragHandleProps}
                         className={styles.item}
-                        onClick={() => setModalItem(item)}
+                        
                       >
+                        <div className={styles.modalarea} onClick={() => setModalItem(item)}>
                         {item.title}
-
-
-                      </div>
-                      <Button borderRadius="50%" pt={1} ml={1} type='button' variant='ghost' onClick={() => removeTask(item.id, board)}>
+                        </div>
+                        <Button borderRadius="50%" pt={1} ml={1} type='button' variant='ghost' onClick={() => removeTask(item.id, board)}>
                         ✖️
                       </Button>
+
+                      </div>
+                     
                       {board.id} {i}
                     </div>
                     }
