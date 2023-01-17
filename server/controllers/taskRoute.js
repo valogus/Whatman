@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+const e = require('express');
 const { Task, Comment, User } = require('../db/models');
 
 exports.taskPut = async (req, res) => {
@@ -69,5 +70,20 @@ exports.addTaskToColumn = async (req, res) => {
     res.status(201).json(newTask);
   } else {
     res.status(400).json({ created: false });
+  }
+};
+
+exports.deleteTask = async (req, res) => {
+  const delTask = await Task.destroy({ where: { id: Number(req.params.id) } });
+  if (delTask) {
+    const { id, column_id, order } = req.body;
+    await Task.update(
+      { column_id, order },
+      { where: { id } },
+    );
+
+    res.json({ deleted: true });
+  } else {
+    res.status(404).json({ delete: false });
   }
 };
