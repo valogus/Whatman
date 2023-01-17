@@ -239,7 +239,6 @@ export default function Board() {
                     {(provided, snapshot) => <div
                       ref={provided.innerRef}
                       {...provided.draggableProps}
-                      isDragging={snapshot.isDragging}
                       className={styles.draggableTasks}
                     >
                       <div
