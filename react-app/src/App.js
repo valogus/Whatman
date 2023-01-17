@@ -7,6 +7,8 @@ import Auth from './components/Auth/Auth.jsx';
 import { useSelector } from 'react-redux';
 import Navbar from './components/Navbar/Navbar'
 import Board from './components/Board/Board';
+import MyTasks from './components/MyTasks/MyTasks'
+
 
 function App() {
 
@@ -26,6 +28,7 @@ function App() {
         <Route path="/board/:id" element={userName ? <ChakraProvider>
           <Board />
         </ChakraProvider> : <Navigate to={'/auth'} />} />
+        <Route path='/myTasks' element={userName ? <MyTasks/> : <Navigate to={'/auth'} />} />
       </Routes>
     </div>
   );

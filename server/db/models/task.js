@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       Task.belongsToMany(User, { through: Comment, foreignKey: 'task_id', otherKey: 'UserId' });
       Task.hasMany(Comment, { foreignKey: 'task_id' });
       Task.belongsTo(Column, { foreignKey: 'column_id' });
+      Task.belongsTo(User, { foreignKey: 'author_id' });
     }
   }
 
@@ -52,6 +53,14 @@ module.exports = (sequelize, DataTypes) => {
     order: {
       type: DataTypes.INTEGER,
       allowNull: false,
+    },
+    author_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Users',
+        key: 'id',
+      },
     },
     createdAt: {
       allowNull: false,

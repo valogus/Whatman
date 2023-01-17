@@ -23,9 +23,12 @@ const boardRouter = require('./routes/boardRoute');
 const taskRouter = require('./routes/taskRoute');
 const columnsRouter = require('./routes/columnsRoute');
 const checkAuth = require('./src/routers/checkAuth');
-
+const logoutRout = require('./routes/logout');
+const projectsRouter = require('./routes/projectsRoute');
+const usersRoute = require('./routes/usersRoute');
 const registrationRout = require('./routes/registration');
 const loginRout = require('./routes/login');
+const myTasks = require('./routes/myTasks');
 
 dbCheck();
 
@@ -59,12 +62,16 @@ app.use((req, res, next) => {
 });
 
 // getUsersByTask();
+app.use('/api/projects', projectsRouter);
 app.use('/api/columns', columnsRouter);
 app.use('/api/tasks', taskRouter);
 app.use('/api/board', boardRouter);
 //app.use('/api/checkAuth', checkAuth);
 app.use('/api/registration', registrationRout);
 app.use('/api/login', loginRout);
+app.use('/api/users', usersRoute);
+app.use('/', logoutRout);
+app.use('/api/myTasks', myTasks);
 
 const PORT = process.env.PORT || 3100;
 app.listen(PORT, (err) => {

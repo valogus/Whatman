@@ -1,22 +1,7 @@
 /* eslint-disable camelcase */
-const { Task, Comment, User } = require('../db/models');
-
-// exports.tasksColumns = async (req, res) => {
-//   const project = req.params?.id;
-//   try {
-//     const tasks = await Task.findAll(
-//       {
-//         where: {
-//           project_id: project,
-//         },
-//         raw: true,
-//       },
-//     );
-//     res.status(200).json(tasks);
-//   } catch (error) {
-//     res.status(500).end();
-//   }
-// };
+const {
+  Task, Comment, User, UsersTask,
+} = require('../db/models');
 
 exports.taskPut = async (req, res) => {
   console.log(req.body);
@@ -28,27 +13,6 @@ exports.taskPut = async (req, res) => {
     );
   });
   await Promise.all(promises);
-  // const updateTaskPut = await Task.update(
-  //   { column_id: newElement.column_id, order: Number(newElement.order) },
-  //   {
-  //     where: {
-  //       id: Number(id),
-  //     },
-  //     raw: true,
-  //     returning: true,
-  //   },
-  // );
-  // const updateoldTaskPut = await Task.update(
-  //   { order: Number(oldElement.order) },
-  //   {
-  //     where: {
-  //       id: Number(oldElement.id),
-  //     },
-  //     raw: true,
-  //     returning: true,
-  //   },
-  // );
-  // const [, [task]] = updateTaskPut;
   res.status(200).json(promises);
 };
 
@@ -67,6 +31,12 @@ exports.taskDescription = async (req, res) => {
   );
   const [, [task]] = updateDescriptionTask;
   res.json(task);
+};
+
+exports.taskAuthor = async (req, res) => {
+  const { id } = req.params;
+  const login = await User.findByPk(id);
+  res.status(200).json(login);
 };
 
 exports.taskComments = async (req, res) => {
@@ -97,11 +67,54 @@ exports.addCommentToTask = async (req, res) => {
 };
 
 exports.addTaskToColumn = async (req, res) => {
-  const { title, project_id, column_id, order } = req.body;
+  const {
+    title, project_id, column_id, order, author_id,
+  } = req.body;
   if (title) {
-    const newTask = await Task.create({ title, project_id, column_id, order });
+    const newTask = await Task.create({
+      title, project_id, column_id, order, description: '', author_id,
+    });
     res.status(201).json(newTask);
   } else {
     res.status(400).json({ created: false });
   }
+};
+
+exports.deleteTask = async (req, res) => {
+  const delTask = await Task.destroy({ where: { id: Number(req.params.id) } });
+  if (delTask) {
+    const { id, column_id, order } = req.body;
+    await Task.update(
+      { column_id, order },
+      { where: { id } },
+    );
+
+    res.json({ deleted: true });
+  } else {
+    res.status(404).json({ delete: false });
+  }
+};
+
+exports.addExecutorToTask = async (req, res) => {
+  const { junior_id, task_id } = req.body;
+  if (junior_id && task_id) {
+    await UsersTask.create({ junior_id, task_id });
+    res.status(201).json({ created: true });
+  } else {
+    res.status(400).json({ created: false });
+  }
+};
+
+exports.taskExecutor = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findOne({
+    raw: true,
+    include: {
+      model: UsersTask,
+      where: {
+        task_id: id,
+      },
+    },
+  });
+  res.status(200).json(user);
 };

@@ -5,14 +5,17 @@ import style from './style.module.css'
 import Boards from '../Boards/Boards'
 import AddBoardModal from '../AddBoardModal/AddBoardModal'
 import { useSelector } from 'react-redux'
+
 import { useDisclosure } from '@chakra-ui/react'
-import { ChakraProvider, Button, Box, Text, Badge } from '@chakra-ui/react';
+import { ChakraProvider, Button, Box, Text, Badge, IconButton } from '@chakra-ui/react';
+
 import { AddIcon } from '@chakra-ui/icons'
 
 
 export default function Home() {
 
   const [boards, setBoards] = useState([])
+
   const [partnerBoards, setPartnerBoards] = useState([])
   const userId = useSelector((session) => session.auth.userId)
   const { isOpen, onOpen, onClose } = useDisclosure()

@@ -11,6 +11,12 @@
   align-items: center;
   justify-content: center;
 }
+.droppableTasks{
+  min-width: 300px;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+}
 
 .board {
   min-width: 300px;
@@ -29,6 +35,9 @@
   font-size: 1.5rem;
   font-weight: 700;
   padding: 15px;
+}
+.modalarea {
+  width:80%
 }
 
 .item {
@@ -56,3 +65,12 @@
   border-radius: 6px;
 }
 
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+/* 
+.border {
+  border-radius: 50%;
+} */
