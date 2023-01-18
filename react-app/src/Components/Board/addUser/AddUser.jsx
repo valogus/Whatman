@@ -23,9 +23,6 @@ export default function AddUser() {
     function getUsers(e) {
         setValue(e.target.value)
         setAttention('')
-         console.log(users)
-
-        // console.log(filteredUsers)
     }
     const filteredUsers = users.filter(user => {
         return user.login.toLowerCase().includes(value.toLowerCase())
@@ -44,10 +41,8 @@ export default function AddUser() {
     }
     const addUserHandler = (e) => {
         e.preventDefault()
-        console.log(e.target[0].value)
         const newUser = filteredUsers.find((el) => el.login === e.target[0].value)
         if (newUser) {
-            console.log(id)
             fetch(`/api/users/${newUser.id}`, {
                 method: 'PUT',
                 headers: {
@@ -60,7 +55,6 @@ export default function AddUser() {
                     return res.json()
                 })
                 .then(data => {
-                    console.log(data)
                     if (data) {
                         setAttention(`Пользователь ${e.target[0].value} успешно добавлен`)
                     }
@@ -70,7 +64,6 @@ export default function AddUser() {
 }
 return setAttention('Такого пользователя не существует') 
     }
-console.log(id)
 return (
 
     <form

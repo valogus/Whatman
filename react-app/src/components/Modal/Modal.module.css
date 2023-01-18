@@ -11,10 +11,10 @@
 .myModalContent {
   display: block;
   padding: 25px;
-  background: white;
+  background: rgb(255, 255, 255);
   border-radius: 16px;
-  width: 1200px;
-  height: 700px;
+  width: 50vw;
+  height: 60vh;
   overflow: scroll;
 }
 

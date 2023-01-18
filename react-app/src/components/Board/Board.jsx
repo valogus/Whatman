@@ -20,6 +20,7 @@ import AddColumn from './addColumn/addColumn';
 import AddUser from'./addUser/AddUser'
 import styled from 'styled-components';
 
+
 export default function Board() {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -36,6 +37,7 @@ export default function Board() {
   const [modalItem, setModalItem] = useState(null);
   const [task, setTask] = useState('')
   const { userId } = useSelector((session) => session.auth)
+
   const Wrapper = styled.div`
   
   display: flex;
@@ -103,6 +105,7 @@ justify-content: space-between;
     }
   }
 
+
   useEffect(() => {
     getAllBoards()
     const abortController = new AbortController()
@@ -123,7 +126,6 @@ justify-content: space-between;
   const onDragEnd = (result) => {
 
     const { destination, source, draggableId, type } = result;
-    console.log(result)
     if (!destination) return;
     if (source.droppableId === destination.droppableId &&
       destination.index === source.index) {
@@ -256,7 +258,6 @@ justify-content: space-between;
       })
   }
   function removeColumn(id) {
-   console.log(id)
     fetch(`/api/columns/${id}`, {
       method: 'DELETE',
       headers: {
@@ -266,13 +267,13 @@ justify-content: space-between;
       .then(res => res.json())
       .then(data => {
         if (data.deleted) {
-          setBoards((prev)=>[...prev].filter(column => column.id !== id))
+          setBoards((prev) => [...prev].filter(column => column.id !== id))
         }
       })
   }
-  console.log(boards)
 
   return (
+
     <div className={styles.main}>
     <AddUser/>
  <Flex bgColor={fon?.color}
@@ -284,6 +285,7 @@ justify-content: space-between;
     onDragEnd={onDragEnd} 
     >
        
+
       <Droppable droppableId='all-columns' direction='horizontal' type='column'>
         {(provided) => <div className={styles.app}
           ref={provided.innerRef}
@@ -298,6 +300,7 @@ justify-content: space-between;
             ref={provided.innerRef}
             isDragging={snapshot.isDragging}
           >
+
             <Title  {...provided.dragHandleProps}
             isDragging={snapshot.isDragging}
               >{board.title}              <Button borderRadius="50%" pt={1} ml={1} type='button' variant='ghost' onClick={() => removeColumn(board.id)}>
@@ -346,6 +349,7 @@ justify-content: space-between;
             </Button>
           </Container>}
 
+
         </Draggable> )
         
         )}{provided.placeholder}               
@@ -366,7 +370,7 @@ justify-content: space-between;
         isOpen={isOpen}
         onClose={onClose}
       >
-     
+
         <ModalOverlay />
         <ModalContent top={'25vh'}>
           <ModalHeader>Добавить задачу</ModalHeader>

@@ -9,15 +9,11 @@ import Navbar from './components/Navbar/Navbar'
 import Board from './components/Board/Board';
 import MyTasks from './components/MyTasks/MyTasks'
 
-
 function App() {
 
   const { userName } = useSelector(store => store.auth);
   return (
-
     <div className="App">
-
-
       <Routes>
         <Route path='/' element={<Navigate to={userName ? '/library' : '/auth'} />} />
         <Route path='/auth' element={<Auth />} />
@@ -28,7 +24,7 @@ function App() {
         <Route path="/board/:id" element={userName ? <ChakraProvider>
           <Board />
         </ChakraProvider> : <Navigate to={'/auth'} />} />
-        <Route path='/myTasks' element={userName ? <MyTasks/> : <Navigate to={'/auth'} />} />
+        <Route path='/myTasks' element={userName ? <ChakraProvider> <MyTasks /> </ChakraProvider> : <Navigate to={'/auth'} />} />
       </Routes>
     </div>
   );

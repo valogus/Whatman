@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import style from './TaskForm.module.css'
-import { Heading, Textarea } from '@chakra-ui/react'
+import { Heading, StylesProvider, Textarea } from '@chakra-ui/react'
 import { Button } from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
 
 import { Text, Select } from '@chakra-ui/react'
 
 
-function TaskForm({
-  modalItem }) {
+function TaskForm({ modalItem }) {
 
   const [value, setValue] = useState(modalItem.description)
   const [description, setDescription] = useState(false);
@@ -18,7 +17,7 @@ function TaskForm({
   const { userId, userName } = useSelector(store => store.auth);
   const [authorName, setAuthorName] = useState('')
   const [isExecutor, setIsExecutor] = useState(false)
-  const [executor, setExecutor] = useState('')
+  const [executor, setExecutor] = useState('Назначить исполнителя')
   const [executors, setExecutors] = useState([])
 
   useEffect(() => {
@@ -37,7 +36,7 @@ function TaskForm({
     const abortController = new AbortController()
     fetch(`/api/tasks/${modalItem.id}/executors`, { signal: abortController.signal })
       .then(res => res.json())
-      .then(user => setExecutor(user.login))
+      .then(user => setExecutor(user?.login))
     return () => {
       abortController.abort()
     }
@@ -124,84 +123,93 @@ function TaskForm({
       })
     })
       .then(() => setIsExecutor(false))
-
   }
 
   return (
-    <div>
-      <Text fontSize='4xl'>{modalItem.title}</Text>
-      <div>
-        <div style={{ paddingTop: '10px' }}>
-          <span style={{ fontSize: '14px' }}>Описание</span>
-        </div>
-        {description
-          ?
-          <>
-            <Textarea style={{ display: 'block', margin: '15px 0' }} value={value} onChange={(event => setValue(event.target.value))} placeholder='Описание' boxSize='80%'></Textarea>
-            <Button style={{ marginRight: "10px" }} type="button" onClick={addDescription}>Сохранить</Button>
-            <Button type="button" onClick={cancel}>Отмена</Button>
-          </>
-          :
-          <div>
-            {!value ?
-              <div className={style.nonValue} onMouseDown={() => setDescription(true)}>Добавить описание...</div>
-              :
-              <div style={{ width: '200px', height: '20px', backgroundColor: 'white', margin: '5px 0', borderRadius: '5px', cursor: 'text', fontSize: '12px', fontWeight: 'bold' }} onMouseDown={() => setDescription(true)}>
-                {value}
-              </div>
-            }
-          </div>
-        }
-        {!isComment
-          ?
+    <div className={style.modalBox}>
+      <div className={style.title}>
+        <Text fontSize='4xl'>{modalItem.title}</Text>
+      </div>
+      <div className={style.secondRow}>
+        <div className={style.descComment}>
           <div>
             <div>
-              <input style={{ width: '100%', marginBottom: '1rem' }} placeholder="Добавить комментарий..." onFocus={() => setIsComment(true)} />
+              <div className={style.desc}>
+                <span>Описание</span>
+              </div>
+              {description
+                ?
+                <>
+                  <Textarea className={style.txtarea} value={value} onChange={(event => setValue(event.target.value))} placeholder='Описание' boxSize='80%'></Textarea>
+                  <Button className={style.btn} type="button" onClick={addDescription}>Сохранить</Button>
+                  <Button className={style.btn} type="button" onClick={cancel}>Отмена</Button>
+                </>
+                :
+                <div>
+                  {!value ?
+                    <div className={style.nonValue} onMouseDown={() => setDescription(true)}>&nbsp;&nbsp;&nbsp;Добавить описание...</div>
+                    :
+                    <div className={style.addDesc} onMouseDown={() => setDescription(true)}>
+                      {value}
+                    </div>
+                  }
+                </div>
+              }
+              {!isComment
+                ?
+                <div>
+                  <input className={style.inputComment} placeholder="✒️  Добавить комментарий..." onFocus={() => setIsComment(true)} />
+                </div>
+                :
+                <>
+                  <Textarea style={{ margin: '15px 0' }} value={comment} onChange={(event => setComment(event.target.value))} placeholder='Ваш комментарий'></Textarea>
+                  <Button className={style.btn} type="button" onClick={addComment}>Сохранить</Button>
+                  <Button className={style.btn} type="button" onClick={() => setIsComment(false)}>Отмена</Button>
+                </>
+              }
+              {
+                comments.map(
+                  (comment, index) => <div className={style.commStyle} key={comment.id}>
+                    {/* <hr style={{ marginBottom: '10px' }} /> */}
+                    <Heading style={{ marginBottom: '1rem' }} size='sm'>{comment['User.login']}</Heading>
+                    <Text fontSize='sm'>{comment.title}</Text>
+                  </div>)
+              }
             </div>
           </div>
-          :
-          <>
-            <Textarea style={{ margin: '15px 0' }} value={comment} onChange={(event => setComment(event.target.value))} placeholder='Ваш комментарий'></Textarea>
-            <Button type="button" onClick={addComment}>Сохранить</Button>
-            <Button style={{ marginLeft: '10px' }} type="button" onClick={() => setIsComment(false)}>Отмена</Button>
-          </>
-        }
-        {
-          comments.map(
-            (comment, index) => <div key={comment.id}>
-              <hr style={{ marginBottom: '10px' }} />
-              <Heading style={{ marginBottom: '1rem' }} size='sm'>{comment['User.login']}</Heading>
-              <Text fontSize='sm'>{comment.title}</Text>
-            </div>)
-        }
-      </div>
-      {/* Див с блоком назначение исполнителя */}
-      <div style={{ border: '1px solid grey', width: '50%' }}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <h2 style={{ padding: '0.5rem', marginRight: '50px' }}>Исполнитель</h2>
-          {
-            isExecutor ?
-              <Select value={executor} onChange={(event) => addExecutorToTask(event.target.value)}>
-                <option disabled value="">Назначиь исполнителя</option>
-                {executors.map(
-                  (login) => <option key={new Date()} value={login['User.login']}>{login['User.login']}</option>
-                )}
-              </Select>
-              :
-              <div>
-                {
-                  !executor ?
-                    <span onMouseDown={() => setIsExecutor(true)}> Назначить исполнителя</span>
-                    :
-                    <span onMouseDown={() => setIsExecutor(true)}>{executor}</span>
-                }
-              </div>
-          }
         </div>
+        {/* Див с блоком назначение исполнителя */}
+        <div className={style.executor}>
+          <div className={style._executor}>
+            <div className={style.author}>
+              <h2 style={{ padding: '0.5rem', marginRight: '50px' }}>Исполнитель</h2>
+              {
+                isExecutor ?
+                  <div>
+                    <Select value={executor} onChange={(event) => addExecutorToTask(event.target.value)} placeholder="Назначить исполнителя">
 
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: '' }}>
-          <h2 style={{ padding: '0.5rem', marginRight: '50px' }}>Автор</h2>
-          <span>{authorName}</span>
+                      {executors.map(
+                        (login) => <option key={login['User.login']} value={login['User.login']}>{login['User.login']}</option>
+                      )}
+                    </Select>
+                  </div>
+                  :
+                  <div>
+                    {
+                      !executor ?
+                        <span onMouseDown={() => setIsExecutor(true)}> Назначить исполнителя</span>
+                        :
+                        <span onMouseDown={() => setIsExecutor(true)}>{executor}</span>
+                    }
+                  </div>
+              }
+            </div>
+
+            <div className={style.author}>
+              <h2 style={{ padding: '0.5rem', marginRight: '50px' }}>Автор</h2>
+              <span>{authorName}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div >
