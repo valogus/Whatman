@@ -56,7 +56,6 @@ export default function Board() {
   const onDragEnd = (result) => {
 
     const { destination, source, draggableId, type } = result;
-    console.log(result)
     if (!destination) return;
     if (source.droppableId === destination.droppableId &&
       destination.index === source.index) {
@@ -189,7 +188,6 @@ export default function Board() {
       })
   }
   function removeColumn(id) {
-   console.log(id)
     fetch(`/api/columns/${id}`, {
       method: 'DELETE',
       headers: {
@@ -203,7 +201,6 @@ export default function Board() {
         }
       })
   }
-  console.log(boards)
 
   return (
 

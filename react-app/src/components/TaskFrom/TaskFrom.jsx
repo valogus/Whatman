@@ -18,8 +18,10 @@ function TaskForm({
   const { userId, userName } = useSelector(store => store.auth);
   const [authorName, setAuthorName] = useState('')
   const [isExecutor, setIsExecutor] = useState(false)
-  const [executor, setExecutor] = useState('')
+  const [executor, setExecutor] = useState('Назначить исполнителя')
   const [executors, setExecutors] = useState([])
+
+  console.log(executor)
 
   useEffect(() => {
     const abortController = new AbortController()
@@ -113,6 +115,8 @@ function TaskForm({
         return el;
       }
     })
+    console.log(exec)
+    console.log(modalItem.id)
     fetch('/api/tasks/task/executor', {
       method: 'POST',
       headers: {
@@ -124,7 +128,6 @@ function TaskForm({
       })
     })
       .then(() => setIsExecutor(false))
-
   }
 
   return (
@@ -184,7 +187,7 @@ function TaskForm({
               <Select value={executor} onChange={(event) => addExecutorToTask(event.target.value)}>
                 <option disabled value="">Назначиь исполнителя</option>
                 {executors.map(
-                  (login) => <option key={new Date()} value={login['User.login']}>{login['User.login']}</option>
+                  (login) => <option key={login['User.login']} value={login['User.login']}>{login['User.login']}</option>
                 )}
               </Select>
               :

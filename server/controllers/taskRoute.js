@@ -87,6 +87,7 @@ exports.deleteTask = async (req, res) => {
     await Task.update(
       { column_id, order },
       { where: { id } },
+
     );
 
     res.json({ deleted: true });
@@ -96,12 +97,29 @@ exports.deleteTask = async (req, res) => {
 };
 
 exports.addExecutorToTask = async (req, res) => {
+  console.log(' МЫ ВООБЩЕ СЮДА ЗАХОДИМ? ');
   const { junior_id, task_id } = req.body;
-  if (junior_id && task_id) {
+  console.log(junior_id, task_id, '=====');
+  const izZap = await UsersTask.findOne({
+    where: {
+      task_id,
+    },
+  });
+  if (izZap) {
+    console.log('Такая запись уже есть');
+    await UsersTask.update(
+      { junior_id, task_id },
+      {
+        where: { task_id },
+        raw: true,
+        returning: true,
+      },
+    );
+    res.json({ updated: true });
+  } else {
+    console.log('Такой записи еще нет');
     await UsersTask.create({ junior_id, task_id });
     res.status(201).json({ created: true });
-  } else {
-    res.status(400).json({ created: false });
   }
 };
 

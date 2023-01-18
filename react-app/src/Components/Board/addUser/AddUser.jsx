@@ -70,7 +70,6 @@ export default function AddUser() {
 }
 return setAttention('Такого пользователя не существует') 
     }
-console.log(id)
 return (
 
     <form
