@@ -31,7 +31,6 @@ export default function Boards({ board, getAllBoards }) {
             bgImage={fon?.image}
 
             onMouseEnter={(e) => {
-              console.log("Focus", e.target.closest('[data-item]').dataset.item);
               setDelItem(e.target.closest('[data-item]').dataset.item)
             }}
           >
@@ -49,7 +48,7 @@ export default function Boards({ board, getAllBoards }) {
                 display={'none'}
                 variant='outline'
                 cursor={'pointer'}
-                onClick={() => { console.log("delItem", delItem); onOpen() }}
+                onClick={() => { onOpen() }}
                 icon={
                   <DeleteIcon
                     className={style.trash_icon}
@@ -57,7 +56,6 @@ export default function Boards({ board, getAllBoards }) {
                   />} />
             }
           </Center>
-          {/* <Spacer /> */}
 
         </Flex>
         <DelBoardModal isOpen={isOpen} onClose={onClose} delItem={delItem} getAllBoards={getAllBoards} />

@@ -14,3 +14,10 @@ a {
 a:hover {
   text-decoration: none;
 }
+.ocean {
+  width: 100%;
+  height: 100%;
+  background-image: url('./img/ocean.jpg');
+  background-position: center center;
+  background-repeat: no-repeat;
+}

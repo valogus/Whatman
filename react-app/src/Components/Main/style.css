@@ -1,13 +1,9 @@
-.container {
+.container_ocean {
   display: flex;
   flex-direction: row;
-  width: 100%;
-  height: 100%;
   position: absolute;
-  background-image: url(https://design2seo.com/assets/blog/svg-clipping/home_intro_bg.jpg);
   /* background-image: url(https://www.fonstola.ru/pic/201310/2560x1440/fonstola.ru_133695.jpg); */
-  background-position: center center;
-  background-repeat: no-repeat;
+
   font-family: sans-serif;
   color: white;
 }
@@ -15,12 +11,12 @@
 .main_wrapper {
   position: relative;
   width: 65%;
-  height: 30%;
+  height: 60%;
   margin-left: 100px;
   /* margin: 0 auto; */
 }
 
-video {
+.clipped-video {
   width: 100%;
   height: auto;
 }
@@ -43,15 +39,63 @@ video {
 }
 
 .text_block {
-  display: flex;
-  flex-direction: column;
+  font-family: 'Roboto', sans-serif;
+  font-size: 4em;
+  font-weight: 500;
+  color: #2C5282;
+}
+
+.text_block_one {
+  position: absolute;
+  bottom: 20%;
+  left: 5%;
   margin-top: 10%;
   margin-left: 20px;
 }
 
-.main_text {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 500;
-  font-size: 50px;
-  color: #2C5282;
+.text_block_two {
+  position: absolute;
+  bottom: 10%;
+  left: 8%;
+  margin-top: 10%;
+  margin-left: 20px;
+}
+
+.main_text_one {}
+
+
+
+.main_text_two {}
+
+@media only screen and (max-width: 760px) {
+  .text_block {
+    font-size: 3em;
+    font-weight: 500;
+  }
+
+  .main_wrapper {
+    height: 50%;
+  }
+
+  .main_wrapper {
+    top: 200px;
+  }
+
+}
+
+.block_comein {
+  position: absolute;
+}
+
+@media only screen and (max-width: 460px) {
+  .text_block {
+    font-size: 2em;
+    font-weight: 500;
+  }
+
+  .main_wrapper {
+    height: 40%;
+    top: 150px;
+    margin-left: 50px;
+  }
 }
