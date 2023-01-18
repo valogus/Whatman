@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import Navbar from './components/Navbar/Navbar'
 import Board from './components/Board/Board';
 import MyTasks from './components/MyTasks/MyTasks'
+import Main from './components/Main/Main'
 
 
 function App() {
@@ -16,13 +17,12 @@ function App() {
   return (
 
     <div className="App">
-
-
       <Routes>
         <Route path='/' element={<Navigate to={userName ? '/library' : '/auth'} />} />
+        <Route path='/main' element={<Main />} />
         <Route path='/auth' element={<Auth />} />
       </Routes>
-      <Navbar />
+      {userName && <Navbar />}
       <Routes>
         <Route path="/library" element={userName ? <Home /> : <Navigate to={'/auth'} />} />
         <Route path="/board/:id" element={userName ? <ChakraProvider>

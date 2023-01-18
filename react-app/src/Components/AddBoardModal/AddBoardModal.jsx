@@ -41,7 +41,6 @@ export default function AddBoardModal(props) {
       });
 
       const answerModal = await response.json();
-      console.log("▶ ⇛ answerModal", answerModal);
       if (answerModal) {
         boardAdd();
         setTitle('')
@@ -69,7 +68,6 @@ export default function AddBoardModal(props) {
   // Формируем обьект Fon для отправки на сервер
   const colorHandler = (data) => {
     if (data) {
-      console.log("DATA", data);
       setFon((obj) => obj = data)
       return
     }

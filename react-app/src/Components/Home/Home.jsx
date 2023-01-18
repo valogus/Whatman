@@ -7,7 +7,7 @@ import AddBoardModal from '../AddBoardModal/AddBoardModal'
 import { useSelector } from 'react-redux'
 
 import { useDisclosure } from '@chakra-ui/react'
-import { ChakraProvider, Button, Box, Text, Badge, IconButton } from '@chakra-ui/react';
+import { ChakraProvider, Button, Box, Text } from '@chakra-ui/react';
 
 import { AddIcon } from '@chakra-ui/icons'
 
@@ -54,7 +54,7 @@ export default function Home() {
           (<>
             <div className={style.main_wrap}>
               {boards.map((board) =>
-                (<Boards board={board} key={board.id}></Boards>))
+                (<Boards board={board} key={board.id} getAllBoards={getAllBoards}></Boards>))
               }
             </div></>
           )
@@ -82,7 +82,7 @@ export default function Home() {
           (<>
             <div className={style.main_wrap}>
               {partnerBoards.map((board) =>
-                (<Boards board={board} key={board.id}></Boards>))
+                (<Boards board={board} key={board.id} ></Boards>))
               }
             </div></>
           )
