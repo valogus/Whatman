@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
-import style from './style.module.css'
+import style from './Style.module.css'
 import {
     FormControl,
     Input

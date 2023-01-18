@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import {Button, FormControl, FormLabel, Input, useDisclosure } from '@chakra-ui/react'
+import style from './Style.module.css'
 import {
     Modal,
     ModalOverlay,
@@ -10,7 +11,7 @@ import {
     ModalCloseButton,
   } from '@chakra-ui/react'
 
-function AddColumn({setBoards, boards}) {
+function AddColumn({setBoards, boards, id}) {
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
     const [column, setColumn] = useState('')
@@ -18,14 +19,14 @@ function AddColumn({setBoards, boards}) {
 
     function addColumn() {
         console.log(column)
-        const project_id = boards[0].project_id
+        const project_id = id
         const order = boards.length
         fetch('/api/columns/', {
           method: 'POST',
           headers: {
             'Content-type': 'application/json'
           },
-          body: JSON.stringify({ title: column, project_id, order, boards })
+          body: JSON.stringify({ title: column, project_id, order })
          })
           .then(res => res.json())
            .then(column => {
@@ -36,7 +37,7 @@ function AddColumn({setBoards, boards}) {
       }
     return (
         <div>
-        <Button colorScheme='teal' variant='outline' onClick={() => { onOpen(); }}>
+        <Button className={style.addColumn} colorScheme='teal' variant='outline' onClick={() => { onOpen(); }}>
         +
       </Button>
       <Modal initialFocusRef={initialRef}
