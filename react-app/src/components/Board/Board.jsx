@@ -16,7 +16,8 @@ import {
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { useSelector } from 'react-redux';
 import AddColumn from './addColumn/addColumn';
-import AddUser from'./addUser/AddUser'
+import AddUser from './addUser/AddUser'
+import basket from './basket.png'
 
 
 export default function Board() {
@@ -222,9 +223,7 @@ export default function Board() {
           >
             <div  {...provided.dragHandleProps}
               className={styles.board__title}>{board.title}</div>
-              <Button borderRadius="50%" pt={1} ml={1} type='button' variant='ghost' onClick={() => removeColumn(board.id)}>
-                        ✖️
-                  </Button>
+              <img src={basket} className={styles.basket} alt='basket' borderRadius="50%" pt={1} ml={1} type='button' variant='ghost' onClick={() => removeColumn(board.id)}/>
             <Droppable droppableId={`${index}`}>
               {(provided) => <div className={styles.droppableTasks}
                 ref={provided.innerRef}
@@ -249,9 +248,8 @@ export default function Board() {
                         <div className={styles.modalarea} onClick={() => setModalItem(item)}>
                           {item.title}
                         </div>
-                        <Button borderRadius="50%" pt={1} ml={1} type='button' variant='ghost' onClick={() => removeTask(item.id, board)}>
-                          ✖️
-                        </Button>
+                        <img src={basket} className={styles.basket} alt='basket' borderRadius="50%" pt={1} ml={1} type='button' variant='ghost' onClick={() => removeTask(item.id, board)}/>
+                        
 
                       </div>
 
