@@ -17,8 +17,11 @@ import {
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { useSelector } from 'react-redux';
 import AddColumn from './addColumn/addColumn';
-import AddUser from'./addUser/AddUser'
+
+import AddUser from './addUser/AddUser'
+import basket from './basket.png'
 import styled from 'styled-components';
+
 
 
 export default function Board() {
@@ -301,11 +304,14 @@ justify-content: space-between;
             isDragging={snapshot.isDragging}
           >
 
+            <div  {...provided.dragHandleProps}
+              className={styles.board__title}>{board.title}</div>
+              <img src={basket} className={styles.basket} alt='basket' borderRadius="50%" pt={1} ml={1} type='button' variant='ghost' onClick={() => removeColumn(board.id)}/>
+
+
             <Title  {...provided.dragHandleProps}
             isDragging={snapshot.isDragging}
-              >{board.title}              <Button borderRadius="50%" pt={1} ml={1} type='button' variant='ghost' onClick={() => removeColumn(board.id)}>
-              ✖️
-        </Button></Title>
+              >{board.title}              <img src={basket} className={styles.basket} alt='basket' borderRadius="50%" pt={1} ml={1} type='button' variant='ghost' onClick={() => removeColumn(board.id)}/></Title>
 
             <Droppable droppableId={`${index}`}>
               {(provided, snapshot) => <TaskList className={styles.droppableTasks}
@@ -328,9 +334,8 @@ justify-content: space-between;
                         <div className={styles.modalarea} onClick={() => setModalItem(item)}>
                           {item.title}
                         </div>
-                        <Button borderRadius="50%" pt={1} ml={1} type='button' variant='ghost' onClick={() => removeTask(item.id, board)}>
-                          ✖️
-                        </Button>
+                        <img src={basket} className={styles.basket} alt='basket' borderRadius="50%" pt={1} ml={1} type='button' variant='ghost' onClick={() => removeTask(item.id, board)}/>
+                        
 
                       
                     </Task>
