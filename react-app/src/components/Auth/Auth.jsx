@@ -8,8 +8,6 @@ import { useNavigate } from 'react-router-dom';
 
 
 function Auth() {
-  const { userName } = useSelector(store => store.auth);
-  console.log(userName)
   const dispatch = useDispatch()
   const { register, handleSubmit, formState: { errors, isValid } } = useForm({
     mode: 'onTouched'
@@ -28,7 +26,6 @@ function Auth() {
       body: JSON.stringify(data),
     })
       .then((res) => {
-        console.log('status', res.status)
         if (res.status === 200) {
           setError("");
           return res.json();
@@ -77,7 +74,6 @@ function Auth() {
         }
       })
         .then((data) => {
-          console.log(data)
            dispatch(setUsernameAC(data));
           localStorage.setItem("userId", data.userId);
           localStorage.setItem("userName", data.userName);

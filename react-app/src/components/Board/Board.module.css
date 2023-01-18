@@ -8,50 +8,31 @@
   width: 100vw;
   height: 100vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  flex: 1 0 auto;
 }
 .droppableTasks{
-  min-width: 300px;
+  min-width: 200px;
   min-height: 300px;
   display: flex;
   flex-direction: column;
 }
+.addColumn{
+  margin-top:5px;
+}
 
-.board {
-  min-width: 300px;
-  min-height: 400px;
-  border-radius: 12px;
-  border: 3px solid lightgrey;
-  padding: 20px 10px;
+.scroll{
+  overflow:auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  margin: 10px;
+  min-height: 100%;
 }
 
-.board__title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  padding: 15px;
-}
 .modalarea {
   width:80%
 }
 
-.item {
-  width: 100%;
-  border: 2px solid lightgreen;
-  padding: 10px;
-  border-radius: 6px;
-  margin: 5px 0;
-  cursor: grab;
-  background-color: #fcfcf9;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+
 
 .pen {
   max-width: 18px;
@@ -60,7 +41,7 @@
 
 .add {
   width: 100%;
-  border: 2px solid rgb(0, 0, 0);
+  border: 2px solid rgb(217, 227, 237);
   padding: 10px;
   border-radius: 6px;
 }
@@ -76,6 +57,16 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.main {
+ display:flex;
+ flex-direction: column;
+}
+.footer{
+  height:20px;
+  width:auto;
+  bottom:0;
+  position:absolute;
 }
 /* 
 .border {

@@ -15,7 +15,6 @@ function ColorBox({ changeColor }) {
 
   function clickSetColor(e) {
     const inputElement = e.target.children[0]
-    console.log("DIV EVENT", inputElement)
     console.log("▶ ⇛ refContainer", refContainer.current);
     refContainer.current.click()
 

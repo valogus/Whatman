@@ -5,7 +5,6 @@ const {
   deleteTask, taskAuthor, addExecutorToTask, taskExecutor,
 } = require('../controllers/taskRoute');
 
-// router.get('/:id', tasksColumns);
 router.get('/task/:id/comments', taskComments);
 router.get('/task/author/:id', taskAuthor);
 router.get('/:id/executors', taskExecutor);

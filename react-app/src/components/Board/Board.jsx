@@ -12,12 +12,16 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  Flex,
 } from '@chakra-ui/react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { useSelector } from 'react-redux';
 import AddColumn from './addColumn/addColumn';
+
 import AddUser from './addUser/AddUser'
 import basket from './basket.png'
+import styled from 'styled-components';
+
 
 
 export default function Board() {
@@ -27,7 +31,7 @@ export default function Board() {
 
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null)
-
+  const [fon, setFon] = useState(null)
   const [boards, setBoards] = useState([]);
   const { id } = useParams();
 
@@ -37,8 +41,76 @@ export default function Board() {
   const [task, setTask] = useState('')
   const { userId } = useSelector((session) => session.auth)
 
+  const Wrapper = styled.div`
+  
+  display: flex;
+  flex-direction: column;
+  opacity: ${({ isDropDisabled }) => (isDropDisabled ? 0.5 : 'inherit')};
+  padding: 8px;
+  border: 8px;
+  padding-bottom: 0;
+  transition: background-color 0.2s ease, opacity 0.1s ease;
+  user-select: none;
+  width: 250px;
+`;
+const Container = styled.div`
+box-shadow: ${(props) => (props.isDragging ? '45px 45px 45px rgba(0, 0, 0, 0.35)' : '0 5px 45px rgba(0, 0, 0, 0.2)')};
+background-color: #f4f5f7;
+  min-width: 300px;
+  min-height: 400px;
+  border-radius: 6px;
+  border: 3px solid lightgrey;
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin: 10px;
+`;
+const Title = styled.h4`
+background-color: ${(props) => (props.isDragging ? 'rgb(217, 227, 237)' : '#f4f5f7')};
+font-size: 1.3rem;
+font-weight: 600;
+padding: 8px;
+display: flex;
+justify-content: space-between;
+border-radius: 6px;
+`
+const TaskList =styled.div`
+padding:8px;
+border-radius: 6px;
+background-color: ${(props) => (props.isDraggingOver ? 'rgb(217, 227, 237)' : '#f4f5f7')};
+`
+const Task = styled.div`
+box-shadow: ${(props) => (props.isDragging ? '0 5px 45px rgba(0, 0, 0, 0.35)' : '0 5px 45px rgba(0, 0, 0, 0.12)')};
+opacity:1;
+width: 100%;
+border: 2px solid lightgrey;
+padding: 8px;
+border-radius: 6px;
+margin-bottom: 8px;
+cursor: grab;
+background-color: ${(props) => (props.isDragging ? '#fefae9' : 'white')};
+display: flex;
+align-items: center;
+justify-content: space-between;
+`
+
+  const getAllBoards = async () => {
+    try {
+      const response = await fetch(`/api/board/${userId}`);
+      const boardsData = await response.json();
+      const [boards, partnerBoards] = boardsData
+      const allBoards = boards.concat(partnerBoards)
+      setFon(JSON.parse(allBoards.find((el)=> el.id == id).fon))
+      console.log(fon)
+    } catch (error) {
+      console.log(error, '=============');
+    }
+  }
+
 
   useEffect(() => {
+    getAllBoards()
     const abortController = new AbortController()
     fetch(`/api/columns/${id}`, { signal: abortController.signal })
       .then(res => res.json())
@@ -57,7 +129,6 @@ export default function Board() {
   const onDragEnd = (result) => {
 
     const { destination, source, draggableId, type } = result;
-    console.log(result)
     if (!destination) return;
     if (source.droppableId === destination.droppableId &&
       destination.index === source.index) {
@@ -190,7 +261,6 @@ export default function Board() {
       })
   }
   function removeColumn(id) {
-   console.log(id)
     fetch(`/api/columns/${id}`, {
       method: 'DELETE',
       headers: {
@@ -200,34 +270,54 @@ export default function Board() {
       .then(res => res.json())
       .then(data => {
         if (data.deleted) {
-          setBoards((prev)=>[...prev].filter(column => column.id !== id))
+          setBoards((prev) => [...prev].filter(column => column.id !== id))
         }
       })
   }
-  console.log(boards)
 
   return (
 
-    <DragDropContext onDragEnd={onDragEnd}>
-        <AddUser/>
+    <div className={styles.main}>
+    <AddUser/>
+ <Flex bgColor={fon?.color}
+ bgImage={fon?.image}
+ className={styles.scroll}
+ >
+   
+    <DragDropContext 
+    onDragEnd={onDragEnd} 
+    >
+       
+
       <Droppable droppableId='all-columns' direction='horizontal' type='column'>
         {(provided) => <div className={styles.app}
           ref={provided.innerRef}
           {...provided.droppableProps}
         >{boards.map((board, index) =>
-        (<Draggable key={board.id} draggableId={board.id.toString()} index={index}>
-          {(provided) => <div
-            className={styles.board}
+        (<Draggable key={board.id} 
+        draggableId={board.id.toString()} 
+        index={index}>
+          {(provided, snapshot) => <Container
+            
             {...provided.draggableProps}
             ref={provided.innerRef}
+            isDragging={snapshot.isDragging}
           >
+
             <div  {...provided.dragHandleProps}
               className={styles.board__title}>{board.title}</div>
               <img src={basket} className={styles.basket} alt='basket' borderRadius="50%" pt={1} ml={1} type='button' variant='ghost' onClick={() => removeColumn(board.id)}/>
+
+
+            <Title  {...provided.dragHandleProps}
+            isDragging={snapshot.isDragging}
+              >{board.title}              <img src={basket} className={styles.basket} alt='basket' borderRadius="50%" pt={1} ml={1} type='button' variant='ghost' onClick={() => removeColumn(board.id)}/></Title>
+
             <Droppable droppableId={`${index}`}>
-              {(provided) => <div className={styles.droppableTasks}
+              {(provided, snapshot) => <TaskList className={styles.droppableTasks}
                 ref={provided.innerRef}
                 {...provided.droppableProps}
+                isDraggingOver={snapshot.isDraggingOver}
                 type='task'
 
               >
@@ -235,45 +325,40 @@ export default function Board() {
 
                   <Draggable key={item.id} draggableId={`task-${item.id}`} index={i}>
 
-                    {(provided, snapshot) => <div
+                    {(provided, snapshot) => <Task
                       ref={provided.innerRef}
                       {...provided.draggableProps}
-                      className={styles.draggableTasks}
+                      {...provided.dragHandleProps}
+                      isDragging={snapshot.isDragging}
                     >
-                      <div
-                        {...provided.dragHandleProps}
-                        className={styles.item}
-
-                      >
                         <div className={styles.modalarea} onClick={() => setModalItem(item)}>
                           {item.title}
                         </div>
                         <img src={basket} className={styles.basket} alt='basket' borderRadius="50%" pt={1} ml={1} type='button' variant='ghost' onClick={() => removeTask(item.id, board)}/>
                         
 
-                      </div>
-
-                      {board.id} {i}
-                    </div>
+                      
+                    </Task>
                     }
 
                   </Draggable>
 
 
-                )}{provided.placeholder}</div>}
+                )}{provided.placeholder}</TaskList>}
 
             </Droppable>
 
 
-            <Button colorScheme='teal' variant='outline' onClick={() => { onOpen(); setIdColumn(board) }}>
+            <Button  colorScheme='teal' variant='outline' onClick={() => { onOpen(); setIdColumn(board) }}>
               +
             </Button>
-          </div>}
+          </Container>}
 
-        </Draggable>)
+
+        </Draggable> )
         
         )}{provided.placeholder}               
-        <AddColumn boards={boards}setBoards={setBoards}/></div>}
+        <AddColumn id={id}boards={boards}setBoards={setBoards}/></div>}
 
 
 
@@ -290,7 +375,7 @@ export default function Board() {
         isOpen={isOpen}
         onClose={onClose}
       >
-     
+
         <ModalOverlay />
         <ModalContent top={'25vh'}>
           <ModalHeader>Добавить задачу</ModalHeader>
@@ -310,5 +395,9 @@ export default function Board() {
         </ModalContent>
       </Modal>
     </DragDropContext >
+    <div className={styles.footer}></div>
+    </Flex>
+    
+    </div>
   )
 }
