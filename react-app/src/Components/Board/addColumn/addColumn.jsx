@@ -17,7 +17,6 @@ function AddColumn({setBoards, boards}) {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     function addColumn() {
-        console.log(column)
         const project_id = boards[0].project_id
         const order = boards.length
         fetch('/api/columns/', {

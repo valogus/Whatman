@@ -7,8 +7,7 @@ import { useSelector } from 'react-redux'
 import { Text, Select } from '@chakra-ui/react'
 
 
-function TaskForm({
-  modalItem }) {
+function TaskForm({ modalItem }) {
 
   const [value, setValue] = useState(modalItem.description)
   const [description, setDescription] = useState(false);
@@ -20,8 +19,6 @@ function TaskForm({
   const [isExecutor, setIsExecutor] = useState(false)
   const [executor, setExecutor] = useState('Назначить исполнителя')
   const [executors, setExecutors] = useState([])
-
-  console.log(executor)
 
   useEffect(() => {
     const abortController = new AbortController()
@@ -115,8 +112,6 @@ function TaskForm({
         return el;
       }
     })
-    console.log(exec)
-    console.log(modalItem.id)
     fetch('/api/tasks/task/executor', {
       method: 'POST',
       headers: {

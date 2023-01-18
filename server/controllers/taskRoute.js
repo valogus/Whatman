@@ -97,16 +97,13 @@ exports.deleteTask = async (req, res) => {
 };
 
 exports.addExecutorToTask = async (req, res) => {
-  console.log(' МЫ ВООБЩЕ СЮДА ЗАХОДИМ? ');
   const { junior_id, task_id } = req.body;
-  console.log(junior_id, task_id, '=====');
   const izZap = await UsersTask.findOne({
     where: {
       task_id,
     },
   });
   if (izZap) {
-    console.log('Такая запись уже есть');
     await UsersTask.update(
       { junior_id, task_id },
       {

@@ -1,5 +1,5 @@
 const {
-  User, Task, UsersTask, Projects,
+  Task, UsersTask,
 } = require('../db/models');
 
 exports.allTasksUser = async (req, res) => {
@@ -9,17 +9,16 @@ exports.allTasksUser = async (req, res) => {
     const tasks = await UsersTask.findAll(
       {
         where: { junior_id: author },
-        // where: { project_id: author },
-        // attributes: ['id', 'title', 'description'],
-        include: { model: Task },
-        raw: true,
+        include: {
+          model: Task,
+        },
       },
     );
 
-    console.log('▶ ⇛ tasks', tasks);
-    res.status(200).json(tasks);
+    const onlyTasks = tasks.map((el) => el.Task);
+    console.log('▶ ⇛ tasks', onlyTasks);
+    res.status(200).json(onlyTasks);
   } catch (error) {
-    // console.log(error);
     res.status(500).end();
   }
 };
