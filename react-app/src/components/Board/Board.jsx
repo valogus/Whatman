@@ -74,6 +74,7 @@ padding: 8px;
 display: flex;
 justify-content: space-between;
 border-radius: 6px;
+align-items:center;
 `
 const TaskList =styled.div`
 padding:8px;
@@ -303,10 +304,6 @@ justify-content: space-between;
             ref={provided.innerRef}
             isDragging={snapshot.isDragging}
           >
-
-            <div  {...provided.dragHandleProps}
-              className={styles.board__title}>{board.title}</div>
-              <img src={basket} className={styles.basket} alt='basket' borderRadius="50%" pt={1} ml={1} type='button' variant='ghost' onClick={() => removeColumn(board.id)}/>
 
 
             <Title  {...provided.dragHandleProps}
