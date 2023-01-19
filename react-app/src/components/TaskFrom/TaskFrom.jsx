@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import style from './TaskForm.module.css'
-import { Heading, StylesProvider, Textarea } from '@chakra-ui/react'
+import { Heading, Input, Textarea } from '@chakra-ui/react'
 import { Button } from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
 
@@ -19,6 +19,9 @@ function TaskForm({ modalItem }) {
   const [isExecutor, setIsExecutor] = useState(false)
   const [executor, setExecutor] = useState('Назначить исполнителя')
   const [executors, setExecutors] = useState([])
+  const [isTitle, setIsTitle] = useState(false)
+  const [title, setTitle] = useState(modalItem.title)
+
 
   useEffect(() => {
     const abortController = new AbortController()
@@ -125,12 +128,39 @@ function TaskForm({ modalItem }) {
       .then(() => setIsExecutor(false))
   }
 
+  function editTitle() {
+    fetch(`/api/tasks/task/${modalItem.id}/title`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({ title })
+    })
+      .then(res => res.json())
+      .then(() => {
+        modalItem.title = title;
+        setIsTitle(false)
+      })
+  }
+
   return (
     <div className={style.modalBox}>
-      <div className={style.title}>
-        <Text fontSize='4xl'>{modalItem.title}</Text>
-      </div>
-      <hr style={{borderWidth: '1.7px'}} />
+
+      {
+        isTitle ?
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '7px' }} >
+            <Input type="text" variant='unstyled' size='lg' style={{ width: '93%' }} value={title} onChange={(e) => setTitle(e.target.value)} />
+            <Button variant='outline' onClick={editTitle}>
+              +
+            </Button>
+          </div>
+          :
+          <div className={style.title} onMouseDown={() => setIsTitle(true)}>
+            <Text fontSize='4xl'>{title}</Text>
+          </div>
+
+      }
+      <hr style={{ borderWidth: '1.7px' }} />
       <div className={style.secondRow}>
         <div className={style.descComment}>
           <div>
@@ -151,7 +181,7 @@ function TaskForm({ modalItem }) {
                     <div className={style.nonValue} onMouseDown={() => setDescription(true)}>&nbsp;&nbsp;&nbsp;Добавить описание...</div>
                     :
                     <div className={style.addDesc} onMouseDown={() => setDescription(true)}>
-                    ✒️&nbsp;  {value}
+                      ✒️&nbsp;  {value}
                     </div>
                   }
                 </div>

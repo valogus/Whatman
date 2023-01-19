@@ -133,3 +133,21 @@ exports.taskExecutor = async (req, res) => {
   });
   res.status(200).json(user);
 };
+
+exports.ediTitleTask = async (req, res) => {
+  const { id } = req.params;
+  const { title } = req.body;
+  if (title) {
+    await Task.update(
+      { title },
+      {
+        where: { id },
+        raw: true,
+        returning: true,
+      },
+    );
+    res.status(200).json({ updated: true });
+  } else {
+    res.status(404).json({ updated: false });
+  }
+};

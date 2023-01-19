@@ -46,6 +46,7 @@ export default function Home() {
     console.log("Превышено макс досок");
   }
   return (
+
     <>
       <ChakraProvider>
 
@@ -94,6 +95,6 @@ export default function Home() {
         <AddBoardModal isOpen={isOpen} onClose={onClose} addboard={getAllBoards} />
       </ChakraProvider>
 
-    </>
+    </div>
   )
 }
