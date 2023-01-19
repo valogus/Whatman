@@ -29,7 +29,6 @@ export default function Boards({ board, getAllBoards }) {
             className={style.board_block}
             bgColor={fon?.color}
             bgImage={fon?.image}
-
             onMouseEnter={(e) => {
               setDelItem(e.target.closest('[data-item]').dataset.item)
             }}
@@ -56,7 +55,6 @@ export default function Boards({ board, getAllBoards }) {
                   />} />
             }
           </Center>
-
         </Flex>
         <DelBoardModal isOpen={isOpen} onClose={onClose} delItem={delItem} getAllBoards={getAllBoards} />
       </ChakraProvider>

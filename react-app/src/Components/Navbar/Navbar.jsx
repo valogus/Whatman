@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
+import { Flex, Spacer, Center, ChakraProvider, Text, Link, IconButton } from '@chakra-ui/react';
 import style from './style.module.css'
 import { setUsernameAC } from '../../store/reducers/actionAuth'
 
@@ -27,38 +28,36 @@ export default function Navbar() {
   }
 
   return (
-    <>
-      <ul className={style.nav_wrap}>
-        <li>
-          <NavLink to="/">
-            Jirlo
-          </NavLink>
-        </li>
-        {userName &&
-          (<>
-            <li>
+    <ChakraProvider>
+      <Flex w='100%'>
+        <ul className={style.nav_wrap}>
+          <li>
+            <NavLink to="/">
+              Watman
+            </NavLink>
+          </li>
+          {userName &&
+            (<>
+              <li>
 
-              <NavLink to="/myTasks">
-                Задачи
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/library">
-                Мои Доски
-              </NavLink>
+                <NavLink to="/myTasks">
+                  Мои Задачи
+                </NavLink>
               </li>
               <li>
-              <NavLink onClick={() => console.log('Создать')} to="/">
-                Создать
-              </NavLink>
-            </li>
-          </>)
-        }
-        <NavLink onClick={() => logout()} to="/auth">
-          Выйти
-        </NavLink>
+                <NavLink className={({ isActive }) => (isActive ? `${style.active}` : 'inactive')} to="/library">
+                  Мои Доски
+                </NavLink>
+              </li>
+            </>)
+          }
+          <Spacer />
+          <NavLink onClick={() => logout()} to="/auth">
+            Выйти
+          </NavLink>
 
-      </ul>
-    </>
+        </ul>
+      </Flex>
+    </ChakraProvider >
   )
 }

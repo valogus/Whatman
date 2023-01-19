@@ -2,7 +2,6 @@ import React from 'react'
 import { useState } from 'react'
 import { ChakraProvider, Button, Text } from '@chakra-ui/react';
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter } from '@chakra-ui/react';
-import { CheckIcon } from '@chakra-ui/icons'
 
 
 export default function DelBoardModal({ isOpen, onClose, delItem, getAllBoards }) {
