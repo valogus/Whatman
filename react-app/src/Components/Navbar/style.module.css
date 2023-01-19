@@ -3,6 +3,10 @@ a {
   text-decoration: none
 }
 
+a:hover {
+  text-decoration: none
+}
+
 .nav_wrap {
   width: 100%;
   display: flex;
@@ -29,6 +33,7 @@ a {
 .nav_wrap li {
   padding: 16px;
   padding-top: 18px;
+  cursor: pointer;
 }
 
 .nav_wrap li:hover {

@@ -33,7 +33,7 @@ export default function Navbar() {
         <Wrap spacing='50px'>
           <Center>
             <Text ml={5} cursor='default'>
-              Watman
+              Whatman
             </Text>
           </Center>
           {userName &&
