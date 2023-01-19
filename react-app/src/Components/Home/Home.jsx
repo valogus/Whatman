@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import style from './style.module.css'
 import Boards from '../Boards/Boards'
 import AddBoardModal from '../AddBoardModal/AddBoardModal'
+import Toast from '../Toast/Toast'
 import { useSelector } from 'react-redux'
 
 import { useDisclosure } from '@chakra-ui/react'
