@@ -28,9 +28,9 @@ exports.putUser = async (req, res) => {
         raw: true,
       },
     );
-    console.log(users)
+    console.log(users);
     if (users[0]) res.status(300).json();
-    const setUser = await UsersProject.create({junior_id, project_id})
+    const setUser = await UsersProject.create({ junior_id, project_id });
     console.log('created', setUser);
     res.status(200).json(setUser);
   } catch (error) {
