@@ -144,7 +144,7 @@ function Auth() {
                   name="login"
                   type="text"
                   className="form_input"
-                  placeholder="Email"
+                  placeholder="Login"
                   required
                   pattern="[A-Za-z]\w+"
                   minLength={4}

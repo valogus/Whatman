@@ -1,5 +1,6 @@
 .input{
-  color:black
+  color:black;
+  margin-left:10px;
 }
 .autocomplete{
   position:absolute;
@@ -22,4 +23,14 @@
   background: rgb(180, 180, 180);
   cursor: pointer;
   transition:cubic-bezier(1,0,0,1) .3s all;
+}
+form{
+  max-width:300px;
+  background-color:white;
+  margin-top:10px;
+  margin-right: 20px;
+}
+.all{
+  display:flex;
+
 }
