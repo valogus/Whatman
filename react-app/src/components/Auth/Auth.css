@@ -20,12 +20,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.376);
+    background-color: rgba(0, 0, 0, 0.165);
     border-radius: 10px;
   }
 
   .parentCont.active{
-    background-color: rgba(0, 0, 0, 0.377);
+    background-color: rgba(0, 0, 0, 0.165);
     transition: 0.5s;
     border-radius: 10px;
   }

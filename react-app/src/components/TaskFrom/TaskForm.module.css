@@ -54,10 +54,12 @@
 }
 
 ._executor {
-  border: 1px solid  rgb(230, 225, 225);
+  border: 1px solid rgb(230, 225, 225);
   padding: 10px 10px;
   border-radius: 6px;
+  /* cursor: pointer; */
 }
+
 
 .descComment {
   display: flex;
@@ -65,8 +67,16 @@
   width: 50%;
 }
 
+
+
 .title {
   text-align: center;
+  margin-bottom: 15px;
+}
+
+.title:hover {
+  background-color: rgb(230, 225, 225);
+  border-radius: 12px;
 }
 
 .secondRow {
@@ -77,9 +87,13 @@
 }
 
 .inputComment {
-  width: 100%; 
+  width: 100%;
   margin-bottom: 1rem;
   font-style: italic;
+}
+
+.inputComment:hover {
+  background-color: rgb(237, 235, 232);
 }
 
 .commStyle {
@@ -87,11 +101,21 @@
   border-radius: 6px;
   padding-left: 10px;
   padding-top: 7px;
+  margin-bottom: 8px;
 }
 
 .author {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border: none;
 }
 
+/* .author_1 {
+
+} */
+
+.author_1:hover {
+  background-color: rgb(237, 235, 232);
+  cursor: pointer;
+}

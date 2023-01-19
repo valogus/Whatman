@@ -90,7 +90,8 @@ function Auth() {
 
 
   return (
-    <div className='main'>
+    <div className='main ocean'>
+
       <article className={`parentCont ${!isHidden ? "active" : ''}`}>
         <article className="containerReg">
           <div className="blockReg">
@@ -143,7 +144,7 @@ function Auth() {
                   name="login"
                   type="text"
                   className="form_input"
-                  placeholder="Email"
+                  placeholder="Login"
                   required
                   pattern="[A-Za-z]\w+"
                   minLength={4}

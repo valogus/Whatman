@@ -8,7 +8,7 @@ exports.boardsUser = async (req, res) => {
     const projects = await Project.findAll(
       {
         where: { author },
-        attributes: ['id', 'title', 'fon'],
+        attributes: ['id', 'title', 'author', 'fon'],
         // include: { model: UsersProject, where: { id: author }, attributes: ['email', 'login'] },
         raw: true,
       },
@@ -56,5 +56,23 @@ exports.addBoard = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: 'Ошибка при добавление новой таблицы' });
+  }
+};
+
+// Удаление Доски
+// router.delete('/',
+exports.delBoard = async (req, res) => {
+  try {
+    const id = req.body.delItem;
+    const delBoard = await Project.destroy({ where: { id } });
+    console.log('▶ ⇛ delBoard', delBoard);
+    if (delBoard) {
+      res.status(200).json({ msg: 'Ваш проект удален' });
+    } else {
+      res.status(300).json({ msg: 'Не удалось удалить проект' });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: 'Ошибка при Удалении доски' });
   }
 };

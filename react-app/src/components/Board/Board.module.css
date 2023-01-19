@@ -51,6 +51,24 @@
   cursor: pointer;
 }
 
+.basket_hidden {
+  display: none;
+  max-width: 20px;
+  max-height: 20px;
+  cursor: pointer;
+}
+
+.task_field:hover .basket_hidden {
+  display: block;
+}
+.basket:active{
+  transform: scale(0.9,0.9);
+}
+
+.plus:active{
+  transform: scale(0.9,0.9);
+}
+
 .flex {
   display: flex;
   align-items: center;
@@ -61,6 +79,7 @@
  flex-direction: column;
  height:100vh;
 }
+
 
 /* 
 .border {

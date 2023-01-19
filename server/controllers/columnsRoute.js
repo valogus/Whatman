@@ -1,5 +1,15 @@
 const { Column } = require('../db/models');
-const { Task } = require('../db/models');
+const { Task, UsersProject } = require('../db/models');
+
+exports.isCan = async (req, res) => {
+  const { id, userId } = req.params;
+  const isCan = await UsersProject.findOne({ where: { project_id: id, junior_id: userId } });
+  if (isCan) {
+    res.status(200).json({ can: true });
+  } else {
+    res.status(400).json({ can: false });
+  }
+};
 
 exports.boardColumns = async (req, res) => {
   const project = req.params?.id;
@@ -36,7 +46,7 @@ exports.columnPut = async (req, res) => {
 
 exports.columnPost = async (req, res) => {
   const { title, project_id, order } = req.body;
-  console.log(req.body)
+  console.log(req.body);
   if (title) {
     const column = await Column.create({ title, project_id, order });
     const sendColumn = await Column.findOne(
@@ -49,8 +59,7 @@ exports.columnPost = async (req, res) => {
       },
     );
     res.status(201).json(sendColumn);
-   }
-  else {
+  } else {
     res.status(400).json({ created: false });
   }
 };
