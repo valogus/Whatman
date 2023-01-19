@@ -237,11 +237,13 @@ export default function Board() {
       {
         isCan ?
 
+
           <Box bgColor={fon?.color}
             bgImage={fon?.image}
             className={styles.scroll}
+
           >
-            <AddUser className={styles.addUser} />
+            <AddUser />
             <DragDropContext
               onDragEnd={onDragEnd}
             >
