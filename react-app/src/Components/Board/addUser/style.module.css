@@ -24,9 +24,11 @@
   cursor: pointer;
   transition:cubic-bezier(1,0,0,1) .3s all;
 }
+
 .form{
   min-width:300px;
   background-color:white;
+
   margin-right: 20px;
   border-radius:10px;
 }
@@ -36,3 +38,4 @@
   margin-left: 10px;
   align-items: center;
 }
+
