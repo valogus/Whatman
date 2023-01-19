@@ -59,11 +59,14 @@
   border-radius: 6px;
 }
 
+
 .descComment {
   display: flex;
   flex-direction: column;
   width: 50%;
 }
+
+
 
 .title {
   text-align: center;
@@ -81,6 +84,9 @@
   margin-bottom: 1rem;
   font-style: italic;
 }
+.inputComment:hover{
+ background-color: rgb(237, 235, 232);
+}
 
 .commStyle {
   border: 1px solid rgb(230, 225, 225);
@@ -93,5 +99,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border: none;
 }
 
+.author:hover {
+  background-color: rgb(237, 235, 232);
+}

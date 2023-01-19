@@ -150,7 +150,7 @@ function TaskForm({ modalItem }) {
                     <div className={style.nonValue} onMouseDown={() => setDescription(true)}>&nbsp;&nbsp;&nbsp;Добавить описание...</div>
                     :
                     <div className={style.addDesc} onMouseDown={() => setDescription(true)}>
-                      {value}
+                    ✒️&nbsp;  {value}
                     </div>
                   }
                 </div>

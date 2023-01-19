@@ -20,6 +20,12 @@
   height:150px;
   background-color: #6A787E;
   margin: 7px;
+  box-shadow: 0 5px 45px 0 rgba(95, 94, 94, 0.555);
+  cursor:pointer;
+}
+
+.tasks:active{
+  transform: scale(0.9,0.9);
 }
 
 .task{

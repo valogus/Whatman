@@ -346,7 +346,7 @@ justify-content: space-between;
             </Droppable>
 
 
-            <Button  colorScheme='teal' variant='outline' onClick={() => { onOpen(); setIdColumn(board) }}>
+            <Button className={styles.plus} colorScheme='teal' variant='outline' onClick={() => { onOpen(); setIdColumn(board) }}>
               +
             </Button>
           </Container>}
