@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import style from './TaskForm.module.css'
 import { Heading, Input, Textarea } from '@chakra-ui/react'
 import { Button } from '@chakra-ui/react'
@@ -21,6 +21,7 @@ function TaskForm({ modalItem }) {
   const [executors, setExecutors] = useState([])
   const [isTitle, setIsTitle] = useState(false)
   const [title, setTitle] = useState(modalItem.title)
+
 
   useEffect(() => {
     const abortController = new AbortController()
@@ -147,8 +148,8 @@ function TaskForm({ modalItem }) {
 
       {
         isTitle ?
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '7px' }}>
-            <Input style={{ width: '93%' }} value={title} onChange={(e) => setTitle(e.target.value)} />
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '7px' }} >
+            <Input type="text" variant='unstyled' size='lg' style={{ width: '93%' }} value={title} onChange={(e) => setTitle(e.target.value)} />
             <Button variant='outline' onClick={editTitle}>
               +
             </Button>
