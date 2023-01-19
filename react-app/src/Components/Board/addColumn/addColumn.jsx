@@ -38,7 +38,7 @@ function AddColumn({setBoards, boards, id}) {
       }
     return (
         <div>
-        <Button className={style.addColumn} colorScheme='teal' variant='outline' onClick={() => { onOpen(); }}>
+        <Button className={style.addColumn} variant='outline' onClick={() => { onOpen(); }}>
         +
       </Button>
       <Modal initialFocusRef={initialRef}
