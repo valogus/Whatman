@@ -13,9 +13,10 @@
   padding: 25px;
   background: rgb(255, 255, 255);
   border-radius: 16px;
-  width: 50vw;
+  width: 42vw;
   height: 60vh;
   overflow: scroll;
+  box-shadow: 0 0 45px 15px rgba(3, 3, 3, 0.205);
 }
 
 .myModal.active {

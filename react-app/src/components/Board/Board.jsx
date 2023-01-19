@@ -291,7 +291,10 @@ export default function Board() {
             </Droppable>
 
 
-            <Button  colorScheme='facebook' variant='outline' onClick={() => { onOpen(); setIdColumn(board) }}>
+
+            <Button className={styles.plus} colorScheme='facebook' variant='outline' onClick={() => { onOpen(); setIdColumn(board) }}>
+
+
               +
             </Button>
           </Container>}

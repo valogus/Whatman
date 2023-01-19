@@ -29,7 +29,9 @@
   justify-content: center;
   margin-top: 20px;
   margin-bottom: 40px;
-
+}
+.add_board:active{
+  transform: scale(0.9,0.9);
 }
 
 .add_board_button {

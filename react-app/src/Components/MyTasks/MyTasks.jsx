@@ -53,14 +53,3 @@ export default function MyTasks() {
   )
 }
 
-  
-    
-  //     <Heading size='md'> Customer dashboard</Heading>
-  //   </CardHeader>
-    
-  //     <Text>View a summary of all your customers over the last month.</Text>
-  //   </CardBody>
-  //   {/* <CardFooter>
-  //     <Button>View here</Button>
-  //   </CardFooter> */}
-  // </Card>
