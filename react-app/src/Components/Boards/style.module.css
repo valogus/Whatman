@@ -3,25 +3,46 @@
   flex-direction: row;
   justify-content: center;
   flex-wrap: wrap;
-    margin-top: 20px 10px;
+  margin-top: 20px 10px;
 }
 
 .board_block {
   height: 120px;
-    /*изменяется в медиа запросе */
-    width: 300px;
-    /* изменяется в медиа запросе */
+  /*изменяется в медиа запросе */
+  width: 300px;
+  /* изменяется в медиа запросе */
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
+  position: relative;
   border-radius: 12px;
-    border: 2px solid #A0AEC0;
+  border: 2px solid #A0AEC0;
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
   margin: 10px 10px;
 }
+
 .board_block:hover {
   padding: 15px;
   opacity: 0.7;
+}
+
+.board_block:hover .trash_button {
+  display: block;
+}
+
+.trash_button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.trash_icon {
+  font-size: 2em;
+}
+
+.trash_icon:hover {
+  font-size: 2.6em;
+  z-index: 2;
 }

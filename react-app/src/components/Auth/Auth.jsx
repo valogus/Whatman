@@ -90,7 +90,8 @@ function Auth() {
 
 
   return (
-    <div className='main'>
+    <div className='main ocean'>
+
       <article className={`parentCont ${!isHidden ? "active" : ''}`}>
         <article className="containerReg">
           <div className="blockReg">
