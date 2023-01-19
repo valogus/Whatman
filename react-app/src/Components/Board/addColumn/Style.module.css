@@ -1,7 +1,8 @@
 .addColumn{
   margin: 10px;
-}
-
-.addColumn:active{
+   background-color:#f4f5f7;
+  color:#f4f5f7
+};
+  .addColumn:active{
   transform: scale(0.9,0.9);
-}
+};

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Board.module.css';
-import { Button, FormControl, FormLabel, Input, useDisclosure } from '@chakra-ui/react'
+import { Box, Button, FormControl, FormLabel, Input, useDisclosure } from '@chakra-ui/react'
 import MyModal from '../Modal/MyModal'
 import TaskForm from '../TaskFrom/TaskFrom'
 import { useParams } from 'react-router-dom';
@@ -20,8 +20,7 @@ import AddColumn from './addColumn/addColumn';
 
 import AddUser from './addUser/AddUser'
 import basket from './basket.png'
-import styled from 'styled-components';
-
+import {Container, Title, TaskList, Task} from './Styles'
 
 
 export default function Board() {
@@ -41,60 +40,7 @@ export default function Board() {
   const [task, setTask] = useState('')
   const { userId } = useSelector((session) => session.auth)
 
-  const Wrapper = styled.div`
-  
-  display: flex;
-  flex-direction: column;
-  opacity: ${({ isDropDisabled }) => (isDropDisabled ? 0.5 : 'inherit')};
-  padding: 8px;
-  border: 8px;
-  padding-bottom: 0;
-  transition: background-color 0.2s ease, opacity 0.1s ease;
-  user-select: none;
-  width: 250px;
-`;
-const Container = styled.div`
-box-shadow: ${(props) => (props.isDragging ? '45px 45px 45px rgba(0, 0, 0, 0.35)' : '0 5px 45px rgba(0, 0, 0, 0.2)')};
-background-color: #f4f5f7;
-  min-width: 300px;
-  min-height: 400px;
-  border-radius: 6px;
-  border: 3px solid lightgrey;
-  padding: 20px 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  margin: 10px;
-`;
-const Title = styled.h4`
-background-color: ${(props) => (props.isDragging ? 'rgb(217, 227, 237)' : '#f4f5f7')};
-font-size: 1.3rem;
-font-weight: 600;
-padding: 8px;
-display: flex;
-justify-content: space-between;
-border-radius: 6px;
-align-items:center;
-`
-const TaskList =styled.div`
-padding:8px;
-border-radius: 6px;
-background-color: ${(props) => (props.isDraggingOver ? 'rgb(217, 227, 237)' : '#f4f5f7')};
-`
-const Task = styled.div`
-box-shadow: ${(props) => (props.isDragging ? '0 5px 45px rgba(0, 0, 0, 0.35)' : '0 5px 45px rgba(0, 0, 0, 0.12)')};
-opacity:1;
-width: 100%;
-border: 2px solid lightgrey;
-padding: 8px;
-border-radius: 6px;
-margin-bottom: 8px;
-cursor: grab;
-background-color: ${(props) => (props.isDragging ? '#fefae9' : 'white')};
-display: flex;
-align-items: center;
-justify-content: space-between;
-`
+
 
   const getAllBoards = async () => {
     try {
@@ -137,7 +83,6 @@ justify-content: space-between;
     }
     // перемещение колонок
     if (type === 'column') {
-
       const newColumns = JSON.parse(JSON.stringify(boards))
       const newElement = newColumns.splice(source.index, 1)
       newColumns.splice(destination.index, 0, newElement[0])
@@ -276,15 +221,15 @@ justify-content: space-between;
       })
   }
 
+
   return (
 
-    <div className={styles.main}>
-    <AddUser/>
- <Flex bgColor={fon?.color}
+ 
+ <Box bgColor={fon?.color}
  bgImage={fon?.image}
  className={styles.scroll}
  >
-   
+   <AddUser/>
     <DragDropContext 
     onDragEnd={onDragEnd} 
     >
@@ -308,7 +253,7 @@ justify-content: space-between;
 
             <Title  {...provided.dragHandleProps}
             isDragging={snapshot.isDragging}
-              >{board.title}              <img src={basket} className={styles.basket} alt='basket' borderRadius="50%" pt={1} ml={1} type='button' variant='ghost' onClick={() => removeColumn(board.id)}/></Title>
+              >{board.title}              <img src={basket} className={styles.basket} alt='basket' pt={1} ml={1} type='button' variant='ghost' onClick={() => removeColumn(board.id)}/></Title>
 
             <Droppable droppableId={`${index}`}>
               {(provided, snapshot) => <TaskList className={styles.droppableTasks}
@@ -331,7 +276,7 @@ justify-content: space-between;
                         <div className={styles.modalarea} onClick={() => setModalItem(item)}>
                           {item.title}
                         </div>
-                        <img src={basket} className={styles.basket} alt='basket' borderRadius="50%" pt={1} ml={1} type='button' variant='ghost' onClick={() => removeTask(item.id, board)}/>
+                        <img src={basket} className={styles.basket} alt='basket'  pt={1} ml={1} type='button' variant='ghost' onClick={() => removeTask(item.id, board)}/>
                         
 
                       
@@ -346,7 +291,10 @@ justify-content: space-between;
             </Droppable>
 
 
-            <Button className={styles.plus} colorScheme='teal' variant='outline' onClick={() => { onOpen(); setIdColumn(board) }}>
+
+            <Button className={styles.plus} colorScheme='facebook' variant='outline' onClick={() => { onOpen(); setIdColumn(board) }}>
+
+
               +
             </Button>
           </Container>}
@@ -392,9 +340,8 @@ justify-content: space-between;
         </ModalContent>
       </Modal>
     </DragDropContext >
-    <div className={styles.footer}></div>
-    </Flex>
+    </Box>
     
-    </div>
+   
   )
 }
