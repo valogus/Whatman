@@ -29,6 +29,7 @@ const usersRoute = require('./routes/usersRoute');
 const registrationRout = require('./routes/registration');
 const loginRout = require('./routes/login');
 const myTasks = require('./routes/myTasks');
+const usersProjectRout = require('./routes/usersProjectRoute');
 
 dbCheck();
 
@@ -70,6 +71,7 @@ app.use('/api/board', boardRouter);
 app.use('/api/registration', registrationRout);
 app.use('/api/login', loginRout);
 app.use('/api/users', usersRoute);
+app.use('/api/usersproject', usersProjectRout);
 app.use('/', logoutRout);
 app.use('/api/myTasks', myTasks);
 

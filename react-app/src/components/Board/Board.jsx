@@ -229,7 +229,7 @@ export default function Board() {
  bgImage={fon?.image}
  className={styles.scroll}
  >
-   <AddUser className={styles.addUser}/>
+   <AddUser/>
     <DragDropContext 
     onDragEnd={onDragEnd} 
     >
