@@ -7,7 +7,7 @@ import AddBoardModal from '../AddBoardModal/AddBoardModal'
 import { useSelector } from 'react-redux'
 
 import { useDisclosure } from '@chakra-ui/react'
-import { ChakraProvider, Button, Box, Text } from '@chakra-ui/react';
+import { ChakraProvider, Button, Box, Text, Divider } from '@chakra-ui/react';
 
 import { AddIcon } from '@chakra-ui/icons'
 
@@ -46,24 +46,27 @@ export default function Home() {
     console.log("Превышено макс досок");
   }
   return (
-    <div style={{height: '100vh'}}>
-      <Box>
-        <Text className={style.text_center}> Ваши Проекты</Text>
 
-        {boards.length > 0 ?
-          (<>
-            <div className={style.main_wrap}>
-              {boards.map((board) =>
-                (<Boards board={board} key={board.id} getAllBoards={getAllBoards}></Boards>))
-              }
-            </div></>
-          )
-          : (<h2 className={style.text_center}>У вас нет Проектов</h2>)
-        }
-      </Box>
+    <>
+      <ChakraProvider>
 
-      <div className={style.add_board}>
-        <ChakraProvider>
+        <Box>
+          <Text className={style.text_center}> Ваши Проекты</Text>
+          <Divider orientation='horizontal' border={'2px solid #6A787E'} w='60%' m='10px auto' />
+          {boards.length > 0 ?
+            (<>
+              <div className={style.main_wrap}>
+                {boards.map((board) =>
+                  (<Boards board={board} key={board.id} getAllBoards={getAllBoards}></Boards>))
+                }
+              </div></>
+            )
+            : (<h2 className={style.text_center}>У вас нет Проектов</h2>)
+          }
+        </Box>
+
+        <div className={style.add_board}>
+
           <Button rightIcon={<AddIcon />}
             variant='outline'
             colorScheme='teal'
@@ -72,25 +75,25 @@ export default function Home() {
           >
             Добавить проект
           </Button>
-        </ChakraProvider>
-      </div>
+        </div>
 
-      <h2 className={style.text_center}>Проекты в которых вы учавствуете</h2>
+        <Text className={style.text_center}>Проекты в которых вы учавствуете</Text>
+        <Divider orientation='horizontal' border={'2px solid #6A787E'} w='60%' m='10px auto' />
+        <Box>
+          {partnerBoards.length > 0 ?
+            (<>
+              <div className={style.main_wrap}>
+                {partnerBoards.map((board) =>
+                  (<Boards board={board} key={board.id} ></Boards>))
+                }
+              </div></>
+            )
+            : (<Text className={style.text_center}>У вас нет Совместных проектов</Text>)
+          }
+        </Box>
 
-      <Box>
-        {partnerBoards.length > 0 ?
-          (<>
-            <div className={style.main_wrap}>
-              {partnerBoards.map((board) =>
-                (<Boards board={board} key={board.id} ></Boards>))
-              }
-            </div></>
-          )
-          : (<Text className={style.text_center}>У вас нет Совместных проектов</Text>)
-        }
-      </Box>
-
-      <AddBoardModal isOpen={isOpen} onClose={onClose} addboard={getAllBoards} />
+        <AddBoardModal isOpen={isOpen} onClose={onClose} addboard={getAllBoards} />
+      </ChakraProvider>
 
     </div>
   )

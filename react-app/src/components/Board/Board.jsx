@@ -229,7 +229,7 @@ export default function Board() {
  bgImage={fon?.image}
  className={styles.scroll}
  >
-   <AddUser/>
+   <AddUser className={styles.addUser}/>
     <DragDropContext 
     onDragEnd={onDragEnd} 
     >
@@ -272,11 +272,12 @@ export default function Board() {
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                       isDragging={snapshot.isDragging}
+                      className={styles.task_field}
                     >
                         <div className={styles.modalarea} onClick={() => setModalItem(item)}>
                           {item.title}
                         </div>
-                        <img src={basket} className={styles.basket} alt='basket'  pt={1} ml={1} type='button' variant='ghost' onClick={() => removeTask(item.id, board)}/>
+                      <img src={basket} className={styles.basket_hidden} alt='basket' pt={1} ml={1} type='button' variant='ghost' onClick={() => removeTask(item.id, board)} />
                         
 
                       

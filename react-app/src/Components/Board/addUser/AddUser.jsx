@@ -1,12 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom';
-import style from './style.module.css'
+import style from './Style.module.css'
 import {
     FormControl,
-    Input
+    Input,
+    Tag,
+    TagLabel,
+    HStack,
+    TagCloseButton,
 } from '@chakra-ui/react'
 
 export default function AddUser() {
+    const ref = useRef(null);
     const [isOpen, setIsOpen] = useState(true)
     const [value, setValue] = useState('')
     const [users, setUsers] = useState([])
@@ -24,20 +29,18 @@ export default function AddUser() {
         setValue(e.target.value)
         setAttention('')
     }
-    const filteredUsers = users.filter(user => {
+    let filteredUsers = users.filter(user => {
         return user.login.toLowerCase().includes(value.toLowerCase())
     })
 
     const itemClickHandler = (e) => {
         setValue(e.target.textContent)
         setIsOpen(!isOpen)
+        ref.current.focus();
     }
 
     const inputClickHandler = () => {
         setIsOpen(true)
-    }
-    const onFocusHandler = () => {
-        setIsOpen(false)
     }
     const addUserHandler = (e) => {
         e.preventDefault()
@@ -57,41 +60,62 @@ export default function AddUser() {
                 .then(data => {
                     if (data) {
                         setAttention(`Пользователь ${e.target[0].value} успешно добавлен`)
+                        setValue('')
                     }
                 })
-                
-    return setAttention('')
-}
-return setAttention('Такого пользователя не существует') 
+
+            return setAttention('')
+        }
+        return setAttention('Такого пользователя не существует')
     }
-return (
+    return (
+        <div className={style.all}>
+        <form
+            onSubmit={addUserHandler}
+        >
+            <Input type='login' className={style.input}
+                placeholder="Добавить участника"
+                onChange={(e) => getUsers(e)}
+                value={value}
+                onClick={inputClickHandler}
+                ref={ref}
+                onBlur={()=> {
+                setTimeout(() => {
+                setAttention('')
+            }, 200); }}
+            />
+            <ul className={style.autocomplete}>
+                {value && isOpen ? filteredUsers.map((user) => {
+                    return (
+                        <li
+                            key={user.id}
+                            className={style.autocomplete_item}
+                            onClick={itemClickHandler}
+                        >
+                            {user.login}
+                        </li>
+                    )
+                })
+                    : ''
+                }
+                {attention ? <li>{attention}</li> : ''}
 
-    <form
-        onSubmit={addUserHandler}
-    >
-        <Input type='login' className={style.input}
-            placeholder="Добавить участника"
-            onChange={(e) => getUsers(e)}
-            value={value}
-            onClick={inputClickHandler}
-
-        />
-        <ul className={style.autocomplete}>
-            {value && isOpen ? filteredUsers.map((user) => {
-                return (
-                    <li
-                        className={style.autocomplete_item}
-                        onClick={itemClickHandler}
-                    >
-                        {user.login}
-                    </li>
-                )
-            })
-                : ''
-            }
-            {attention ? <li>{attention}</li> : ''}
-
-        </ul>
-    </form>
-)
+            </ul>
+        </form>
+        {/* <HStack spacing={4}>
+        {['lg', 'lg', 'lg'].map((size) => (
+          <Tag
+            size={size}
+            key={size}
+            borderRadius='full'
+            variant='solid'
+            colorScheme='facebook'
+          >
+            <TagLabel>Green</TagLabel>
+            <TagCloseButton />
+          </Tag>
+        ))}
+      </HStack> */}
+      </div>
+    )
 }
