@@ -3,7 +3,7 @@ import styles from './Board.module.css';
 import { Box, Button, FormControl, FormLabel, Input, useDisclosure } from '@chakra-ui/react'
 import MyModal from '../Modal/MyModal'
 import TaskForm from '../TaskFrom/TaskFrom'
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import {
   Modal,
   ModalOverlay,
@@ -20,7 +20,7 @@ import AddColumn from './addColumn/addColumn';
 
 import AddUser from './addUser/AddUser'
 import basket from './basket.png'
-import {Container, Title, TaskList, Task} from './Styles'
+import { Container, Title, TaskList, Task } from './Styles'
 
 
 export default function Board() {
@@ -40,7 +40,17 @@ export default function Board() {
   const [task, setTask] = useState('')
   const { userId } = useSelector((session) => session.auth)
 
+  const [isCan, setIsCan] = useState(true)
 
+  useEffect(() => {
+    fetch(`/api/columns/isCan/${userId}/${id}`)
+      .then(res => res.json())
+      .then(res => {
+        if (!res.can) {
+          setIsCan(false)
+        }
+      })
+  }, [])
 
   const getAllBoards = async () => {
     try {
@@ -48,7 +58,7 @@ export default function Board() {
       const boardsData = await response.json();
       const [boards, partnerBoards] = boardsData
       const allBoards = boards.concat(partnerBoards)
-      setFon(JSON.parse(allBoards.find((el)=> el.id == id).fon))
+      setFon(JSON.parse(allBoards.find((el) => el.id == id).fon))
       console.log(fon)
     } catch (error) {
       console.log(error, '=============');
@@ -223,126 +233,129 @@ export default function Board() {
 
 
   return (
-
- 
- <Box bgColor={fon?.color}
- bgImage={fon?.image}
- className={styles.scroll}
- >
-   <AddUser className={styles.addUser}/>
-    <DragDropContext 
-    onDragEnd={onDragEnd} 
-    >
-       
-
-      <Droppable droppableId='all-columns' direction='horizontal' type='column'>
-        {(provided) => <div className={styles.app}
-          ref={provided.innerRef}
-          {...provided.droppableProps}
-        >{boards.map((board, index) =>
-        (<Draggable key={board.id} 
-        draggableId={board.id.toString()} 
-        index={index}>
-          {(provided, snapshot) => <Container
-            
-            {...provided.draggableProps}
-            ref={provided.innerRef}
-            isDragging={snapshot.isDragging}
-          >
-
-
-            <Title  {...provided.dragHandleProps}
-            isDragging={snapshot.isDragging}
-              >{board.title}              <img src={basket} className={styles.basket} alt='basket' pt={1} ml={1} type='button' variant='ghost' onClick={() => removeColumn(board.id)}/></Title>
-
-            <Droppable droppableId={`${index}`}>
-              {(provided, snapshot) => <TaskList className={styles.droppableTasks}
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-                isDraggingOver={snapshot.isDraggingOver}
-                type='task'
-
-              >
-                {board.Tasks?.map((item, i) =>
-
-                  <Draggable key={item.id} draggableId={`task-${item.id}`} index={i}>
-
-                    {(provided, snapshot) => <Task
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      isDragging={snapshot.isDragging}
-                      className={styles.task_field}
-                    >
-                        <div className={styles.modalarea} onClick={() => setModalItem(item)}>
-                          {item.title}
-                        </div>
-                      <img src={basket} className={styles.basket_hidden} alt='basket' pt={1} ml={1} type='button' variant='ghost' onClick={() => removeTask(item.id, board)} />
-                        
-
-                      
-                    </Task>
-                    }
-
-                  </Draggable>
-
-
-                )}{provided.placeholder}</TaskList>}
-
-            </Droppable>
-
-
-
-            <Button className={styles.plus} colorScheme='facebook' variant='outline' onClick={() => { onOpen(); setIdColumn(board) }}>
-
-
-              +
-            </Button>
-          </Container>}
-
-
-        </Draggable> )
-        
-        )}{provided.placeholder}               
-        <AddColumn id={id}boards={boards}setBoards={setBoards}/></div>}
-
-
-
-      </Droppable >
-
+    <Box>
       {
-        modalItem && <MyModal visible={modalItem !== null} setVisible={setModalItem}>
-          <TaskForm
-            modalItem={modalItem} />
-        </MyModal>
-      }
-      <Modal initialFocusRef={initialRef}
-        finalFocusRef={finalRef}
-        isOpen={isOpen}
-        onClose={onClose}
-      >
+        isCan ?
 
-        <ModalOverlay />
-        <ModalContent top={'25vh'}>
-          <ModalHeader>Добавить задачу</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            <FormControl>
-              <FormLabel>Задача</FormLabel>
-              <Input value={task} onChange={event => setTask(event.target.value)} ref={initialRef} placeholder='Название...' />
-            </FormControl>
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={() => addTaskToColumn(idColumn)}>
-              Сохранить
-            </Button>
-            <Button onClick={onClose}>Отмена</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </DragDropContext >
+          <Box bgColor={fon?.color}
+            bgImage={fon?.image}
+            className={styles.scroll}
+          >
+            <AddUser className={styles.addUser} />
+            <DragDropContext
+              onDragEnd={onDragEnd}
+            >
+
+
+              <Droppable droppableId='all-columns' direction='horizontal' type='column'>
+                {(provided) => <div className={styles.app}
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                >{boards.map((board, index) =>
+                (<Draggable key={board.id}
+                  draggableId={board.id.toString()}
+                  index={index}>
+                  {(provided, snapshot) => <Container
+
+                    {...provided.draggableProps}
+                    ref={provided.innerRef}
+                    isDragging={snapshot.isDragging}
+                  >
+
+
+                    <Title  {...provided.dragHandleProps}
+                      isDragging={snapshot.isDragging}
+                    >{board.title}              <img src={basket} className={styles.basket} alt='basket' pt={1} ml={1} type='button' variant='ghost' onClick={() => removeColumn(board.id)} /></Title>
+
+                    <Droppable droppableId={`${index}`}>
+                      {(provided, snapshot) => <TaskList className={styles.droppableTasks}
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                        isDraggingOver={snapshot.isDraggingOver}
+                        type='task'
+
+                      >
+                        {board.Tasks?.map((item, i) =>
+
+                          <Draggable key={item.id} draggableId={`task-${item.id}`} index={i}>
+
+                            {(provided, snapshot) => <Task
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              isDragging={snapshot.isDragging}
+                              className={styles.task_field}
+                            >
+                              <div className={styles.modalarea} onClick={() => setModalItem(item)}>
+                                {item.title}
+                              </div>
+                              <img src={basket} className={styles.basket_hidden} alt='basket' pt={1} ml={1} type='button' variant='ghost' onClick={() => removeTask(item.id, board)} />
+
+
+
+                            </Task>
+                            }
+
+                          </Draggable>
+
+
+                        )}{provided.placeholder}</TaskList>}
+
+                    </Droppable>
+
+
+
+                    <Button className={styles.plus} colorScheme='facebook' variant='outline' onClick={() => { onOpen(); setIdColumn(board) }}>
+
+
+                      +
+                    </Button>
+                  </Container>}
+
+
+                </Draggable>)
+
+                )}{provided.placeholder}
+                  <AddColumn id={id} boards={boards} setBoards={setBoards} /></div>}
+
+
+
+              </Droppable >
+
+              {
+                modalItem && <MyModal visible={modalItem !== null} setVisible={setModalItem}>
+                  <TaskForm
+                    modalItem={modalItem} />
+                </MyModal>
+              }
+              <Modal initialFocusRef={initialRef}
+                finalFocusRef={finalRef}
+                isOpen={isOpen}
+                onClose={onClose}
+              >
+
+                <ModalOverlay />
+                <ModalContent top={'25vh'}>
+                  <ModalHeader>Добавить задачу</ModalHeader>
+                  <ModalCloseButton />
+                  <ModalBody pb={6}>
+                    <FormControl>
+                      <FormLabel>Задача</FormLabel>
+                      <Input value={task} onChange={event => setTask(event.target.value)} ref={initialRef} placeholder='Название...' />
+                    </FormControl>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button colorScheme='blue' mr={3} onClick={() => addTaskToColumn(idColumn)}>
+                      Сохранить
+                    </Button>
+                    <Button onClick={onClose}>Отмена</Button>
+                  </ModalFooter>
+                </ModalContent>
+              </Modal>
+            </DragDropContext >
+          </Box > : <Navigate to={"/library"} />}
     </Box>
-    
-   
+
+
   )
 }
