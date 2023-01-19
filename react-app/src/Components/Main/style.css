@@ -39,26 +39,33 @@
 }
 
 .text_block {
+  position: absolute;
+  bottom: 10%;
   font-family: 'Roboto', sans-serif;
-  font-size: 4em;
+  font-size: 4rem;
   font-weight: 500;
   color: #2C5282;
 }
 
 .text_block_one {
-  position: absolute;
-  bottom: 20%;
+  position: relative;
   left: 5%;
-  margin-top: 10%;
   margin-left: 20px;
 }
 
 .text_block_two {
-  position: absolute;
+  position: relative;
   bottom: 10%;
   left: 8%;
-  margin-top: 10%;
+  margin-top: 5%;
   margin-left: 20px;
+}
+
+.block_comein {
+  position: absolute;
+  position: absolute;
+  bottom: 10%;
+  right: 10%;
 }
 
 .main_text_one {}
@@ -67,10 +74,9 @@
 
 .main_text_two {}
 
-@media only screen and (max-width: 760px) {
+@media only screen and (max-width: 920px) {
   .text_block {
-    font-size: 3em;
-    font-weight: 500;
+    font-size: 3rem;
   }
 
   .main_wrapper {
@@ -80,16 +86,41 @@
   .main_wrapper {
     top: 200px;
   }
-
 }
 
-.block_comein {
-  position: absolute;
-  position: absolute;
-  top: 50%;
-  left: 50%;
+@media only screen and (max-width: 760px) {
+  .text_block {
+    font-size: 2em;
+    font-weight: 500;
+  }
+
+  .main_wrapper {
+    height: 40%;
+    top: 150px;
+    margin-left: 50px;
+  }
 }
 
+@media only screen and (max-width: 480px) {
+  .text_block {
+    font-size: 2em;
+    font-weight: 500;
+    bottom: 25%;
+  }
+
+  .main_wrapper {
+    height: 40%;
+    top: 150px;
+    margin-left: 50px;
+  }
+
+  .block_comein {
+    bottom: 10%;
+    right: 16%;
+  }
+}
+
+/* Button */
 .custom-btn {
   width: 130px;
   height: 40px;
@@ -190,17 +221,4 @@
 
 .btn-3 span:hover:after {
   width: 100%;
-}
-
-@media only screen and (max-width: 460px) {
-  .text_block {
-    font-size: 2em;
-    font-weight: 500;
-  }
-
-  .main_wrapper {
-    height: 40%;
-    top: 150px;
-    margin-left: 50px;
-  }
 }
