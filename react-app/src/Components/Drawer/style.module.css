@@ -1,0 +1,13 @@
+.rigt_menu_wrap {
+  font-size: 30px;
+  color: brown;
+  position: absolute;
+  right: 20px;
+  top: 30%
+}
+
+.rigt_menu_icon {
+  font-size: 30px;
+  color: #1A365D;
+  cursor: pointer;
+}

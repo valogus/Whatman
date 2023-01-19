@@ -3,6 +3,7 @@ import styles from './Board.module.css';
 import { Box, Button, FormControl, FormLabel, Input, useDisclosure } from '@chakra-ui/react'
 import MyModal from '../Modal/MyModal'
 import TaskForm from '../TaskFrom/TaskFrom'
+import DrawerMy from '../Drawer/Drawer'
 import { useParams } from 'react-router-dom';
 import {
   Modal,
@@ -12,7 +13,6 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Flex,
 } from '@chakra-ui/react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { useSelector } from 'react-redux';
@@ -228,7 +228,7 @@ export default function Board() {
  <Box bgColor={fon?.color}
  bgImage={fon?.image}
  className={styles.scroll}
- >
+    ><DrawerMy></DrawerMy>
    <AddUser/>
     <DragDropContext 
     onDragEnd={onDragEnd} 
