@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
-import { ChakraProvider, Flex, Center, Spacer, Text, Wrap, IconButton } from '@chakra-ui/react';
+import { ChakraProvider, Flex, Center, Spacer, Text, Wrap, Image } from '@chakra-ui/react';
 import style from './style.module.css'
 import { setUsernameAC } from '../../store/reducers/actionAuth'
 
@@ -28,12 +28,11 @@ export default function Navbar() {
   }
 
   return (
-    <>
+    <ChakraProvider>
       <Flex w='100%' className={style.nav_wrap}>
-        {/* <ul className={style.nav_wrap}> */}
         <Wrap spacing='50px'>
           <Center>
-            <Text ml={10}>
+            <Text ml={5}>
               Watman
             </Text>
           </Center>
@@ -76,6 +75,6 @@ export default function Navbar() {
 
         {/* </ul> */}
       </Flex>
-    </>
+    </ChakraProvider>
   )
 }
