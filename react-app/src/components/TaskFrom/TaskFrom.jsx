@@ -130,6 +130,7 @@ function TaskForm({ modalItem }) {
       <div className={style.title}>
         <Text fontSize='4xl'>{modalItem.title}</Text>
       </div>
+      <hr style={{borderWidth: '1.7px'}} />
       <div className={style.secondRow}>
         <div className={style.descComment}>
           <div>
@@ -181,7 +182,7 @@ function TaskForm({ modalItem }) {
         {/* Див с блоком назначение исполнителя */}
         <div className={style.executor}>
           <div className={style._executor}>
-            <div className={style.author}>
+            <div className={[style.author, style.author_1].join(' ')}>
               <h2 style={{ padding: '0.5rem', marginRight: '50px' }}>Исполнитель</h2>
               {
                 isExecutor ?
