@@ -41,14 +41,14 @@ export default function Navbar() {
             (<>
               <li>
                 <NavLink to="/myTasks"
-                  className={({ isActive }) => isActive ? 'activeMy' : ''}
+                  className={({ isActive }) => (isActive ? `${style.active}` : 'inactive')}
                 >
                   Мои Задачи
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/library"
-                  className={({ isActive }) => isActive ? 'activeMy' : ''}
+                  className={({ isActive }) => (isActive ? `${style.active}` : 'inactive')}
                 >
                   Мои Доски
                 </NavLink>

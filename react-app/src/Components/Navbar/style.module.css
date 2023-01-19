@@ -22,15 +22,13 @@ a {
 .nav_ul {
   margin: 0;
   padding: 0;
-  /* height: 50px; */
   display: flex;
   justify-content: space-around;
 }
 
 .nav_wrap li {
-  padding: 10px;
+  padding: 16px;
   padding-top: 18px;
-  border-bottom: 10px solid #6A787E;
 }
 
 .nav_wrap li:hover {
@@ -38,6 +36,8 @@ a {
 
 }
 
-.activeMy {
-  border-bottom: 10px solid #4A5568;
+.active {
+  color: #2C5282;
+  font-size: 1.6rem;
+  font-weight: 500;
 }
