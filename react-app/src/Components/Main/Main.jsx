@@ -29,7 +29,7 @@ export default function Main() {
       </div>
       <div className="block_comein">
         <Link to={'/auth'}>
-          <button type='submit'>Войти</button>
+          <button class="custom-btn btn-3"><span>Войти</span></button>
         </Link>
       </div>
     </div>
