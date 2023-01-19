@@ -46,7 +46,7 @@ export default function Home() {
     console.log("Превышено макс досок");
   }
   return (
-    <>
+    <div style={{height: '100vh'}}>
       <Box>
         <Text className={style.text_center}> Ваши Проекты</Text>
 
@@ -92,6 +92,6 @@ export default function Home() {
 
       <AddBoardModal isOpen={isOpen} onClose={onClose} addboard={getAllBoards} />
 
-    </>
+    </div>
   )
 }
