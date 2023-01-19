@@ -16,7 +16,7 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path='/' element={<Navigate to={userName ? '/library' : '/auth'} />} />
+        <Route path='/' element={<Navigate to={userName ? '/library' : '/main'} />} />
         <Route path='/main' element={<Main />} />
         <Route path='/auth' element={<Auth />} />
       </Routes>
