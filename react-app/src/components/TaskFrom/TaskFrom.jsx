@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import style from './TaskForm.module.css'
-import { Heading, Input, Textarea } from '@chakra-ui/react'
+import { Heading, Input, StylesProvider, Textarea } from '@chakra-ui/react'
 import { Button } from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
 
@@ -17,7 +17,7 @@ function TaskForm({ modalItem }) {
   const { userId, userName } = useSelector(store => store.auth);
   const [authorName, setAuthorName] = useState('')
   const [isExecutor, setIsExecutor] = useState(false)
-  const [executor, setExecutor] = useState('Назначить исполнителя')
+  const [executor, setExecutor] = useState('Назначить')
   const [executors, setExecutors] = useState([])
   const [isTitle, setIsTitle] = useState(false)
   const [title, setTitle] = useState(modalItem.title)
@@ -225,10 +225,10 @@ function TaskForm({ modalItem }) {
                     </Select>
                   </div>
                   :
-                  <div>
+                  <div className={style.span}>
                     {
                       !executor ?
-                        <span onMouseDown={() => setIsExecutor(true)}> Назначить исполнителя</span>
+                        <span onMouseDown={() => setIsExecutor(true)}>Назначить</span>
                         :
                         <span onMouseDown={() => setIsExecutor(true)}>{executor}</span>
                     }

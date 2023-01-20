@@ -44,6 +44,19 @@ exports.columnPut = async (req, res) => {
   res.status(200).json(promises);
 };
 
+exports.editColumnTitle = async (req, res) => {
+  const { id } = req.params;
+  const { title } = req.body;
+  if (title) {
+    await Column.update({
+      title,
+    }, { where: { id }, raw: true });
+    res.status(200).json({ update: true });
+  } else {
+    res.status(400).json({ update: false });
+  }
+};
+
 exports.columnPost = async (req, res) => {
   const { title, project_id, order } = req.body;
   console.log(req.body);
