@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react'
 
 import ColorBox from '../ColorBox/ColorBox';
+import ColorBoxTwo from '../ColorBox/ColorBoxTwo';
 import { useSelector } from 'react-redux'
 
 
@@ -61,6 +62,7 @@ export default function AddBoardModal(props) {
   }
 
   const changeFonImage = (e) => {
+    console.log("▶ ⇛ e.target.value", e.target.value);
     setColorImage(e.target.value)
     colorHandler({ image: e.target.value })
   }
@@ -139,7 +141,7 @@ export default function AddBoardModal(props) {
             </FormControl>
             <br></br>
             <FormLabel><Text fontSize='2xl'>Фон</Text></FormLabel>
-            <ColorBox changeFonColor={changeFonColor} changeFonImage={changeFonImage}></ColorBox>
+            <ColorBoxTwo changeFonColor={changeFonColor} changeFonImage={changeFonImage}></ColorBoxTwo>
           </ModalBody>
 
           <ModalFooter>

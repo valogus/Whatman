@@ -18,10 +18,10 @@
   z-index: 1;
 }
 
-.checkbox_block {
+.checkbox_block_color {
   height: 80px;
   /*height  Изменить в медиа запросе*/
-  width: 80%;
+  width: 12%;
   margin: 5px;
   cursor: pointer;
   position: relative;
@@ -29,23 +29,9 @@
   border: 2px solid #718096;
 }
 
-.checkbox_block:hover {
+.checkbox_block_color:hover {
   opacity: 0.5;
 
-}
-
-.icon {
-  color: #2D3748;
-  width: 30%;
-  height: 30%;
-  position: absolute;
-}
-
-.icon_check {
-  color: #EDF2F7;
-  width: 50%;
-  height: 50%;
-  position: absolute;
 }
 
 .checkbox_block_img {
@@ -65,4 +51,18 @@
 .checkbox_block_img:hover {
   opacity: 0.5;
 
+}
+
+.icon {
+  color: #2D3748;
+  width: 30%;
+  height: 30%;
+  position: absolute;
+}
+
+.icon_check {
+  color: #1f2020;
+  width: 50%;
+  height: 50%;
+  position: absolute;
 }

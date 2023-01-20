@@ -37,7 +37,6 @@ function DrawerMy({ fon }) {
       >
 
         <InfoOutlineIcon
-
           className={styles.rigt_menu_icon}
         >
         </InfoOutlineIcon>

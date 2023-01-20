@@ -32,7 +32,7 @@ export default function Navbar() {
       <Flex w='100%' className={style.nav_wrap}>
         <Wrap spacing='50px'>
           <Center>
-            <Text ml={5} cursor='default'>
+            <Text className={style.whatman} ml={5} cursor='default'>
               Whatman
             </Text>
           </Center>
@@ -64,7 +64,7 @@ export default function Navbar() {
 
         <Wrap spacing='50px'>
           <Center>
-            <Text cursor='default'>{userName}</Text>
+            <Text className={style.whatman} cursor='default'>{userName}</Text>
           </Center>
           <li>
             <NavLink onClick={() => logout()} to="/">
