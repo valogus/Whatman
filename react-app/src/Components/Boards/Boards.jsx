@@ -15,7 +15,10 @@ export default function Boards({ board, getAllBoards }) {
   const fon = JSON.parse(board.fon)
   const userId = useSelector((session) => session.auth.userId)
 
-
+  function addBoardToStorage(id, title) {
+    localStorage.setItem("boardId", id)
+    localStorage.setItem("boardTitle", title)
+  }
 
   return (
     <>
@@ -25,11 +28,11 @@ export default function Boards({ board, getAllBoards }) {
         >
           {/* <Spacer /> */}
           <Center
+            onClick={() => addBoardToStorage(board.id, board.title)}
             data-item={`${board.id}`}
             className={style.board_block}
             bgColor={fon?.color}
             bgImage={fon?.image}
-
             onMouseEnter={(e) => {
               setDelItem(e.target.closest('[data-item]').dataset.item)
             }}

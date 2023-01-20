@@ -1,0 +1,22 @@
+.rigt_menu_wrap {
+  position: absolute;
+  right: 0px;
+  height: 100vh;
+  width: 3%;
+  opacity: 0.5;
+  background-color: #6A787E;
+  cursor: pointer;
+}
+
+.rigt_menu_icon {
+  position: relative;
+  top: 30%;
+  font-size: 30px;
+  color: #1A365D;
+  cursor: pointer;
+  margin: 10px;
+}
+
+.rigt_menu_wrap:hover .rigt_menu_icon {
+  font-size: 40px;
+}

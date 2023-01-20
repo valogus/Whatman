@@ -3,7 +3,10 @@ import styles from './Board.module.css';
 import { Box, Button, FormControl, FormLabel, Input, useDisclosure } from '@chakra-ui/react'
 import MyModal from '../Modal/MyModal'
 import TaskForm from '../TaskFrom/TaskFrom'
-import { Navigate, useParams } from 'react-router-dom';
+import DrawerMy from '../Drawer/Drawer'
+import { useParams } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
+
 import {
   Modal,
   ModalOverlay,
@@ -12,7 +15,6 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Flex,
 } from '@chakra-ui/react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { useSelector } from 'react-redux';
@@ -259,11 +261,11 @@ export default function Board() {
   }
 
   return (
+<>
+      <DrawerMy fon={fon}></DrawerMy>
     <Box>
       {
         isCan ?
-
-
           <Box bgColor={fon?.color}
             bgImage={fon?.image}
             className={styles.scroll}
@@ -385,7 +387,6 @@ export default function Board() {
             </DragDropContext >
           </Box > : <Navigate to={"/library"} />}
     </Box>
-
-
+    </>
   )
 }

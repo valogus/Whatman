@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
-
+import { useToast } from '@chakra-ui/react'
 import style from './style.module.css'
-import { ChakraProvider, Button, Text, Input } from '@chakra-ui/react';
+import { ChakraProvider, Button, Text, Input, Box } from '@chakra-ui/react';
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter } from '@chakra-ui/react';
 
 import {
@@ -21,11 +21,12 @@ export default function AddBoardModal(props) {
   const [colorFon, setColorFon] = useState(null)
   const [colorImage, setColorImage] = useState(null)
   const [fon, setFon] = useState({})
+
   const initialRef = useRef(null)
 
   const sendForm = async () => {
-    //! Доделать
     if (title.length < 3) {
+      addToast('Минимум 3 символа')
       return
     }
     try {
@@ -82,6 +83,22 @@ export default function AddBoardModal(props) {
     return
   }
 
+  // всплывающий toast
+  const toast = useToast()
+  const toastIdRef = React.useRef()
+
+  function addToast(toastText) {
+    toastIdRef.current = toast({
+      description: 'some text',
+      position: 'top',
+      duration: 1200,
+      render: () => (
+        <Box color='white' p={'50px'} bg={'#ED8936'} mt="150px" fontSize={'40px'} textAlign='center'>
+          {toastText}
+        </Box>
+      ),
+    })
+  }
   return (
     <ChakraProvider >
       <Modal
