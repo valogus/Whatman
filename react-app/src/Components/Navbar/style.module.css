@@ -46,3 +46,12 @@ a:hover {
   font-size: 1.6rem;
   font-weight: 500;
 }
+@media (max-width: 40em) {
+  .nav_wrap{
+    justify-content: center;
+  }
+  .nav_whatman{
+   visibility: hidden;
+   display: none;
+  }
+}
