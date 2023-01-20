@@ -1,10 +1,10 @@
 import React from 'react'
 import styles from './style.module.css';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useDisclosure } from '@chakra-ui/react'
 
-import { Input, Button, ChakraProvider, Text, Link, IconButton } from '@chakra-ui/react';
+import { Input, Button, ChakraProvider, Text, Divider, IconButton } from '@chakra-ui/react';
 import { InfoOutlineIcon } from '@chakra-ui/icons'
 
 import {
@@ -19,6 +19,7 @@ import {
 
 
 function DrawerMy() {
+  { console.log("Render Drawer") }
   console.log("Render Drawer");
 
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -29,11 +30,14 @@ function DrawerMy() {
   const boardTitle = localStorage.getItem('boardTitle');
 
   return (
-    <>
-      <div className={styles.rigt_menu_wrap}>
+    <ChakraProvider>
+      <div
+        className={styles.rigt_menu_wrap}
+        ref={btnRef} onClick={onOpen}
+      >
 
         <InfoOutlineIcon
-          ref={btnRef} onClick={onOpen}
+
           className={styles.rigt_menu_icon}
         >
         </InfoOutlineIcon>
@@ -48,7 +52,11 @@ function DrawerMy() {
         <DrawerOverlay />
         <DrawerContent>
           {/* <DrawerCloseButton /> */}
-          <DrawerHeader><Text textAlign={'center'}>{boardTitle}</Text></DrawerHeader>
+          <DrawerHeader>
+            <Text textAlign={'center'}>Проект</Text>
+            <Text textAlign={'center'}>{boardTitle}</Text>
+            <Divider orientation='horizontal' border='4px' borderColor='#A0AEC0' />
+          </DrawerHeader>
           <hr></hr>
           <DrawerBody>
             <Input placeholder='Type here...' />
@@ -62,7 +70,7 @@ function DrawerMy() {
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
-    </>
+    </ChakraProvider>
   )
 }
 

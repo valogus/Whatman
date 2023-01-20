@@ -236,6 +236,7 @@ export default function Board() {
 
   return (
 <>
+      <DrawerMy></DrawerMy>
     <Box>
       {
         isCan ?
