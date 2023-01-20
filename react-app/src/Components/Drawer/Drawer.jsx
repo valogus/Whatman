@@ -6,6 +6,7 @@ import { useDisclosure } from '@chakra-ui/react'
 
 import { Input, Button, ChakraProvider, Text, Divider, IconButton } from '@chakra-ui/react';
 import { InfoOutlineIcon } from '@chakra-ui/icons'
+import ColorBox from '../ColorBox/ColorBox';
 
 import {
   Drawer,
@@ -18,9 +19,8 @@ import {
 } from '@chakra-ui/react'
 
 
-function DrawerMy() {
-  { console.log("Render Drawer") }
-  console.log("Render Drawer");
+function DrawerMy({ fon }) {
+  console.log("▶ ⇛ fon", fon);
 
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = React.useRef()
@@ -59,7 +59,10 @@ function DrawerMy() {
           </DrawerHeader>
           <hr></hr>
           <DrawerBody>
-            <Input placeholder='Type here...' />
+            {/* <Input placeholder='Type here...' /> */}
+            <Text textAlign={'center'}>Цвет фона</Text>
+            <Divider orientation='horizontal' border='4px' borderColor='#A0AEC0' />
+            <ColorBox />
           </DrawerBody>
 
           <DrawerFooter>

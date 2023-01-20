@@ -21,6 +21,7 @@ function ColorBoxTwo({ changeFonColor, changeFonImage }) {
       <ChakraProvider>
         <Flex>
           <div className={style.color_wrap}>
+
             <Center className={style.checkbox_block}
               bg={colorData[0]} >
               <input
