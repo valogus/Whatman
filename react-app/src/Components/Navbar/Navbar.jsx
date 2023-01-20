@@ -31,8 +31,8 @@ export default function Navbar() {
     <ChakraProvider>
       <Flex w='100%' className={style.nav_wrap}>
         <Wrap spacing='50px'>
-          <Center>
-            <Text ml={5} cursor='default'>
+          <Center className={style.nav_whatman}>
+            <Text ml={5} cursor='default' >
               Whatman
             </Text>
           </Center>
