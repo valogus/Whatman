@@ -43,8 +43,9 @@ exports.putUserProject = async (req, res) => {
 };
 
 exports.deleteUserProject = async (req, res) => {
-  const delUserProject = await UsersProject.destroy({ where: { junior_id: req.params.id, project_id } });
   const project_id = req.body.id;
+  const delUserProject = await UsersProject.destroy({ where: { junior_id: req.params.id, project_id } });
+  
   const tasksId = await Task.findAll({ where: { project_id }, raw: true });
   console.log(tasksId);
   const promises = tasksId.map((el) => {
