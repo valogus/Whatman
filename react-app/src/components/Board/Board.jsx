@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './Board.module.css';
 import { Box, Button, FormControl, FormLabel, Input, useDisclosure } from '@chakra-ui/react'
 import MyModal from '../Modal/MyModal'
@@ -39,6 +39,8 @@ export default function Board() {
   const [modalItem, setModalItem] = useState(null);
   const [task, setTask] = useState('')
   const { userId } = useSelector((session) => session.auth)
+  const [isColumnTitle, setIsColumnTitle] = useState(null)
+  const [columnTitle, setColumnTitle ] = useState('')
 
   const [isCan, setIsCan] = useState(true)
 
@@ -231,6 +233,30 @@ export default function Board() {
       })
   }
 
+  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  function editTitle(e, board) {
+    e.preventDefault()
+    fetch(`/api/columns/${board.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({ title: columnTitle })
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.update) {
+          setBoards((prev) => [...prev].map((el) => {
+            if (el.id === board.id) {
+              el.title = columnTitle
+              return el
+            } return el
+        }))
+          setIsColumnTitle(null)
+          setColumnTitle('')
+      }
+    })
+  }
 
   return (
     <Box>
@@ -264,11 +290,13 @@ export default function Board() {
                     isDragging={snapshot.isDragging}
                   >
 
-
-                    <Title  {...provided.dragHandleProps}
-                      isDragging={snapshot.isDragging}
-                    >{board.title}              <img src={basket} className={styles.basket} alt='basket' pt={1} ml={1} type='button' variant='ghost' onClick={() => removeColumn(board.id)} /></Title>
-
+                    {isColumnTitle === board.id ? <><form onSubmit={(e) => editTitle(e, board)}><Input fontSize='2xl' type="text" variant='styled' size='lg' style={{ width: '93%', backgroundColor: '#f4f5f7' }} value={columnTitle} onChange={(e) => setColumnTitle(e.target.value)} /></form>
+                    </>
+                      :
+                      <Title onClick={() => { setIsColumnTitle(board.id); setColumnTitle(board.title)}}  {...provided.dragHandleProps}
+                        isDragging={snapshot.isDragging}
+                      >{board.title}              <img src={basket} className={styles.basket} alt='basket' pt={1} ml={1} type='button' variant='ghost' onClick={() => removeColumn(board.id)} /></Title>
+                    }
                     <Droppable droppableId={`${index}`}>
                       {(provided, snapshot) => <TaskList className={styles.droppableTasks}
                         ref={provided.innerRef}
