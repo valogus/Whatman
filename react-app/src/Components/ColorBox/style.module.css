@@ -1,0 +1,68 @@
+.color_wrap {
+  display: flex;
+  flex-direction: row;
+  /* flex-wrap: wrap; */
+  align-items: center;
+  width: 100%;
+}
+
+.input_none {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  /* position: absolute; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.checkbox_block {
+  height: 80px;
+  /*height  Изменить в медиа запросе*/
+  width: 80%;
+  margin: 5px;
+  cursor: pointer;
+  position: relative;
+  border-radius: 12px;
+  border: 2px solid #718096;
+}
+
+.checkbox_block:hover {
+  opacity: 0.5;
+
+}
+
+.icon {
+  color: #2D3748;
+  width: 30%;
+  height: 30%;
+  position: absolute;
+}
+
+.icon_check {
+  color: #EDF2F7;
+  width: 50%;
+  height: 50%;
+  position: absolute;
+}
+
+.checkbox_block_img {
+  height: 80px;
+  /*height  Изменить в медиа запросе*/
+  width: 80%;
+  margin: 5px;
+  cursor: pointer;
+  position: relative;
+  border-radius: 12px;
+  border: 2px solid #718096;
+  background-size: cover;
+  background-position: center;
+  background-repeat: repeat;
+}
+
+.checkbox_block_img:hover {
+  opacity: 0.5;
+
+}

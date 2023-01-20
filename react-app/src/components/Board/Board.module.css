@@ -1,0 +1,93 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.app {
+  width: 100vw;
+  display: flex;
+  align-items: flex-start;
+  flex: 1 0 auto;
+}
+.droppableTasks{
+  min-width: 200px;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+}
+.addColumn{
+  margin-top:5px;
+}
+
+.scroll{
+  overflow:auto;
+  display: flex;
+  flex-direction: column;
+  height:95vh;
+}
+
+.modalarea {
+  width:80%
+}
+
+
+
+.pen {
+  max-width: 18px;
+  max-height: 18px;
+}
+
+.add {
+  width: 100%;
+  border: 2px solid rgb(217, 227, 237);
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.basket{
+  max-width: 20px;
+  max-height: 20px;
+  cursor: pointer;
+}
+
+.basket_hidden {
+  display: none;
+  max-width: 20px;
+  max-height: 20px;
+  cursor: pointer;
+}
+
+.task_field:hover .basket_hidden {
+  display: block;
+}
+.basket:active{
+  transform: scale(0.9,0.9);
+}
+
+.plus:active{
+  transform: scale(0.9,0.9);
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.main {
+ display:flex;
+ flex-direction: column;
+ height:100vh;
+}
+
+
+/* 
+.border {
+  border-radius: 50%;
+} */
+.form {
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

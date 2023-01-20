@@ -1,12 +1,17 @@
 {
-  "name": "Express-ReactSSR",
+  "name": "Whatman",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
+  "nodemonConfig": {
+    "ignore": ["../react-app/*"]
+  },
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js --ignore session --ext js,jsx,json",
-    "test": "jest"
+    "dev": "nodemon app.js --ignore session --ignore react-app  --ext js,jsx,json",
+    "test": "jest",
+    "dbr": "npx sequelize db:drop && npx sequelize db:create && npx sequelize db:migrate && npx sequelize db:seed:all",
+    "server": "nodemon index.js --ignore client"
   },
   "keywords": [],
   "author": "",
