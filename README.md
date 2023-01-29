@@ -13,7 +13,7 @@ Whatman is a complete application (including Front and Backend) for collaborativ
 ![DnD](https://i.ibb.co/qkdXWns/drag-n-drop.gif)
 - Add users to the project and responsible user to the task
 ![addUsers](https://i.ibb.co/BBG9rMm/addUsers.gif)
-- All possible CRUD  synchronized with the database are present.
+- All possible CRUD operations synchronized with the database are present.
 
 
 
