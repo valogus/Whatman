@@ -2,7 +2,7 @@
 
 # Whatman App
 
-Whatman is a complete application (including Front and Backend) for collaborative project work using a kanban board. You can create and move (using Drag-n-Drop) boards, tasks, and columns to schedule your tasks and track their progress.  The app allows you to add other users to your boards, assign people responsible for tasks, leave comments and task descriptions. You can also choose a background for your boards.
+Whatman is a complete application (including Front and Backend) for collaborative project work using a kanban board. You can create and move (using Drag-n-Drop) boards, tasks, and columns to schedule your tasks and track their progress.  The app allows you to add other users to your boards, assign people responsible for tasks, leave comments and task descriptions.
 
 ## Features
 
