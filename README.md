@@ -1,5 +1,4 @@
-![img](https://i.yapx.ru/VaNa0.png)
-![Logo](https://i.yapx.ru/VaNa0.png)
+![Logo](https://i.ibb.co/tzVVpCG/2023-01-29-20-21-48.png)
 
 # Whatman App
 
