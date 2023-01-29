@@ -1,5 +1,5 @@
-![image](https://user-images.githubusercontent.com/112811051/215347300-40fee01b-09aa-40a9-b28b-a47aa49dea37.png)
-
+![image]([https://user-images.githubusercontent.com/112811051/215347300-40fee01b-09aa-40a9-b28b-a47aa49dea37.png](https://i.yapx.ru/VaNa0.png))
+![Logo](https://i.yapx.ru/VaNa0.png)
 
 # Whatman App
 
