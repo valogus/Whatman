@@ -11,7 +11,7 @@ Whatman is a complete application (including Front and Backend) for collaborativ
 - Create boards and choose a background.
 ![addProject](https://i.ibb.co/GcKC0Xg/add-Project.gif)
 - Create tasks and drag and drop
-![img](https://i.ibb.co/qkdXWns/drag-n-drop.gif)
+![DnD](https://i.ibb.co/qkdXWns/drag-n-drop.gif)
 - Add users to the project and responsible user to the task
 ![addUsers](https://i.ibb.co/BBG9rMm/addUsers.gif)
 - All possible CRUD  synchronized with the database are present.
