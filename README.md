@@ -9,11 +9,11 @@ Whatman is a complete application (including Front and Backend) for collaborativ
 
 - Create an account to access the app.
 - Create boards and choose a background.
-![img](https://i.ibb.co/GcKC0Xg/add-Project.gif)
+![addProject](https://i.ibb.co/GcKC0Xg/add-Project.gif)
 - Create tasks and drag and drop
 ![img](https://i.ibb.co/JHq9yJN/addUsers.gif)
 - Add users to the project and responsible user to the task
-![img](https://i.ibb.co/BBG9rMm/addUsers.gif)
+![addUsers](https://i.ibb.co/BBG9rMm/addUsers.gif)
 - All possible CRUD  synchronized with the database are present.
 
 
